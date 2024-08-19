@@ -33,28 +33,31 @@ function verifySignup(e) {
     var fileNumber = document.getElementById("fileNo").value;
     var address = document.getElementById("address").value;
     var illness = document.getElementById("illness").value;
-    var gender = document.getElementById("gender").value;
+    var gender = document.querySelector('input[name="gender"]:checked').value;
     var password = document.getElementById("passwordSignup").value;
     var confirmPassword = document.getElementById("confirmPassword").value;
 
     
 
-
-    // do validation for details 
-    if(fullName.length < 3){
-
-        alert("Invalid First Name");
-        
-
-    }else{
-
-        //calling function to save details
-        save(fullName, surname,  email, idNumber, fileNumber, address, illness, gender, password, confirmPassword );
-
-        //clear form
-        document.getElementById('submit-sign').reset()
-    }
+ // Password validation
+ if (password.length < 9) {
+    alert("Password must be at least 9 characters long.");
+  } else if (!/[A-Z]/.test(password)) {
+    alert("Password must contain at least one uppercase letter.");
+  } else if (!/[a-z]/.test(password)) {
+    alert("Password must contain at least one lowercase letter.");
+  } else if (!/\d/.test(password)) {
+    alert("Password must contain at least one number.");
+  } else if (!/[!@#$%^&*()_+\-=\]{};':"\\|,.<>/?]/.test(password)) {
+    alert("Password must contain at least one special character.");
+  } else if (password !== confirmPassword) {
+    alert("Passwords do not match.");
+  } else {
+    save(fullName, surname, email, idNumber, fileNumber, address, illness, gender, password, confirmPassword);
+    document.getElementById('submit-sign').reset();
+  }
 }
+
 
 //finction to save to database
 const save = (fullName, surname,  email, idNumber, fileNumber, address, illness, gender, password, confirmPassword ) =>{
@@ -88,11 +91,38 @@ function verifyLogin() {
     auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             alert("Login successful!");
+
             window.location.href = "trackApp.html"; // Redirect after login
         })
         .catch((error) => {
             console.error("Error logging in: ", error);
             alert("Invalid email or password!");
         });
+
+//user profile validation:
+document.querySelector('.HBtn').addEventListener('click', saveUserProfile);
+
+//check if the method works:
+// Function to display user profile
+const displayUserProfile = (email) => {
+    firebase.database().ref('clinic/' + email).on('value', function(snapshot) {
+      var userData = snapshot.val();
+      document.getElementById("display-name").innerHTML = userData.Name;
+      document.getElementById("display-surname").innerHTML = userData.Surname;
+      document.getElementById("display-email").innerHTML = userData.Email;
+      document.getElementById("display-idNumber").innerHTML =  userData.Gender;
+      document.getElementById("display-fileNumber").innerHTML = userData.FileNumber;
+      document.getElementById("display-address").innerHTML = userData.Address;
+      document.getElementById("display-illness").innerHTML = userData.Illness;
+      document.getElementById("display-gender").innerHTML = userData.Gender;
+    });
+  }
+  
+ 
+  //function nextPage() {
+    //window.location.assign("home.html");
+  //}
+  
+  
 
 }

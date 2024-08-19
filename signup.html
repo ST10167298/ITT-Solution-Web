@@ -16,9 +16,10 @@
                 <ul>
                     <li><a href="home.html">HOME</a></li>
                     <li><a href="#">ABOUT</a></li>
-                    <li><a href="#">DASHBOARD</a></li>
+                    <li><a href="dashboard.html">DASHBOARD</a></li>
                     <li><a href="trackApp.html">TRACK APPOINTMENT</a></li>
                     <li><a href="#">RESCHEDULE APPOINTMENT </a></li>
+                    <li><a href="dashboard.html">DASHBOARD </a></li>
                 </ul>
             </div>
             <div class="search">
@@ -44,14 +45,26 @@
             </div>
             <div class="input-group">
                 <input type="text" id="illness" placeholder="Enter type of illness">
-                <input type="text" id="gender" placeholder="Enter gender">
-            </div>
+              </div>
+            
+                <label>Gender:</label>
+                <br>
+                <input type="radio" id="male" name="gender" value="Male">
+                <label for="male">Male</label>
+                
+                <input type="radio" id="female" name="gender" value="Female">
+                <label for="female">Female</label>
+                          
+              
+              
             <div class="input-group">
                 <input type="password" id="passwordSignup" placeholder="Enter Password" required>
                 <input type="password" id="confirmPassword" placeholder="Confirm Password">
             </div>
             <p class="link">Already have an account?</p>
-            <button type="submit" class="HBtn">SIGN UP</button>
+            <!--button type="submit" class="HBtn">SIGN UP</button-->
+
+            <input type="button" name="submit" value="SIGN UP" onclick="showMessageAndRedirect()" class="HBtn">
 
 
         </form>

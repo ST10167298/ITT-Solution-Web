@@ -2,18 +2,25 @@
     margin: 0;
     padding: 0;
 }
-
+body{
+    background: #dfe9f5;
+  }
+  .container{
+    display: flex;
+  }
 .main{
     width: 100%;
     background-position: center;
     background-size: cover;
     height: 100vh;
 }
-
+h1{
+    text-align: center;
+ }
 .navbar{
     width: 1200px;
     height: 80px;
-    margin: auto;
+    margin: 10px;
 }
 
 .icon{
@@ -61,15 +68,15 @@ ul li a:hover{
     color: black;
 }
 .search{
-    width: 330px;
+    width: 300px;
     float: left;
-    margin-left: 270px;
+    margin-left: 300px;
     margin-top: 13px;
 }
 
 .srch{
     font-family: 'Times New Roman';
-    width: 170px;
+    width: 150px;
     height: 40px;
     background: transparent;
     border: 2px solid purple;
@@ -83,7 +90,7 @@ ul li a:hover{
     border-top-left-radius: 10px;
 }
 .btn{
-    width: 80px;
+    width: 70px;
     height: 40px;
     background: purple;
     border: 2px solid purple;
@@ -248,7 +255,7 @@ ul li a:hover{
 }
 .signup-form {
     width: 480px;
-    height: 380px;
+    height: 390px;
     background: linear-gradient(to top, rgba(139, 0, 139, 0.8)100%, rgba(139, 0, 0, 139)100%);
     position: absolute;
     top: 60%;
@@ -356,7 +363,7 @@ ul li a:hover{
     border-top: none;
     border-right: none;
     border-left: none;
-    color: #fff;
+    color: black;
     font-size: 15px;
     letter-spacing: 1px;
     font-family: sans-serif;
@@ -376,5 +383,92 @@ ul li a:hover{
     color: #000;
     font-weight: bold;
 }
+.profile-form{
+    width: 480px;
+    height: 420px;
+    background: linear-gradient(to top, rgba(139, 0, 139, 0.8)100%, rgba(139, 0, 0, 139)100%);
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    border-radius: 10px;
+    padding: 25px;
+    padding-bottom: 40px;
+}
 
 
+.profile-form h2 {
+    width: 220px;
+    font-family: sans-serif;
+    text-align: center;
+    color: black;
+    font-size: 22px;
+    border-radius: 10px;
+    margin: 0 auto; 
+    padding: 8px;
+    margin-top: 4px;
+}
+
+
+.profile-form input {
+    width: 240px;
+    height: 35px;
+    background: transparent;
+    border-bottom: 1px solid black;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    font-family: sans-serif;
+}
+
+.profile-form input:focus {
+    outline: none;
+}
+
+.profile-form ::placeholder {
+    color: #fff;
+    font-family: Arial;
+}
+.profile-form .link {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.signup-form .link a {
+    text-decoration: none;
+    color: plum;
+}
+.saveDetails {
+    width: 120px;
+    height: 35px;
+    background-color: plum;
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.4s ease;
+   
+   
+}
+.saveDetails:hover {
+    background-color: purple;
+}
+
+.saveDetails a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    padding-left: 40px;
+}
+input[type=radio] {
+    border: 0px;
+    width: 10%;
+    height: 1em;
+    }
