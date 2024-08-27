@@ -1,12 +1,8 @@
-</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Sign Up</title>
+    <title>User Profile</title>
     <link rel="stylesheet" href="style.css">
-
-   
-
 </head>
 <body>
     <div class="navbar">
@@ -20,7 +16,6 @@
                     <li><a href="trackApp.html">TRACK APPOINTMENT</a></li>
                     <li><a href="#">RESCHEDULE APPOINTMENT </a></li>
                     <li><a href="profile.html"> PROFILE </a></li>
-                    <li><a href="dashboard.html">DASHBOARD </a></li>
                 </ul>
             </div>
             <div class="search">
@@ -30,38 +25,41 @@
         </div>
     </div>
         
-        <div class="profile-form">
-            <h1>USER DETAILS</h1>
-            <h1>please fill in the following fields</h1>  
-            <form id="submit-sign">
-                <div class="input-group">
-                    <input type="text" id="name" placeholder="Enter Full Name">
-                    <input type="text" id="surname" placeholder="Enter Surname">
-                </div>
-                <div class="input-group">
-                    <input type="email" id="emailSignup" placeholder="Enter your email address">
-                    <input type="text" id="IDNumb" placeholder="Enter your ID Number">
-                </div>
-                <div class="input-group">
-                    <input type="text" id="fileNo" placeholder="Enter your file number">
-                    <input type="text" id="address" placeholder="Enter your physical address">
-                </div>
-                <div class="input-group">
-                    <input type="text" id="illness" placeholder="Enter type of illness">
-                  </div>
-                
-                    <label>Gender:</label>
-                    <br>
-                    <input type="radio" id="male" name="gender" value="Male">
-                    <label for="male">Male</label>
-                    
-                    <input type="radio" id="female" name="gender" value="Female">
-                    <label for="female">Female</label>
-                    <br><br>
-                    
-                   <button type="submit" class="saveDetails"  >SAVE</button>
-        </div>
-       
+    <div class="profile-form">
+        <h1>User Details</h1>
+        <h1>Please fill in the following fields</h1>  
+        <form id="submit-sign">
+            <div class="input-group">
+                <input type="text" id="name" placeholder="Enter Full Name" required>
+                <input type="text" id="surname" placeholder="Enter Surname" required>
+            </div>
+            <div class="input-group">
+                <input type="email" id="emailSignup" placeholder="Enter your email address" required>
+                <input type="text" id="IDNumb" placeholder="Enter your ID Number" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="fileNo" placeholder="Enter your file number" required>
+                <input type="text" id="address" placeholder="Enter your physical address" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="illness" placeholder="Enter type of illness" required>
+            </div>
+            <label>Gender:</label>
+            <br>
+            <input type="radio" id="male" name="gender" value="Male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="Female">
+            <label for="female">Female</label>
+            <br><br>
+            <button type="submit" class="saveDetails">SAVE</button>
+        </form>
+    
+
+    <h2>Saved Profiles</h2>
+    <ul id="profilesList"></ul>
+</div>
+
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
     <script src="./script.js"></script>
 </body>

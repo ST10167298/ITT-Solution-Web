@@ -1,11 +1,10 @@
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="style.css">
-    // fb scripts
-    
-
+  
 </head>
 <body>
     <div class="main">
@@ -31,11 +30,13 @@
             <p class="par">Effortless clinic appointments, healthier you!</p>
             <div class="form">
                 <h2>LOGIN</h2>
-                <form onsubmit="verifyLogin(); return false;">
-                    <input type="email" id="emailLogin" placeholder="Enter Email">
-                    <input type="password" id="passwordLogin" placeholder="Enter Password">
-                    <button type="submit" class="btnn">Login</button>
-                </form>
+                <div class="login-form">
+                    <input type="email" id="email" placeholder="Enter Email">
+                    <input type="password" id="password" placeholder="Enter Password">
+                    <button type="submit" class="HBtn" id="loginButton" onclick="verifyLogin()">LOGIN</button>
+
+                </div>
+            
                 <p class="link">Don't have an account?</p>
                 <button class="cn"><a href="signup.html">Sign up</a></button>
 
@@ -43,7 +44,7 @@
             </div>
         </div>
     </div>
-    <script type="module" src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script src="./script.js"></script>
 </body>
-
 </html>
