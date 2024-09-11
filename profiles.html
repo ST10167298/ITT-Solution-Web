@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="calenderstyle.css">
+  
+</head>
+        <meta charset="utf-8">
+        <title>Login&Firebase Database</title>
+       <style> 
+       label{display:inline-block; width:88px;}
+       input, select{width: 120px;}
+       </style>
+       <link rel="stylesheet" href="calenderstyle.css" />
+    </head>
+    <body>
+        <label> Name </label> <input id="Namebox" type="text"><br> <br>
+        <label> RollNo </label> <input id="Rollbox" type="text"><br> <br>
+        <label> Selection </label> <input id="Secbox" type="text"><br> <br>
+        <label> Time </label> <input id="timebox" type="time"><br> <br>
+        <label> Gender </label>
+        <select id="Genbox">
+            <option value="Male"> Male</option>
+            <option value="Female"> Female</option> <br><br>
+        </select>
+        <div class="calendar">
+            <header>
+              <h3></h3>
+              <nav>
+                <button id="prev"></button>
+                <button id="next"></button>
+              </nav>
+            </header>
+            <section>
+              <ul class="days">
+                <li>Sun</li>
+                <li>Mon</li>
+                <li>Tue</li>
+                <li>Wed</li>
+                <li>Thu</li>
+                <li>Fri</li>
+                <li>Sat</li>
+              </ul>
+              <ul class="dates"></ul>
+            </section>
+          </div> <br>
+
+          <div id="selected-date">Selected Date: None</div>
+          <br> <br>
+       
+<button id="insbtn">INSERT</button>
+<button id="Selbtn">SELECT</button>
+<button id="Updbtn">UPDATE</button>
+<button id="Delbtn">DELETE</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script type="module" src="profiles.js"></script>
+
+</body>
+</html>

@@ -1,3 +1,8 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBuXoW02N61qOyypMF7LTPC6sGo_Aesj3E",
@@ -10,81 +15,80 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const database = getFirestore();
 
-// Initialize Firebase Authentication and get a reference to the service
-const auth = firebase.auth();
-
-// Initialize Cloud Firestore and get a reference to the service
-const db = firebase.firestore();
-
-// Signup Function
-function verifySignup(e) {
-  e.preventDefault();
-  var fullName = document.getElementById("name").value;
-  var surname = document.getElementById("surname").value;
-  var email = document.getElementById("email").value;
-  var password = document.getElementById("password").value;
-  var confirmPassword = document.getElementById("confirmPassword").value;
-
-  // Password validation
-  if (password.length < 4) {
-    alert("Password must be at least 9 characters long.");
-  } else if (password !== confirmPassword) {
-    alert("Passwords do not match.");
-  } else {
-    save(fullName, surname, email, password, confirmPassword);
-    document.getElementById('submit-sign').reset();
-    //redirect
-    window.location.href = "trackApp.html";
-  }
+// Function to display messages
+function showMessage(message, divId) {
+    const displayMessage = document.getElementById(divId);
+    displayMessage.style.display = "block";
+    displayMessage.innerHTML = message;
+    displayMessage.style.opacity = 1;
+    
 }
 
-//function to save to database
-const save = (fullName, surname, email, password, confirmPassword) => {
-  auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      var user = userCredential.user;
-      var userId = user.uid;
-      db.collection("users").doc(userId).set({
-        Name: fullName,
-        Surname: surname,
-        Email: email,
-        Password: password,
-        confirmPassword: confirmPassword,
-      });
-    })
-    .catch((error) => {
-      console.error("Error signing up: ", error);
-    });
-}
-document.getElementById('loginButton')?.addEventListener('click', verifyLogin);
+// Form declarations
+const signUpButton = document.querySelector('.HBtn');
+const loginButton = document.getElementById('login-btn');
 
-// Login Function
-function verifyLogin() {
-  var email = document.getElementById("email").value;
-  var password = document.getElementById("password").value;
+// Onclick function for user to create account
+signUpButton?.addEventListener('click', (event) => {
+    event.preventDefault();
+    
+    // Fetching the user input values
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const fullName = document.getElementById('name').value;
+    const surname = document.getElementById('surname').value;
 
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      var user = userCredential.user;
-      var userId = user.uid;
-      db.collection("users").doc(userId).get().then((doc) => {
-        if (doc.exists) {
-          var userData = doc.data();
-          var name = userData.name;
-          var surname = userData.surname;
-          alert("Login successful! Name: " + name + ", Surname: " + surname);
-          window.location.href = "trackApp.html"; // Redirect after login
-        } else {
-          console.error("No user data found");
-        }
-      });
-    })
-    .catch((error) => {
-      //console.error("Error logging in: ", error);
-      alert("Invalid email or password!");
-    });
-}
+    // Firebase function to create a user with email and password
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
 
+            // Data to store in Firestore
+            const userData = {
+                email: email,
+                fullName: fullName,
+                surname: surname
+            };
 
+            // Store user data in Firestore
+            const docRef = doc(database, "clinicDB", user.uid);
+            setDoc(docRef, userData)
+                .then(() => {
+                    showMessage('Account Created Successfully', 'registerMessage');
+                    window.location.href = 'home.html'; // Redirect to login page
+                })
+                .catch((error) => {
+                    showMessage('Error writing to database: ' + error.message, 'registerMessage');
+                });
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            if (errorCode === 'auth/email-already-in-use') {
+                showMessage('Email Address Already Exists!', 'registerMessage');
+            } else {
+                showMessage('Unable to create user: ' + error.message, 'registerMessage');
+            }
+        });
+});
+
+// Onclick function for user login (add this if needed for login page)
+loginButton?.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Firebase sign in function
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Successful login
+            window.location.href = 'dashboard.html'; // Redirect to dashboard
+        })
+        .catch((error) => {
+            showMessage('Login failed: ' + error.message, 'loginMessage');
+        });
+});
