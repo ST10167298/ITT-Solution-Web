@@ -1,101 +1,142 @@
+  
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from"https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBuXoW02N61qOyypMF7LTPC6sGo_Aesj3E",
-  authDomain: "clinic-1f6c8.firebaseapp.com",
-  databaseURL: "https://clinic-1f6c8-default-rtdb.firebaseio.com",
-  projectId: "clinic-1f6c8",
-  storageBucket: "clinic-1f6c8.appspot.com",
-  messagingSenderId: "455289222957",
-  appId: "1:455289222957:web:1725d776c536db1b5185a4"
-};
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBuXoW02N61qOyypMF7LTPC6sGo_Aesj3E",
+        authDomain: "clinic-1f6c8.firebaseapp.com",
+        databaseURL: "https://clinic-1f6c8-default-rtdb.firebaseio.com",
+        projectId: "clinic-1f6c8",
+        storageBucket: "clinic-1f6c8.appspot.com",
+        messagingSenderId: "455289222957",
+        appId: "1:455289222957:web:1725d776c536db1b5185a4"
+      };
+      
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const database = getFirestore();
-const header = document.querySelector(".calendar h3");
-const dates = document.querySelector(".dates");
-const navs = document.querySelectorAll("#prev, #next");
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore();
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+    //----------references-----------------------//
+    let Name = document.getElementById("name");
+    let Surname = document.getElementById("surname");
+    let Email = document.getElementById("email");
+    let IDNO = document.getElementById("IDNumb");
+    let FileNo = document.getElementById("fileNo");
+    let Address = document.getElementById("address");
+    let Illness = document.getElementById("illness");
+    let GenBox = document.getElementById("Genbox");
 
-let date = new Date();
-let month = date.getMonth();
-let year = date.getFullYear();
-let selectedDate = null;
+    let insBtn = document.getElementById("insbtn");
+    let SelBtn = document.getElementById("Selbtn");
+    let UpdBtn = document.getElementById("Updbtn");
+    let DelBtn = document.getElementById("Delbtn");
 
-function renderCalendar() {
-  const start = new Date(year, month, 1).getDay();
-  const endDate = new Date(year, month + 1, 0).getDate();
-  const end = new Date(year, month, endDate).getDay();
-  const endDatePrev = new Date(year, month, 0).getDate();
+    //----------ADDING DOCUMENT-----------------------//
+    async function AddDocument_AutoID() {
+        if (!FileNo.value) {
+            alert("Please enter the File Number.");
+            return;
+        }
+        
+        var ref = doc(db, "clinicDB", FileNo.value); // Now the reference is valid with an even number of segments
 
-  let datesHtml = "";
-
-  for (let i = start; i > 0; i--) {
-    datesHtml += `<li class="inactive">${endDatePrev - i + 1}</li>`;
-  }
-
-  for (let i = 1; i <= endDate; i++) {
-    let className =
-      i === date.getDate() &&
-      month === new Date().getMonth() &&
-      year === new Date().getFullYear()
-        ? ' class="today"'
-        : "";
-    datesHtml += `<li${className} data-date="${i}">${i}</li>`;
-  }
-
-  for (let i = end; i < 6; i++) {
-    datesHtml += `<li class="inactive">${i - end + 1}</li>`;
-  }
-
-  dates.innerHTML = datesHtml;
-  header.textContent = `${months[month]} ${year}`;
-}
-
-dates.addEventListener("click", (e) => {
-  if (e.target.tagName === "LI" && !e.target.classList.contains("inactive")) {
-    const selectedDay = e.target.dataset.date;
-    selectedDate = `${months[month]} ${selectedDay}, ${year}`;
-    document.getElementById("selected-date").textContent = `Selected Date: ${selectedDate}`;
-  }
-});
-
-navs.forEach((nav) => {
-  nav.addEventListener("click", (e) => {
-    const btnId = e.target.id;
-
-    if (btnId === "prev" && month === 0) {
-      year--;
-      month = 11;
-    } else if (btnId === "next" && month === 11) {
-      year++;
-      month = 0;
-    } else {
-      month = btnId === "next" ? month + 1 : month - 1;
+        try {
+            await setDoc(ref, {
+                pName: Name.value,
+                pSurname: Surname.value,
+                pEmail: Email.value,
+                pIDNO: IDNO.value, 
+                pFileNo: FileNo.value,
+                pAddress: Address.value,
+                pIllness: Illness.value, 
+                Gender: GenBox.value,
+            });
+            alert("Data added successfully");
+        } catch (error) {
+            alert("Unsuccessful operation, error: " + error);
+        }
     }
 
-    date = new Date(year, month, new Date().getDate());
-    year = date.getFullYear();
-    month = date.getMonth();
+    //----------GET DOC FROM FS-----------------------//
+    async function GetADocument() {
+        if (!FileNo.value) {
+            alert("Please enter the File Number.");
+            return;
+        }
+        
+        var ref = doc(db, "clinicDB", FileNo.value);
 
-    renderCalendar();
-  });
-});
+        const docSnap = await getDoc(ref);  
 
-renderCalendar();
+        if (docSnap.exists()) {
+            Name.value = docSnap.data().pName;
+            Surname.value = docSnap.data().pSurname;
+            Email.value = docSnap.data().pEmail; 
+            IDNO.value = docSnap.data().pIDNO;
+            FileNo.value = docSnap.data().pFileNo;
+            Address.value = docSnap.data().pAddress;
+            Illness.value = docSnap.data().pIllness; 
+            GenBox.value = docSnap.data().Gender;
+        } else {
+            alert("No such document exists!");
+        }
+    }
+
+    //----------UPDATING DOC-----------------------//
+    async function UpdateFieldsInADocument() {
+        if (!FileNo.value) {
+            alert("Please enter the File Number.");
+            return;
+        }
+
+        var ref = doc(db, "clinicDB", FileNo.value);
+
+        try {
+            await updateDoc(ref, {
+                pName: Name.value,
+                pSurname: Surname.value,
+                pEmail: Email.value,
+                pIDNO: IDNO.value,
+                pFileNo: FileNo.value,
+                pAddress: Address.value,
+                pIllness: Illness.value,
+                Gender: GenBox.value,
+            });
+            alert("Document updated successfully.");
+        } catch (error) {
+            alert("Failed to update document. Error: " + error.message);
+        }
+    }
+
+    //----------DELETING DOC-----------------------//
+    async function DeleteDocument() {
+        if (!FileNo.value) {
+            alert("Please enter the File Number.");
+            return;
+        }
+
+        var ref = doc(db, "clinicDB", FileNo.value);
+
+        const docSnap = await getDoc(ref);
+        if (!docSnap.exists()) {
+            alert("Document doesn't exist");
+            return;
+        }
+
+        try {
+            await deleteDoc(ref);
+            alert("Data deleted successfully");
+        } catch (error) {
+            alert("Unsuccessful operation, error: " + error);
+        }
+    }
+
+    //----------ASSIGNING EVENTS TO BUTTONS-----------------------//
+    insBtn.addEventListener("click", AddDocument_AutoID);
+    SelBtn.addEventListener("click", GetADocument);  
+    UpdBtn.addEventListener("click", UpdateFieldsInADocument);  
+    DelBtn.addEventListener("click", DeleteDocument); 
+

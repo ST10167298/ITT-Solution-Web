@@ -1,6 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, setDoc, doc,  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+import{
+    doc, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, deleteField
+
+}
+from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+
+const db = getFirestore();
 
 
 // Your web app's Firebase configuration
@@ -91,4 +100,144 @@ loginButton?.addEventListener('click', (event) => {
         .catch((error) => {
             showMessage('Login failed: ' + error.message, 'loginMessage');
         });
+})
+
+//---------------PROFILE PAGE---------------------//
+//----------references-----------------------//
+
+ let Name = document.getElementById("name");
+ let Surname = document.getElementById("surname");
+ let Email = document.getElementById("email");
+ let IDNO = document.getElementById("IDNumb");
+ let FileNo = document.getElementById("fileNo");
+ let Address = document.getElementById("address");
+ let Illness = document.getElementById("illness");
+ let GenBox = document.getElementById("Genbox");
+ 
+ let insBtn = document.getElementById("insbtn");
+ let SelBtn = document.getElementById("Selbtn");
+ let UpdBtn = document.getElementById("Updbtn");
+ let DelBtn = document.getElementById("Delbtn");
+
+
+//----------ADDING DOCUMENT-----------------------//
+
+async function AddDocument_AutoID() {
+
+// Create a document reference with a custom document ID (RollNo.value)
+var ref = doc(db, "clinicDB", pFileNo.value);
+
+const defRec = await setDoc(
+ref, {
+    pName: Name.value,
+    pSurname: Surname.value,
+    pEmail: Email.value,
+    pIDNO: IDNO.value, 
+    pFileNo: FileNo.value,
+    pAddress: Address.value,
+    pIllness: Illness.value, 
+    Gender: GenBox.value,
+})
+.then(() => {
+alert("data added successfully");
+})
+.catch((error) => {
+alert("unsuccessful operation, error: " + error);
 });
+
+}
+
+
+//----------GET DOC FROM FS-------------------only takes even nos for rollno----//
+async function GetADocument() {
+var ref = doc(db, "TheStudentsList", RollNo.value); 
+const docSnap = await getDoc(ref);  
+
+if (docSnap.exists()) {
+NameBox.value = docSnap.data().NameOfStd;
+SecBox.value = docSnap.data().Section;
+TimeBox.value = docSnap.data().Time; 
+GenBox.value = docSnap.data().Gender;
+selectedDate = docSnap.data().SelectedDate;
+selectedDateDisplay.textContent = `Selected Date: ${selectedDate || 'None'}`;
+  
+} else {
+alert("No such document exists!");
+}
+}
+
+//----------UPDATING DOC-----------------------//
+
+async function UpdateFieldsInADocument() {
+if (!selectedDate) {
+        alert("Please select a date first.");
+        return;
+    }
+
+// Create a document reference with a custom document ID (RollNo.value)
+var ref = doc(db, "TheStudentsList", RollNo.value);
+
+await updateDoc(
+ref, {
+    NameOfStd: NameBox.value,
+    Section: SecBox.value,
+    Time: TimeBox.value,
+    Gender: GenBox.value,
+    SelectedDate: selectedDate
+})
+.then(() => {
+alert("updated successfully");
+})
+.catch((error) => {
+alert("unsuccessful operation, error: " + error);
+});
+}
+
+//----------DELETING DOC-----------------------//
+async function DeleteDocument() {
+var ref = doc(db, "TheStudentsList", RollNo.value); 
+const docSnap = await getDoc(ref);
+if (!docSnap.exists()) {
+alert("doc doesn't exist");
+return;
+} 
+
+await deleteDoc(ref)
+.then(() => {
+alert("data deleted successfully"); 
+selectedDateDisplay.textContent = "Selected Date: None";
+})
+.catch((error) => {
+alert("unsuccessful operation, error: " + error);
+});
+}
+
+//----------ASSIGNING EVENTS TO BUTTONS-----------------------//
+insBtn.addEventListener("click", AddDocument_AutoID);
+SelBtn.addEventListener("click", GetADocument);  
+UpdBtn.addEventListener("click", UpdateFieldsInADocument);  
+DelBtn.addEventListener("click", DeleteDocument); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+);

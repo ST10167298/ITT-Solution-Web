@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login</title>
+    <title>PROFILE PAGE</title>
     <link rel="stylesheet" href="calenderstyle.css">
+    
   
 </head>
         <meta charset="utf-8">
@@ -11,43 +12,53 @@
        label{display:inline-block; width:88px;}
        input, select{width: 120px;}
        </style>
-       <link rel="stylesheet" href="calenderstyle.css" />
+       
     </head>
     <body>
-        <label> Name </label> <input id="Namebox" type="text"><br> <br>
-        <label> RollNo </label> <input id="Rollbox" type="text"><br> <br>
-        <label> Selection </label> <input id="Secbox" type="text"><br> <br>
-        <label> Time </label> <input id="timebox" type="time"><br> <br>
+
+        <div class="navbar">
+            <div class="icon"></div>
+            <div class="main">   
+                <div class="menu">
+                    <ul>
+                        <li><a href="home.html">HOME</a></li>
+                        <li><a href="#">ABOUT</a></li>
+                        <li><a href="dashboard.html">DASHBOARD</a></li>
+                        <li><a href="trackApp.html">TRACK APPOINTMENT</a></li>
+                        <li><a href="#">RESCHEDULE APPOINTMENT </a></li>
+                        <li><a href="profile.html"> PROFILE </a></li>
+                    </ul>
+                </div>
+                <div class="search">
+                    <input class="srch" type="search" placeholder="Type">
+                    <button class="btn">Search</button>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="input-group">
+            <input type="text" id="name" placeholder="Enter Full Name" required>
+            <input type="text" id="surname" placeholder="Enter Surname" required>
+        </div>
+        <div class="input-group">
+            <input type="email" id="email" placeholder="Enter your email address" required>
+            <input type="text" id="IDNumb" placeholder="Enter your ID Number" required>
+        </div>
+        <div class="input-group">
+            <input type="text" id="fileNo" placeholder="Enter your file number" required>
+            <input type="text" id="address" placeholder="Enter your physical address" required>
+        </div>
+        <div class="input-group">
+            <input type="text" id="illness" placeholder="Enter type of illness" required>
+        </div>
         <label> Gender </label>
         <select id="Genbox">
             <option value="Male"> Male</option>
             <option value="Female"> Female</option> <br><br>
         </select>
-        <div class="calendar">
-            <header>
-              <h3></h3>
-              <nav>
-                <button id="prev"></button>
-                <button id="next"></button>
-              </nav>
-            </header>
-            <section>
-              <ul class="days">
-                <li>Sun</li>
-                <li>Mon</li>
-                <li>Tue</li>
-                <li>Wed</li>
-                <li>Thu</li>
-                <li>Fri</li>
-                <li>Sat</li>
-              </ul>
-              <ul class="dates"></ul>
-            </section>
-          </div> <br>
-
-          <div id="selected-date">Selected Date: None</div>
-          <br> <br>
        
+        <br><br>
+
 <button id="insbtn">INSERT</button>
 <button id="Selbtn">SELECT</button>
 <button id="Updbtn">UPDATE</button>
