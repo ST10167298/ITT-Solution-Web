@@ -31,20 +31,25 @@
             <div class="form">
                 <h2>LOGIN</h2>
                 <div class="login-form">
-                    <input type="email" id="email" placeholder="Enter Email">
+                      <input type="email" id="email" placeholder="Enter Email">
                     <input type="password" id="password" placeholder="Enter Password">
-                    <button type="submit" class="HBtn" id="loginButton" onclick="verifyLogin()">LOGIN</button>
 
+                    
+                    <button type="submit" class="log" id="login-btn">LOGIN</button>
+                 
                 </div>
+                
             
                 <p class="link">Don't have an account?</p>
                 <button class="cn"><a href="signup.html">Sign up</a></button>
 
-                <!--input type="button" name="submit" value="SIGN UP" onclick="showMessageAndRedirect()" class="cn"-->
+             <!-- This div will display login success or error messages -->
+            <div id="loginMessage" style="display:none;"></div>
             </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
-    <script src="./script.js"></script>
+    <script type="module" src="./script.js"></script>
+ 
 </body>
 </html>

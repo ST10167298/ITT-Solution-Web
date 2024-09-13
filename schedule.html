@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar</title>
+  <link rel="stylesheet" href="calenderstyle.css" />
+</head>
+<body>
+  <h1>SCHEDULE APPOINTMENT</h1>
+  
+  <div class="form-container">
+
+    <label for="FileNo">File No:</label>
+    <input type="text" id="FileNo" placeholder="Enter File Number">
+
+
+    <label for="illness">Select Illness</label> <br>
+    <select id="illness">
+      <option value="HIV">HIV</option>
+      <option value="AIDS">AIDS</option>
+      <option value="HIGH BLOOD PRESSURE">HIGH BLOOD PRESSURE</option>
+      <option value="LOW BLOOD">LOW BLOOD</option>
+      <option value="DIABETES">DIABETES</option>
+    </select>
+
+    <br><br>
+
+    <label for="time">Select Time</label>
+    <input type="time" id="time" name="time">
+    
+    <br><br>
+
+    <label for="days-option">Choose an Option:</label>
+    <select id="days-option">
+      <option value="30">Option 1 - 30 Days</option>
+      <option value="40">Option 2 - 40 Days</option>
+      <option value="60">Option 3 - 60 Days</option>
+    </select>
+
+    <br>
+
+    <button id="schedule-btn">Schedule Appointment</button>
+
+    <br><br>
+    <div class="calendar">
+      <header>
+        <h3></h3>
+        <nav>
+          <button id="prev"></button>
+          <button id="next"></button>
+        </nav>
+      </header>
+      <section>
+        <ul class="days">
+          <li>Sun</li>
+          <li>Mon</li>
+          <li>Tue</li>
+          <li>Wed</li>
+          <li>Thu</li>
+          <li>Fri</li>
+          <li>Sat</li>
+        </ul>
+        <ul class="dates"></ul>
+      </section>
+    </div>
+
+    <div class="appointment-details">
+        <label for="appointment-details"><strong>APPOINTMENT DETAILS:</strong></label>
+      <p id="appointmentInfo">Appointment details will appear here.</p>
+    </div>
+  </div>
+
+  <script type="module" src="calender.js"></script>
+
+</body>
+</html>

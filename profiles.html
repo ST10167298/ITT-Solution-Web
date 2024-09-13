@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PROFILE PAGE</title>
+    <link rel="stylesheet" href="calenderstyle.css">
+    
+  
+</head>
+        <meta charset="utf-8">
+        <title>Login&Firebase Database</title>
+       <style> 
+       label{display:inline-block; width:88px;}
+       input, select{width: 120px;}
+       </style>
+       
+    </head>
+    <body>
+
+        <div class="navbar">
+            <div class="icon"></div>
+            <div class="main">   
+                <div class="menu">
+                    <ul>
+                        <li><a href="home.html">HOME</a></li>
+                        <li><a href="#">ABOUT</a></li>
+                        <li><a href="dashboard.html">DASHBOARD</a></li>
+                        <li><a href="trackApp.html">TRACK APPOINTMENT</a></li>
+                        <li><a href="#">RESCHEDULE APPOINTMENT </a></li>
+                        <li><a href="profile.html"> PROFILE </a></li>
+                    </ul>
+                </div>
+                <div class="search">
+                    <input class="srch" type="search" placeholder="Type">
+                    <button class="btn">Search</button>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="input-group">
+            <input type="text" id="name" placeholder="Enter Full Name" required>
+            <input type="text" id="surname" placeholder="Enter Surname" required>
+        </div>
+        <div class="input-group">
+            <input type="email" id="email" placeholder="Enter your email address" required>
+            <input type="text" id="IDNumb" placeholder="Enter your ID Number" required>
+        </div>
+        <div class="input-group">
+            <input type="text" id="fileNo" placeholder="Enter your file number" required>
+            <input type="text" id="address" placeholder="Enter your physical address" required>
+        </div>
+        <div class="input-group">
+            <input type="text" id="illness" placeholder="Enter type of illness" required>
+        </div>
+        <label> Gender </label>
+        <select id="Genbox">
+            <option value="Male"> Male</option>
+            <option value="Female"> Female</option> <br><br>
+        </select>
+       
+        <br><br>
+
+<button id="insbtn">INSERT</button>
+<button id="Selbtn">SELECT</button>
+<button id="Updbtn">UPDATE</button>
+<button id="Delbtn">DELETE</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script type="module" src="profiles.js"></script>
+
+</body>
+</html>
