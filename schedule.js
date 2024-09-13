@@ -63,26 +63,26 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Automatically calculate the next appointment date based on today's date
-  function getNextAppointmentDate() {
+  function getAppointmentDate() {
     const selectedIllness = illnessSelect.value;
     const daysToAdd = getDaysToAdd(selectedIllness);
     
     const today = new Date(); // Current date
     today.setDate(today.getDate() + daysToAdd); // Add days based on illness
 
-    const nextAppointmentDate = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
-    return nextAppointmentDate;
+    const appointmentDate = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
+    return appointmentDate;
   }
 
   // Update appointment details in the UI
   function updateAppointmentDetails() {
-    const nextAppointmentDate = getNextAppointmentDate();
+    const appointmentDate = getAppointmentDate();
     const selectedIllness = illnessSelect.value;
     const selectedTime = timeInput.value;
     
     appointmentInfo.innerHTML = `
       <strong>Illness:</strong> ${selectedIllness} <br>
-      <strong>Next Appointment Date:</strong> ${nextAppointmentDate} <br>
+      <strong>Next Appointment Date:</strong> ${appointmentDate} <br>
       <strong>Time:</strong> ${selectedTime} <br>
     `;
   }
@@ -98,11 +98,11 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    const nextAppointmentDate = getNextAppointmentDate();
+    const appointmentDate = getAppointmentDate();
 
     const appointmentData = {
       illness: selectedIllness,
-      nextAppointmentDate: nextAppointmentDate,
+      appointmentDate: appointmentDate,
       time: selectedTime,
     };
 
