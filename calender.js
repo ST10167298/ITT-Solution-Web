@@ -17,6 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+//----------references-----------------------//
 document.addEventListener('DOMContentLoaded', function () {
   const illnessSelect = document.getElementById('illness');
   const timeInput = document.getElementById('time');
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     return `${nextDay}/${nextMonth}/${nextYear}`;
   }
-
+//------------------CALENDER---------------------------//
   function renderCalendar() {
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
     const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
@@ -79,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     monthHeader.textContent = `${today.toLocaleString('default', { month: 'long' })} ${currentYear}`;
   }
-
+//----------TO GET THE NEXT APPOINTMENT DATE---------------------//
   function updateCalendar() {
     today = new Date(currentYear, currentMonth, 1);
     renderCalendar();
@@ -91,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectedDateDisplay = selectedDate ? `${selectedDate}/${currentMonth + 1}/${currentYear}` : 'Not selected';
     const nextAppointmentDate = selectedDate ? getNextAppointmentDate(selectedDate) : 'Not scheduled';
 
-    // Display both selected date and next appointment date
+    // Display both selected date and next appointment date------//
     appointmentInfo.innerHTML = `
       <strong>Illness:</strong> ${selectedIllness} <br>
       <strong>Time:</strong> ${selectedTime}
