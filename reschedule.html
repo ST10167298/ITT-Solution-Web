@@ -18,13 +18,11 @@
     <br><br>
     <label for="illness">Select Illness: </label> 
     <select id="illness">
-      <option value="HIV/AIDS">HIV/AIDS</option>
-      <option value="HYPERTENSION">HYPERTENSION</option>
-      <option value="HEART DISEASE">HEART DISEASE</option>
+      <option value="HIV">HIV</option>
+      <option value="AIDS">AIDS</option>
+      <option value="HIGH BLOOD PRESSURE">HIGH BLOOD PRESSURE</option>
+      <option value="LOW BLOOD">LOW BLOOD</option>
       <option value="DIABETES">DIABETES</option>
-      <option value="EPILEPSY">EPILEPSY</option>
-      <option value="ARTHRITIS">ARTHRITIS</option>
-      <option value="TB">TB</option>
     </select>
 
     <br>
@@ -34,7 +32,16 @@
     
     <br>
 
-    <button id="schedule-btn">Schedule</button>
+    <label for="days-option">Choose an Option:</label>
+    <select id="days-option">
+      <option value="30">Option 1 - 30 Days</option>
+      <option value="40">Option 2 - 40 Days</option>
+      <option value="60">Option 3 - 60 Days</option>
+    </select>
+
+    <br>
+
+    <button id="schedule-btn">Schedule Appointment</button>
 
     <br><br>
     <div class="calendar">
@@ -65,7 +72,7 @@
     </div>
   </div>
 
-  <script type="module" src="schedule.js"></script>
+  <script type="module" src="calender.js"></script>
 
 </body>
 </html>
