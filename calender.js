@@ -94,9 +94,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Display both selected date and next appointment date
     appointmentInfo.innerHTML = `
       <strong>Illness:</strong> ${selectedIllness} <br>
+      <strong>Time:</strong> ${selectedTime}
       <strong>Current Appointment Date:</strong> ${selectedDateDisplay} <br>
       <strong>Next Appointment Date:</strong> ${nextAppointmentDate} <br>
-      <strong>Time:</strong> ${selectedTime}
+      
     `;
   }
 
@@ -139,9 +140,10 @@ document.addEventListener('DOMContentLoaded', function () {
       // Display both the selected date and the next appointment date
       appointmentInfo.innerHTML = `
         <strong>Illness:</strong> ${selectedIllness} <br>
+         <strong>Time:</strong> ${selectedTime}
         <strong>Current Appointment Date:</strong> ${appointmentDate} <br>
         <strong>Next Appointment Date:</strong> ${nextAppointmentDate} <br>
-        <strong>Time:</strong> ${selectedTime}
+       
       `;
     } catch (error) {
       console.error("Error scheduling appointment:", error);
