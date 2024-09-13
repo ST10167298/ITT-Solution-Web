@@ -40,8 +40,7 @@
             alert("Please enter the File Number.");
             return;
         }
-        
-        var ref = doc(db, "clinicDB", FileNo.value); // Now the reference is valid with an even number of segments
+        var ref = doc(db, "clinicDB", FileNo.value); 
 
         try {
             await setDoc(ref, {
@@ -59,7 +58,6 @@
             alert("Unsuccessful operation, error: " + error);
         }
     }
-
     //----------GET DOC FROM FS-----------------------//
     async function GetADocument() {
         if (!FileNo.value) {
@@ -84,7 +82,7 @@
             alert("No such document exists!");
         }
     }
-
+    
     //----------UPDATING DOC-----------------------//
     async function UpdateFieldsInADocument() {
         if (!FileNo.value) {
