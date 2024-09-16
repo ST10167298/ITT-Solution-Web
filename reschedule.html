@@ -1,99 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calendar</title>
-  <link rel="stylesheet" href="calenderstyle.css" />
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reschedule Appointment</title>
+    <link rel="stylesheet" href="reschedule.css">
 </head>
 <body>
-    <div class="navbar">
-        <div class="icon"></div>
-        <div class="main">   
-            <div class="menu">
-                <ul>
-                    <li><a href="home.html">HOME</a></li>
-                    <li><a href="signup.html">REGISTER</a></li>
-                    <li><a href="profiles.html">PROFILE </a></li>
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="dashboard.html">DASHBOARD</a></li>
-                    <li><a href="schedule.html">SCHEDULE APPOINTMENT</a></li>
-                    <li><a href="reschedule.html">RESCHEDULE APPOINTMENT </a></li>
-                    <li><a href="trackApp.html">TRACK APPOINTMENT</a></li>
-                    <li><a href="dashboard.html">LOGOUT </a></li>
-                </ul>
-            </div>
-          
+    <div class="container">
+        <h1>Reschedule Appointment</h1>
+
+        <div>
+            <label for="originalDate">Select Original Appointment Date:</label>
+            <select id="originalDate">
+                <!-- Options will be populated dynamically -->
+            </select>
         </div>
+
+        <div>
+            <label for="newDate">New Date:</label>
+            <input type="date" id="newDate">
+        </div>
+
+        <div>
+            <label for="newTime">New Time:</label>
+            <input type="time" id="newTime" step="1200"> <!-- 1200 seconds = 20 minutes -->
+        </div>
+
+        <button id="rescheduleBtn">Reschedule Appointment</button>
+
+        <p id="errorMessage" class="hidden">Error message will appear here.</p>
+        <p id="successMessage" class="hidden">Success message will appear here.</p>
+
+        <div id="appointmentDetails" class="appointment-details">
+            <h1>Updated Appointment Details:</h2>
+            <p id="appointmentInfo"></p>
+        </div>
+
+        <p id="timeError" class="hidden" style="color: red;">Please select a valid time between 15:00 and 17:00 in 20-minute intervals.</p>
     </div>
 
-  <h1>SCHEDULE APPOINTMENT</h1>
-  
-  <div class="form-container">
-
-    <label for="FileNo">File No:</label>
-    <input type="text" id="FileNo" placeholder="Enter File Number">
-
-    <br><br>
-    <label for="illness">Select Illness: </label> 
-    <select id="illness">
-      <option value="HIV">HIV</option>
-      <option value="AIDS">AIDS</option>
-      <option value="HIGH BLOOD PRESSURE">HIGH BLOOD PRESSURE</option>
-      <option value="LOW BLOOD">LOW BLOOD</option>
-      <option value="DIABETES">DIABETES</option>
-    </select>
-
-    <br>
-
-    <label for="time">Select Time</label>
-    <input type="time" id="time" name="time">
-    
-    <br>
-
-    <label for="days-option">Choose an Option:</label>
-    <select id="days-option">
-      <option value="30">Option 1 - 30 Days</option>
-      <option value="40">Option 2 - 40 Days</option>
-      <option value="60">Option 3 - 60 Days</option>
-    </select>
-
-    <br>
-
-    <button id="schedule-btn">Schedule Appointment</button>
-
-    <br><br>
-    <div class="calendar">
-      <header>
-        <h3></h3>
-        <nav>
-          <button id="prev"></button>
-          <button id="next"></button>
-        </nav>
-      </header>
-      <section>
-        <ul class="days">
-          <li>Sun</li>
-          <li>Mon</li>
-          <li>Tue</li>
-          <li>Wed</li>
-          <li>Thu</li>
-          <li>Fri</li>
-          <li>Sat</li>
-        </ul>
-        <ul class="dates"></ul>
-      </section>
-    </div>
-
-    <div class="appointment-details">
-        <label for="appointment-details"><strong>APPOINTMENT DETAILS:</strong></label>
-      <p id="appointmentInfo">Appointment details will appear here.</p>
-    </div>
-  </div>
-
-  <script type="module" src="calender.js"></script>
-
+    <script type="module" src="reschedule.js"></script>
 </body>
 </html>
