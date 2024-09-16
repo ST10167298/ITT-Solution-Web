@@ -21,13 +21,13 @@ body {
 h1 {
   font-weight: 600;
   text-align: center;
-  color: #333; /* Softer black for better readability */
+  color: #333;
   margin-bottom: 2rem;
 }
 
 h3 {
   font-weight: 600;
-  color: #333; /* Ensure consistent text color */
+  color: #333;
 }
 
 .form-container {
@@ -36,18 +36,19 @@ h3 {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 1.5rem; /* Slightly increased margin for better spacing */
-  max-width: 420px; /* Limit width to maintain form structure */
+  margin-bottom: 1.5rem;
+  max-width: 500px;
   width: 100%;
 }
 
 .calendar {
   width: 100%;
-  max-width: 380px;
+  max-width: 500px;
   padding: 1.5rem;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-top: 1.5rem;
 }
 
 .calendar header {
@@ -63,22 +64,41 @@ h3 {
 
 .calendar ul {
   list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
   padding: 0;
 }
 
-.calendar ul li {
-  width: calc(100% / 7);
-  margin-top: 25px;
-  position: relative;
-  z-index: 2;
+.days {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  color: black;
+  margin-bottom: 1rem;
 }
+
+.days li {
+  width: calc(100% / 7);
+  text-align: center;
+}
+
+.calendar ul.dates {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.calendar ul.dates li {
+  width: calc(100% / 7);
+  text-align: center;
+  margin-top: 10px;
+  position: relative;
+  padding: 1px;
+  box-sizing: border-box;
+}
+
 #prev,
 #next {
-  width: 16px; /* Smaller width */
-  height: 16px; /* Smaller height */
+  width: 16px;
+  height: 16px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -88,35 +108,28 @@ h3 {
 #prev::before,
 #next::before {
   content: "";
-  width: 8px; /* Small arrow size */
+  width: 8px;
   height: 8px;
   position: absolute;
   top: 50%;
   left: 50%;
   border-style: solid;
   border-width: 0.15em 0.15em 0 0;
-  border-color: black; /* Black color for better visibility */
+  border-color: black;
   transform-origin: center;
 }
 
 #next::before {
-  transform: translate(-50%, -50%) rotate(45deg); /* Arrow pointing right */
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 #prev::before {
-  transform: translate(-50%, -50%) rotate(-135deg); /* Arrow pointing left */
+  transform: translate(-50%, -50%) rotate(-135deg);
 }
 
 #prev:hover::before,
 #next:hover::before {
-  border-color: #ff5e88; /* Change color on hover for better interaction */
-}
-
-
-
-.days {
-  font-weight: 600;
-  color: black;
+  border-color: #ff5e88;
 }
 
 .dates li.today {
@@ -125,7 +138,7 @@ h3 {
 
 .dates li.today::before {
   content: "";
-  width: 2rem;
+  width: 1rem;
   height: 2rem;
   position: absolute;
   top: 50%;
@@ -138,9 +151,11 @@ h3 {
 
 .dates li.inactive {
   color: #ccc;
+  background: #f5f5f5; /* Light gray background for inactive days */
+  cursor: not-allowed; /* Show a not-allowed cursor */
 }
 
-select,
+/* Add this CSS to your existing styles */
 input[type="time"] {
   padding: 0.5rem;
   font-size: 1rem;
@@ -148,21 +163,36 @@ input[type="time"] {
   border-radius: 3px;
   margin-bottom: 1rem;
   transition: border 0.2s ease;
+  width: 100%;
+  max-width: 380px;
 }
 
-select:focus,
 input[type="time"]:focus {
-  border-color: #ff5e88; /* Add focus effect */
+  border-color: #ff5e88;
   outline: none;
 }
 
+
 .appointment-details {
   padding: 1.5rem;
-  background: #f0f0f0; /* Softer background for better contrast */
+  background: #f0f0f0;
   border-radius: 8px;
   text-align: center;
   width: 100%;
-  max-width: 380px;
+  max-width: 420px;
   margin-top: 1rem;
 }
 
+/* Additional adjustments for responsiveness */
+@media (max-width: 600px) {
+  .calendar,
+  .form-container,
+  .appointment-details {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .calendar ul.dates li {
+    margin-top: 8px;
+  }
+}

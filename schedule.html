@@ -7,6 +7,29 @@
   <title>Calendar</title>
   <link rel="stylesheet" href="calenderstyle.css" />
   <link rel="stylesheet" href="style.css">
+  <style>
+    .inactive {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .today {
+      font-weight: bold;
+      color: red;
+    }
+    .dates {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .dates li {
+      width: 8.28%;
+      list-style: none;
+      text-align:left;
+      padding: 4px;
+      cursor: pointer;
+    }
+  </style>
+
+  
 </head>
 <body>
     <div class="navbar">
