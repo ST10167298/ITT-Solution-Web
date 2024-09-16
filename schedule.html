@@ -1,114 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calendar</title>
-  <link rel="stylesheet" href="calenderstyle.css" />
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .inactive {
-      pointer-events: none;
-      opacity: 0.5;
-    }
-    .today {
-      font-weight: bold;
-      color: red;
-    }
-    .dates {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .dates li {
-      width: 8.28%;
-      list-style: none;
-      text-align:left;
-      padding: 4px;
-      cursor: pointer;
-    }
-  </style>
-
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Scheduler</title>
+    <link rel="stylesheet" href="schedule.css">
 </head>
 <body>
-    <div class="navbar">
-        <div class="icon"></div>
-        <div class="main">   
-            <div class="menu">
-                <ul>
-                    <li><a href="home.html">HOME</a></li>
-                    <li><a href="signup.html">REGISTER</a></li>
-                    <li><a href="profiles.html">PROFILE </a></li>
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="dashboard.html">DASHBOARD</a></li>
-                    <li><a href="schedule.html">SCHEDULE APPOINTMENT</a></li>
-                    <li><a href="reschedule.html">RESCHEDULE APPOINTMENT </a></li>
-                    <li><a href="trackApp.html">TRACK APPOINTMENT</a></li>
-                    <li><a href="dashboard.html">LOGOUT </a></li>
-                </ul>
-            </div>
-          
+    
+    <div class="container">
+        <h1>Schedule an Appointment</h1>
+
+        <!-- Illness Selection Dropdown -->
+        <div class="form-container">
+            <label for="illnesses">Select Illness:</label>
+            <select id="illnesses">
+                <option value="HIV/AIDS">HIV/AIDS</option>
+                <option value="HYPERTENSION">Hypertension</option>
+                <option value="HEART DISEASE">HEART DISEASE</option>
+                <option value="DIABETES">DIABETES</option>
+                <option value="EPILEPSY">EPILEPSY</option>
+                <option value="ARTHRITIS">ARTHRITIS</option>
+                <option value="TB">TB</option>
+            </select>
+
+            <br><br>
+
+            <label for="time">Select Time:</label>
+            <input type="time" id="time" name="time" step="1200">
+            <p id="timeError" style="color: red; display: none;">Please select a valid time between 07:00 and 17:00 in 20-minute intervals.</p>
+
+            <br><br>
+
+            <!-- Schedule Button -->
+            <button id="scheduleBtn">Schedule Appointment</button>
+
+            <!-- Show Appointment Details -->
+            <div id="appointmentDetails"></div>
+        </div>
+
+        <!-- Calendar View -->
+        <div class="calendar">
+            <header>
+                <button id="prev">&lt;</button>
+                <h3 id="monthYear"></h3>
+                <button id="next">&gt;</button>
+            </header>
+            <ul class="days">
+                <li>Sun</li>
+                <li>Mon</li>
+                <li>Tue</li>
+                <li>Wed</li>
+                <li>Thu</li>
+                <li>Fri</li>
+                <li>Sat</li>
+            </ul>
+            <ul class="dates"></ul>
         </div>
     </div>
-  <h1>SCHEDULE APPOINTMENT</h1>
-  
-  <div class="form-container">
 
-    <label for="FileNo">File No:</label>
-    <input type="text" id="FileNo" placeholder="Enter File Number">
-
-    <br><br>
-    <label for="illness">Select Illness: </label> 
-    <select id="illness">
-      <option value="HIV/AIDS">HIV/AIDS</option>
-      <option value="HYPERTENSION">HYPERTENSION</option>
-      <option value="HEART DISEASE">HEART DISEASE</option>
-      <option value="DIABETES">DIABETES</option>
-      <option value="EPILEPSY">EPILEPSY</option>
-      <option value="ARTHRITIS">ARTHRITIS</option>
-      <option value="TB">TB</option>
-    </select>
-
-    <br>
-
-    <label for="time">Select Time</label>
-    <input type="time" id="time" name="time">
-    
-    <br>
-
-    <button id="schedule-btn">Schedule</button>
-
-    <br><br>
-    <div class="calendar">
-      <header>
-        <h3></h3>
-        <nav>
-          <button id="prev"></button>
-          <button id="next"></button>
-        </nav>
-      </header>
-      <section>
-        <ul class="days">
-          <li>Sun</li>
-          <li>Mon</li>
-          <li>Tue</li>
-          <li>Wed</li>
-          <li>Thu</li>
-          <li>Fri</li>
-          <li>Sat</li>
-        </ul>
-        <ul class="dates"></ul>
-      </section>
-    </div>
-
-    <div class="appointment-details">
-        <label for="appointment-details"><strong>APPOINTMENT DETAILS:</strong></label>
-      <p id="appointmentInfo">Appointment details will appear here.</p>
-    </div>
-  </div>
-
-  <script type="module" src="schedule.js"></script>
-
+    <script type="module" src="schedule.js"></script>
 </body>
 </html>

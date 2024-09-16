@@ -1,4 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js"; 
+// Import Firebase SDK
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Firebase configuration
@@ -15,162 +16,180 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-document.addEventListener('DOMContentLoaded', function () {
-  const illnessSelect = document.getElementById('illness');
-  const timeInput = document.getElementById('time');
-  const fileNoInput = document.getElementById('FileNo');
-  const appointmentInfo = document.getElementById('appointmentInfo');
-  const scheduleBtn = document.getElementById('schedule-btn');
 
-  const currentMonthElement = document.querySelector('.calendar header h3');
-  const datesContainer = document.querySelector('.dates');
-  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  let currentDate = new Date();
+document.addEventListener("DOMContentLoaded", () => {
+    let illnesses = document.getElementById('illnesses');
+    let timeInput = document.getElementById('time');
+    let scheduleBtn = document.getElementById('scheduleBtn');
+    let timeError = document.getElementById('timeError');
+    let appointmentDetails = document.getElementById('appointmentDetails');
+    let datesContainer = document.querySelector(".dates");
+    let monthYear = document.getElementById("monthYear");
+    let prevBtn = document.getElementById("prev");
+    let nextBtn = document.getElementById("next");
 
-  function getDaysToAdd(selectedIllness) {
-    let daysToAdd = 0;
-    switch (selectedIllness) {
-      case "HIV/AIDS": daysToAdd = 25; break;
-      case "Hypertension": daysToAdd = 40; break;
-      case "Heart Disease": daysToAdd = 30; break;
-      case "Diabetes": daysToAdd = 30; break;
-      case "Epilepsy": daysToAdd = 21; break;
-      case "Arthritis": daysToAdd = 60; break;
-      case "TB": daysToAdd = 60; break;
-    }
-    return daysToAdd;
-  }
+    let selectedHour = 0;
+    let selectedMin = 0;
+    let daysToAdd = 30;
+    let appointments = {}; // To store appointments
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
 
-  function getAppointmentDate() {
-    const selectedIllness = illnessSelect.value;
-    const daysToAdd = getDaysToAdd(selectedIllness);
-    const today = new Date();
-    today.setDate(today.getDate() + daysToAdd);
-    const appointmentDate = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
-    return appointmentDate;
-  }
+    // Illness selection logic
+    illnesses.addEventListener('change', function() {
+        const selectedIllness = this.value;
+        switch (selectedIllness) {
+            case "HIV/AIDS":
+                daysToAdd = 25;
+                break;
+            case "Hypertension":
+                daysToAdd = 40;
+                break;
+            case "Heart Disease":
+                daysToAdd = 30;
+                break;
+            case "Diabetes":
+                daysToAdd = 30;
+                break;
+            case "Epilepsy":
+                daysToAdd = 21;
+                break;
+            case "Arthritis":
+                daysToAdd = 60;
+                break;
+            case "TB":
+                daysToAdd = 60;
+                break;
+        }
+    });
 
-  function updateAppointmentDetails() {
-    const appointmentDate = getAppointmentDate();
-    const selectedIllness = illnessSelect.value;
-    const selectedTime = timeInput.value;
-    appointmentInfo.innerHTML = 
-      `<strong>Illness:</strong> ${selectedIllness} <br>
-      <strong>Next Appointment Date:</strong> ${appointmentDate} <br>
-      <strong>Time:</strong> ${selectedTime} <br>`;
-  }
+    // Time validation logic
+    timeInput.addEventListener('input', () => {
+        const timeValue = timeInput.value;
+        if (timeValue) {
+            const [hour, min] = timeValue.split(":").map(Number);
+            selectedHour = hour;
+            selectedMin = min;
 
-  function isValidTime(selectedTime) {
-    const [hours, minutes] = selectedTime.split(':').map(Number);
-    const totalMinutes = hours * 60 + minutes;
-    const startTime = 7 * 60;  // 7:00 AM in minutes
-    const endTime = 17 * 60;   // 5:00 PM in minutes
-    return totalMinutes >= startTime && totalMinutes <= endTime && (totalMinutes % 20 === 0);
-  }
+            if (validateTime(selectedHour, selectedMin)) {
+                timeError.style.display = 'none'; // Hide error message
+                timeInput.setCustomValidity(''); // Clear any previous custom validity message
+            } else {
+                timeError.style.display = 'block'; // Show error message
+                timeInput.setCustomValidity('Please select a valid time between 07:00 and 17:00 in 20-minute intervals.'); // Custom validity message
+            }
+        }
+    });
 
-  function populateTimeOptions() {
-    const startTime = 7 * 60;  // 7:00 AM in minutes
-    const endTime = 17 * 60;   // 5:00 PM in minutes
+    // Schedule appointment logic
+    scheduleBtn.addEventListener('click', async () => {
+        const calendar = new Date();
+        calendar.setDate(calendar.getDate() + daysToAdd);
 
-    for (let minutes = startTime; minutes <= endTime; minutes += 20) {
-      const hours = Math.floor(minutes / 60);
-      const mins = minutes % 60;
-      const formattedTime = `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
-      const option = document.createElement('option');
-      option.value = formattedTime;
-      option.textContent = formattedTime;
-      timeInput.appendChild(option);
-    }
-  }
-
-  async function scheduleAppointment() {
-    const selectedIllness = illnessSelect.value;
-    const selectedTime = timeInput.value;
-    const fileNo = fileNoInput.value;
-
-    if (!fileNo || !selectedTime || !selectedIllness) {
-      alert("Please enter a file number, select an illness, and select a time.");
-      return;
-    }
-
-    if (!isValidTime(selectedTime)) {
-      alert("Please select a time between 7:00 AM and 5:00 PM in 20-minute intervals.");
-      return;
-    }
-
-    const appointmentDate = getAppointmentDate();
-    const appointmentData = {
-      illness: selectedIllness,
-      appointmentDate: appointmentDate,
-      time: selectedTime,
-    };
-
-    const ref = doc(db, "clinicDB", fileNo);
-    try {
-      await setDoc(ref, appointmentData);
-      alert("Appointment scheduled successfully!");
-      updateAppointmentDetails();
-    } catch (error) {
-      console.error("Error saving appointment to Firebase:", error);
-      alert("Failed to schedule appointment.");
-    }
-  }
-
-  function generateCalendar() {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    currentMonthElement.textContent = `${monthNames[month]} ${year}`;
-
-    const firstDayOfMonth = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    datesContainer.innerHTML = '';
-
-    // Add empty (inactive) days at the beginning
-    for (let i = 0; i < firstDayOfMonth; i++) {
-      const emptyCell = document.createElement('li');
-      emptyCell.classList.add('inactive');
-      datesContainer.appendChild(emptyCell);
-    }
-
-    // Add the actual days of the month
-    for (let i = 1; i <= daysInMonth; i++) {
-      const dateCell = document.createElement('li');
-      dateCell.textContent = i;
-
-      const date = new Date(year, month, i);
-      const dayOfWeek = date.getDay();
-
-      // Mark weekends as inactive
-      if (dayOfWeek === 0 || dayOfWeek === 6) {
-        dateCell.classList.add('inactive');
-      } else {
-        // Mark today
-        if (i === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
-          dateCell.classList.add('today');
+        const dayOfWeek = calendar.getDay();
+        if (dayOfWeek === 6) {
+            calendar.setDate(calendar.getDate() + 2);
+        } else if (dayOfWeek === 0) {
+            calendar.setDate(calendar.getDate() + 1);
         }
 
-        // Add click event for selectable days
-        dateCell.addEventListener('click', () => {
-          alert(`You selected ${i}/${month + 1}/${year}`);
-        });
-      }
+        calendar.setHours(selectedHour);
+        calendar.setMinutes(selectedMin);
 
-      datesContainer.appendChild(dateCell);
+        const selectedDate = calendar.toISOString().split("T")[0];
+        const selectedTime = `${selectedHour}:${selectedMin.toString().padStart(2, '0')}`;
+        const selectedMonth = calendar.getMonth() + 1; // Months are zero-indexed
+        const selectedYear = calendar.getFullYear();
+
+        if (appointments[selectedDate] === selectedTime) {
+            alert("This time slot is already booked. Please select a different time.");
+            return;
+        }
+
+        appointments[selectedDate] = selectedTime;
+        appointmentDetails.innerHTML = `Scheduled Appointment:<br> ${calendar.toDateString()} at ${selectedTime}<br>Time: ${selectedTime}`;
+
+        // Save appointment to Firestore
+        try {
+            await setDoc(doc(db, "clinicDB", selectedDate), {
+                time: selectedTime,
+                month: selectedMonth,
+                year: selectedYear
+            });
+            console.log("Appointment saved to Firestore.");
+        } catch (error) {
+            console.error("Error adding appointment: ", error);
+        }
+
+        // Update Calendar View to the month of the scheduled appointment
+        currentMonth = calendar.getMonth();
+        currentYear = calendar.getFullYear();
+        renderCalendar(currentMonth, currentYear);
+    });
+
+    // Function to validate if the time is within the allowed range and in 20-minute intervals
+    function validateTime(hour, minute) {
+        const isWithinTimeRange = hour >= 7 && hour <= 17;
+        const isIn20MinuteInterval = minute % 20 === 0;
+
+        if (hour === 17 && minute !== 0) {
+            return false;
+        }
+        return isWithinTimeRange && isIn20MinuteInterval;
     }
-  }
 
-  // Populate time options on page load
-  populateTimeOptions();
+    // Calendar Navigation
+    prevBtn.addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        renderCalendar(currentMonth, currentYear);
+    });
 
-  generateCalendar();
-  document.getElementById('next').addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    generateCalendar();
-  });
-  document.getElementById('prev').addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    generateCalendar();
-  });
+    nextBtn.addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        renderCalendar(currentMonth, currentYear);
+    });
 
-  scheduleBtn.addEventListener('click', scheduleAppointment);
+    // Render Calendar
+    async function renderCalendar(month, year) {
+        datesContainer.innerHTML = ''; // Clear existing dates
+        const firstDay = new Date(year, month).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        monthYear.textContent = `${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
+
+        for (let i = 0; i < firstDay; i++) {
+            const li = document.createElement('li');
+            li.classList.add('inactive');
+            datesContainer.appendChild(li);
+        }
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            const li = document.createElement('li');
+            li.textContent = i;
+            const date = new Date(year, month, i);
+
+            // Check if this date is the same as the scheduled appointment
+            const dateString = date.toISOString().split("T")[0];
+            if (appointments[dateString]) {
+                li.classList.add('appointment');
+            }
+
+            if (date.toDateString() === new Date().toDateString()) {
+                li.classList.add('today');
+            }
+
+            datesContainer.appendChild(li);
+        }
+    }
+
+    // Initialize Calendar
+    renderCalendar(currentMonth, currentYear);
 });
