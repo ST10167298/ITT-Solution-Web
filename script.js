@@ -33,8 +33,7 @@ function showMessage(message, divId) {
     const displayMessage = document.getElementById(divId);
     displayMessage.style.display = "block";
     displayMessage.innerHTML = message;
-    displayMessage.style.opacity = 1;
-    
+    displayMessage.style.opacity = 1; 
 }
 
 // Form declarations
@@ -46,6 +45,7 @@ signUpButton?.addEventListener('click', (event) => {
     event.preventDefault();
     
     // Fetching the user input values
+    const
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const fullName = document.getElementById('name').value;
@@ -109,7 +109,6 @@ loginButton?.addEventListener('click', (event) => {
  let Surname = document.getElementById("surname");
  let Email = document.getElementById("email");
  let IDNO = document.getElementById("IDNumb");
- let FileNo = document.getElementById("fileNo");
  let Address = document.getElementById("address");
  let Illness = document.getElementById("illness");
  let GenBox = document.getElementById("Genbox");
@@ -125,7 +124,7 @@ loginButton?.addEventListener('click', (event) => {
 async function AddDocument_AutoID() {
 
 // Create a document reference with a custom document ID (RollNo.value)
-var ref = doc(db, "clinicDB", pFileNo.value);
+var ref = doc(db, "clinicDB", IDNumb.value);
 
 const defRec = await setDoc(
 ref, {

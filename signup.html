@@ -15,7 +15,6 @@
                     <li><a href="home.html">HOME</a></li>
                     <li><a href="signup.html">REGISTER</a></li>
                     <li><a href="profiles.html">PROFILE </a></li>
-                    <li><a href="#">ABOUT</a></li>
                     <li><a href="dashboard.html">DASHBOARD</a></li>
                     <li><a href="schedule.html">SCHEDULE APPOINTMENT</a></li>
                     <li><a href="reschedule.html">RESCHEDULE APPOINTMENT </a></li>
@@ -30,11 +29,12 @@
         <h2>SIGN UP</h2>
         <form id="submit-sign">
             
+                <input type="text" id="IDNumb" placeholder="Enter your ID Number" required pattern="\d{8,13}" title="Please enter a valid ID number (13 digits)">
                 <input type="text" id="name" placeholder="Enter Full Name">
                 <input type="text" id="surname" placeholder="Enter Surname">
                 <input type="email" id="email" placeholder="Enter your email address">
                 <input type="password" id="password" placeholder="Enter Password" required>
-                <input type="password" id="confirmPassword" placeholder="Confirm Password">
+                
           
             <button type="submit" class="HBtn">SIGN UP</button>
         </form>
@@ -43,6 +43,10 @@
         <div id="registerMessage" style="display:none;"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
-    <script type="module" src="./script.js"></script>
+
+    <!--script type="module" src="./script.js"></script-->
+
+    <script type="module" src="finalScript.js"></script>
+
 </body>
 </html>

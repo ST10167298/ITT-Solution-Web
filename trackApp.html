@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Webpage Design</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Appointment</title>
+    <link rel="stylesheet" href="schedule.css">
 </head>
 <body>
-    <div class="main">
-        <div class="navbar">
-            <div class="icon">
-            </div>
-            <img src="logo.jpeg" alt="our wlogo " id="ourlogo">
-            <div class="menu">
-                <ul>
-                    <li><a href="home.html">HOME</a></li>
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="dashboard.css">DASHBOARD</a></li>
-                    <li><a href="trackApp.html">TRACK APPOINTMENT</a></li>
-                    <li><a href="#">RESCHEDULE APPOINTMENT </a></li>
-                </ul>
-            </div>
-            <div class="search">
-                <input class="srch" type="search" name="" placeholder="Type">
-                <a href="#">
-                    <button class="btn">Search</button>
-                </a>
-            </div>
-        </div>
-        <div class="content">
-            <h1><span>HEALTHMATE</span> </h1>
-            
-            </div>
+    <div class="container">
+        <h1>Track Future Appointments</h1>
+
+        <!-- Calendar View -->
+        <div class="calendar">
+            <header>
+                <button id="prev">&lt;</button>
+                <h3 id="monthYear"></h3>
+                <button id="next">&gt;</button>
+            </header>
+            <ul class="days">
+                <li>Sun</li>
+                <li>Mon</li>
+                <li>Tue</li>
+                <li>Wed</li>
+                <li>Thu</li>
+                <li>Fri</li>
+                <li>Sat</li>
+            </ul>
+            <ul class="dates"></ul>
         </div>
     </div>
+
+    <!--script type="module" src="trackApp.js"></script-->
+
+    <script type="module" src="finalScript.js"></script>
+
 </body>
 </html>

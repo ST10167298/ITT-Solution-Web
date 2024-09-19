@@ -1,0 +1,43 @@
+#calendar {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.days-of-week {
+    display: flex;
+    justify-content: space-between;
+}
+
+.days-of-week div {
+    width: 14.28%; /* 7 columns */
+    padding: 5px 0;
+}
+
+.dates {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dates div {
+    width: 14.28%; /* 7 columns */
+    padding: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+}
+
+.date {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.empty {
+    visibility: hidden;
+}
