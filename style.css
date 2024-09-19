@@ -67,28 +67,6 @@ ul li a{
 ul li a:hover{
     color: black;
 }
-.search{
-    width: 300px;
-    float: left;
-    margin-left: 300px;
-    margin-top: 13px;
-}
-
-.srch{
-    font-family: 'Times New Roman';
-    width: 150px;
-    height: 40px;
-    background: transparent;
-    border: 2px solid purple;
-    margin-top: 14px;
-    color: #000;
-    border-right: none;
-    font-size: 16px;
-    float: left;
-    padding: 0px;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 10px;
-}
 .btn{
     width: 70px;
     height: 40px;

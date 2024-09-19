@@ -195,19 +195,20 @@ input[type="time"]:focus {
 
 #prev,
 #next {
-  width: 16px;
-  height: 16px;
+  width: 0px;
+  height: 0px;
   border: none;
   background: transparent;
   cursor: pointer;
   position: relative;
+  
 }
 
 #prev::before,
 #next::before {
   content: "";
-  width: 8px;
-  height: 8px;
+  width: 18px;
+  height: 18px;
   position: absolute;
   top: 50%;
   left: 50%;
