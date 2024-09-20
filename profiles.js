@@ -1,139 +1,97 @@
-  
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from"https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+// Import Firebase SDK 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyBuXoW02N61qOyypMF7LTPC6sGo_Aesj3E",
-        authDomain: "clinic-1f6c8.firebaseapp.com",
-        databaseURL: "https://clinic-1f6c8-default-rtdb.firebaseio.com",
-        projectId: "clinic-1f6c8",
-        storageBucket: "clinic-1f6c8.appspot.com",
-        messagingSenderId: "455289222957",
-        appId: "1:455289222957:web:1725d776c536db1b5185a4"
-      };
-      
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "API_KEY",
+  authDomain: "clinic-1f6c8.firebaseapp.com",
+  projectId: "clinic-1f6c8",
+  storageBucket: "clinic-1f6c8.appspot.com",
+  messagingSenderId: "455289222957",
+  appId: "1:455289222957:web:1725d776c536db1b5185a4"
+};
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    //----------references-----------------------//
-    let Name = document.getElementById("name");
-    let Surname = document.getElementById("surname");
-    let Email = document.getElementById("email");
-    let IDNO = document.getElementById("IDNumb");
-    let FileNo = document.getElementById("fileNo");
-    let Address = document.getElementById("address");
-    let Illness = document.getElementById("illness");
-    let GenBox = document.getElementById("Genbox");
+// Wait for the DOM to load before running the script
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+    const updateBtn = document.getElementById('Updbtn');
+    const cancelBtn = document.getElementById('cancelBtn');
 
-    let insBtn = document.getElementById("insbtn");
-    let SelBtn = document.getElementById("Selbtn");
-    let UpdBtn = document.getElementById("Updbtn");
-    let DelBtn = document.getElementById("Delbtn");
+    // Event listener for form submission
+    updateBtn.addEventListener('click', async function (e) {
+        e.preventDefault();  // Prevent default form submission
 
-    //----------ADDING DOCUMENT-----------------------//
-    async function AddDocument_AutoID() {
-        if (!FileNo.value) {
-            alert("Please enter the File Number.");
-            return;
-        }
-        var ref = doc(db, "clinicDB", FileNo.value); 
-
-        try {
-            await setDoc(ref, {
-                pName: Name.value,
-                pSurname: Surname.value,
-                pEmail: Email.value,
-                pIDNO: IDNO.value, 
-                pFileNo: FileNo.value,
-                pAddress: Address.value,
-                pIllness: Illness.value, 
-                Gender: GenBox.value,
-            });
-            alert("Data added successfully");
-        } catch (error) {
-            alert("Unsuccessful operation, error: " + error);
-        }
-    }
-    //----------GET DOC FROM FS-----------------------//
-    async function GetADocument() {
-        if (!FileNo.value) {
-            alert("Please enter the File Number.");
-            return;
-        }
+        if (validateForm()) {
+            const selectedIllnesses = Array.from(document.getElementById('illnesses').selectedOptions)
+            .map(option => option.value);
         
-        var ref = doc(db, "clinicDB", FileNo.value);
+            console.log('Selected illnesses:', selectedIllnesses);  // For testing purposes
 
-        const docSnap = await getDoc(ref);  
+            // Save form data to Firestore
+            const IDNumb = document.getElementById('IDNumb').value;  
+            const ref = doc(db, "clinicDB", IDNumb);
 
-        if (docSnap.exists()) {
-            Name.value = docSnap.data().pName;
-            Surname.value = docSnap.data().pSurname;
-            Email.value = docSnap.data().pEmail; 
-            IDNO.value = docSnap.data().pIDNO;
-            FileNo.value = docSnap.data().pFileNo;
-            Address.value = docSnap.data().pAddress;
-            Illness.value = docSnap.data().pIllness; 
-            GenBox.value = docSnap.data().Gender;
+            try {
+                await setDoc(ref, {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    IDNumb: document.getElementById('IDNumb').value,
+                    dob: document.getElementById('dob').value,
+                    gender: document.getElementById('gender').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    zip: document.getElementById('zip').value,
+                    allergies: document.getElementById('allergies').value,
+                    conditions: document.getElementById('conditions').value,
+                    illnesses: selectedIllnesses,  // Save selected illnesses
+                    medications: document.getElementById('medications').value,
+                    kinName: document.getElementById('kinName').value,
+                    relationship: document.getElementById('relationship').value,
+                    kinPhone: document.getElementById('kinPhone').value,
+                    kinEmail: document.getElementById('kinEmail').value
+                });
+
+                alert("Data successfully submitted!");
+                
+            } catch (error) {
+                alert("Failed to submit data: " + error.message);
+            }
         } else {
-            alert("No such document exists!");
+            alert('Please fill in all required fields!');
         }
+    });
+
+    // Event listener for form cancellation
+    cancelBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to cancel? All data will be cleared.')) {
+            form.reset();
+        }
+    });
+
+    // Form validation function
+    function validateForm() {
+        let isValid = true;
+        const requiredFields = ['firstName', 'lastName', 'IDNumb', 'dob', 'gender', 'email', 'phone', 'address', 'city', 'state', 'zip', 'kinName', 'relationship', 'kinPhone'];
+
+        requiredFields.forEach(function (field) {
+            const input = document.getElementById(field);
+            if (!input.value) {
+                isValid = false;
+                input.style.border = '2px solid red';  // Highlight empty fields
+            } else {
+                input.style.border = '';  // Reset border
+            }
+        });
+
+        return isValid;
     }
-    
-    //----------UPDATING DOC-----------------------//
-    async function UpdateFieldsInADocument() {
-        if (!FileNo.value) {
-            alert("Please enter the File Number.");
-            return;
-        }
-
-        var ref = doc(db, "clinicDB", FileNo.value);
-
-        try {
-            await updateDoc(ref, {
-                pName: Name.value,
-                pSurname: Surname.value,
-                pEmail: Email.value,
-                pIDNO: IDNO.value,
-                pFileNo: FileNo.value,
-                pAddress: Address.value,
-                pIllness: Illness.value,
-                Gender: GenBox.value,
-            });
-            alert("Document updated successfully.");
-        } catch (error) {
-            alert("Failed to update document. Error: " + error.message);
-        }
-    }
-
-    //----------DELETING DOC-----------------------//
-    async function DeleteDocument() {
-        if (!FileNo.value) {
-            alert("Please enter the File Number.");
-            return;
-        }
-
-        var ref = doc(db, "clinicDB", FileNo.value);
-
-        const docSnap = await getDoc(ref);
-        if (!docSnap.exists()) {
-            alert("Document doesn't exist");
-            return;
-        }
-
-        try {
-            await deleteDoc(ref);
-            alert("Data deleted successfully");
-        } catch (error) {
-            alert("Unsuccessful operation, error: " + error);
-        }
-    }
-
-    //----------ASSIGNING EVENTS TO BUTTONS-----------------------//
-    insBtn.addEventListener("click", AddDocument_AutoID);
-    SelBtn.addEventListener("click", GetADocument);  
-    UpdBtn.addEventListener("click", UpdateFieldsInADocument);  
-    DelBtn.addEventListener("click", DeleteDocument); 
+});
