@@ -18,6 +18,7 @@ const db = getFirestore(app);
 
 // Wait for the DOM to load before running the script
 document.addEventListener('DOMContentLoaded', function () {
+
     const form = document.querySelector('form');
     const updateBtn = document.getElementById('Updbtn');
     const cancelBtn = document.getElementById('cancelBtn');
@@ -33,14 +34,14 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Selected illnesses:', selectedIllnesses);  // For testing purposes
 
             // Save form data to Firestore
-            const IDNumb = document.getElementById('IDNumb').value;  
-            const ref = doc(db, "clinicDB", IDNumb);
+            const fileNo = document.getElementById('IDNumb').value;  // Assuming ID Number as File No.
+            const ref = doc(db, "clinicDB", fileNo);
 
             try {
                 await setDoc(ref, {
                     firstName: document.getElementById('firstName').value,
                     lastName: document.getElementById('lastName').value,
-                    IDNumb: document.getElementById('IDNumb').value,
+                    IDNumb: fileNo,
                     dob: document.getElementById('dob').value,
                     gender: document.getElementById('gender').value,
                     email: document.getElementById('email').value,

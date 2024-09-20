@@ -35,7 +35,11 @@ const loginButton = document.getElementById('login-btn');
 // User sign-up function
 signUpButton?.addEventListener('click', (event) => {
     event.preventDefault();
+<<<<<<< HEAD
     const IDNumb =  document.getElementById('IDNumb').value;;
+=======
+
+>>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const fullName = document.getElementById('name').value;
@@ -90,6 +94,10 @@ const Name = document.getElementById("name");
 const Surname = document.getElementById("surname");
 const Email = document.getElementById("email");
 const IDNO = document.getElementById("IDNumb");
+<<<<<<< HEAD
+=======
+const FileNo = document.getElementById("fileNo");
+>>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
 const Address = document.getElementById("address");
 const Illness = document.getElementById("illness");
 const GenBox = document.getElementById("Genbox");
@@ -101,7 +109,11 @@ const DelBtn = document.getElementById("Delbtn");
 
 // ---------- ADD DOCUMENT TO FIRESTORE ------------------- //
 async function AddDocument_AutoID() {
+<<<<<<< HEAD
     const ref = doc(db, "clinicDB", IDNumb.value);
+=======
+    const ref = doc(db, "clinicDB", FileNo.value);
+>>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
 
     try {
         await setDoc(ref, {
@@ -109,6 +121,10 @@ async function AddDocument_AutoID() {
             pSurname: Surname.value,
             pEmail: Email.value,
             pIDNO: IDNO.value,
+<<<<<<< HEAD
+=======
+            pFileNo: FileNo.value,
+>>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
             pAddress: Address.value,
             pIllness: Illness.value,
             Gender: GenBox.value
@@ -121,7 +137,11 @@ async function AddDocument_AutoID() {
 
 // ---------- GET DOCUMENT FROM FIRESTORE ------------------- //
 async function GetADocument() {
+<<<<<<< HEAD
     const ref = doc(db, "clinicDB", IDNumb.value);
+=======
+    const ref = doc(db, "clinicDB", FileNo.value);
+>>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
 
     const docSnap = await getDoc(ref);
     if (docSnap.exists()) {
@@ -129,6 +149,10 @@ async function GetADocument() {
         Surname.value = docSnap.data().pSurname;
         Email.value = docSnap.data().pEmail;
         IDNO.value = docSnap.data().pIDNO;
+<<<<<<< HEAD
+=======
+        FileNo.value = docSnap.data().pFileNo;
+>>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
         Address.value = docSnap.data().pAddress;
         Illness.value = docSnap.data().pIllness;
         GenBox.value = docSnap.data().Gender;
@@ -139,7 +163,11 @@ async function GetADocument() {
 
 // ---------- UPDATE DOCUMENT IN FIRESTORE ------------------- //
 async function UpdateFieldsInADocument() {
+<<<<<<< HEAD
     const ref = doc(db, "clinicDB", IDNumb.value);
+=======
+    const ref = doc(db, "clinicDB", FileNo.value);
+>>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
 
     try {
         await updateDoc(ref, {
@@ -147,6 +175,10 @@ async function UpdateFieldsInADocument() {
             pSurname: Surname.value,
             pEmail: Email.value,
             pIDNO: IDNO.value,
+<<<<<<< HEAD
+=======
+            pFileNo: FileNo.value,
+>>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
             pAddress: Address.value,
             pIllness: Illness.value,
             Gender: GenBox.value
@@ -159,7 +191,11 @@ async function UpdateFieldsInADocument() {
 
 // ---------- DELETE DOCUMENT FROM FIRESTORE ------------------- //
 async function DeleteDocument() {
+<<<<<<< HEAD
     const ref = doc(db, "clinicDB", IDNumb.value);
+=======
+    const ref = doc(db, "clinicDB", FileNo.value);
+>>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
 
     const docSnap = await getDoc(ref);
     if (!docSnap.exists()) {
