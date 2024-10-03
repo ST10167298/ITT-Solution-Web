@@ -4,11 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Registration Form</title>
-    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="form.css">
+    
+    <link rel="stylesheet" href="sidebar.css">
+
+    <style>
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto; /* Allow scrolling */
+}
+
+form fieldset {
+    margin-bottom: 20px;
+}
+
+fieldset {
+    border: 1px solid #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+legend {
+    padding: 0 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-family: 'Bookman Old Style';
+    color: #fff;
+    background-color: #988ead;
+}
+
+label {
+    
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    flex: 1; /* Takes up 1 part of available space */
+    text-align: left;
+    padding-right: 10px; /* Adds space between label and input */
+    color: #fff;
+}
+
+textarea, select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input, select, textarea {
+    width: 50%;
+    max-width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    flex: 2; /* Takes up 2 parts of available space */
+    box-sizing: border-box;
+}
+
+form{
+    width: 45%; /* Set a fixed width percentage */
+    text-align: center; /* Center text horizontally */
+    margin: 20px auto; /* Center horizontally */
+    padding: 10px; /* Optional padding for spacing inside the content */
+    margin-top: 20px; 
+    border-radius: 8px;
+  position: relative;
+  transform: translate(20%);
+  
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;  
+   
+   
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5)50%,rgba(0, 0, 0, 0.5)50%), url(background.jpg);
+}
+
+button {
+    padding: 12px 20px;
+    margin: 10px 0;
+    background-color: #9c99ee;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 150px;
+}
+
+button:hover {background-color: plum;}
+    
+
+    input, select {
+    padding: 12px;
+    width: 100%;
+    margin: 5px 0;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 12px 20px;
+    margin-top: 10px;
+    background-color: #988ead;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: plum;
+}
+
+label {
+    display: inline-block;
+    width: 120px;
+    margin-right: 10px;
+    font-weight: 600;
+    color: #fff;
+}
+    </style>
 </head>
 <body>
 
-    <h2>Patient Registration Form</h2>
+    <div class="sidebar">
+
+        <div class="logo">
+      <a href="#">
+        <img src="logo.jpeg" alt="Logo">
+      </a>
+    </div>
+    <ul>
+        <li><a href="home.html"><i class="fas fa-home"></i> HOME</a></li>
+        <li><a href="signup.html"><i class="fas fa-user-plus"></i> REGISTER</a></li>
+        <li><a href="profiles.html"><i class="fas fa-user"></i> PROFILE</a></li>
+        <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a></li>
+        <li><a href="schedule.html"><i class="fas fa-calendar-plus"></i> SCHEDULE APPOINTMENT</a></li>
+        <li><a href="reschedule.html"><i class="fas fa-calendar-alt"></i> RESCHEDULE APPOINTMENT</a></li>
+        <li><a href="trackApp.html"><i class="fas fa-map-marker-alt"></i> TRACK APPOINTMENT</a></li>
+    </ul>
+    
+        <ul class="logout">
+            <li><a href="dashboard.html"><i class="fas fa-sign-out-alt"></i> LOGOUT</a></li>
+        </ul>
+    </div>
+
     
     <form action="/register" method="POST">
         
@@ -17,13 +173,14 @@
             <legend>Personal Information</legend>
 
             <p><strong>First Name:</strong> <span id="newFName"></span></p>
+            
             <p><strong>Last Name:</strong> <span id="newLName"></span></p>
             <p><strong>Email:</strong> <span id="newEmail"></span></p>
             <p><strong>ID Number:</strong> <span id="IDNumb"></span></p>
           
             <label for="dob">Date of Birth:</label>
             <input type="date" id="dob" name="dob" required>
-
+            <br>
             <label for="gender">Gender:</label>
             <select id="gender" name="gender" required>
                 <option value="">Select Gender</option>
@@ -31,13 +188,13 @@
                 <option value="female">Female</option>
                 <option value="other">Other</option>
             </select>
-
+            <br>
             <!--label for="email">Email:</label>
             <input type="email" id="email" name="email" required-->
 
             <label for="phone">Phone Number:</label>
             <input type="tel" id="phone" name="phone" required>
-
+            <br>
         </fieldset>
 
         <!-- Address Section -->
@@ -46,13 +203,13 @@
 
             <label for="address">Address:</label>
             <input type="text" id="address" name="address" required>
-
+            <br>
             <label for="city">City:</label>
             <input type="text" id="city" name="city" required>
-
+            <br>
             <label for="state">State:</label>
             <input type="text" id="state" name="state" required>
-
+            <br>
             <label for="zip">ZIP Code:</label>
             <input type="text" id="zip" name="zip" required>
 
@@ -64,10 +221,10 @@
 
             <label for="allergies">Allergies:</label>
             <textarea id="allergies" name="allergies" rows="3" placeholder="List any known allergies..."></textarea>
-
+            <br>
             <label for="conditions">Pre-existing Conditions:</label>
             <textarea id="conditions" name="conditions" rows="3" placeholder="List any pre-existing conditions..."></textarea>
-            
+            <br>
             <label for="illnesses">Select Current Conditions:</label>
             <select id="illnesses" name="illnesses" multiple>
                 <option value="HIV/AIDS">HIV/AIDS</option>
@@ -78,7 +235,7 @@
                 <option value="ARTHRITIS">Arthritis</option>
                 <option value="TB">Tuberculosis</option>
             </select>
-
+            <br>
             <label for="medications">Existing Conditions:</label>
             <textarea id="medications" name="medications" rows="3" placeholder="List any current medications..."></textarea>
 
@@ -90,13 +247,13 @@
 
             <label for="kinName">Next of Kin Name:</label>
             <input type="text" id="kinName" name="kinName" required>
-
+            <br>
             <label for="relationship">Relationship:</label>
             <input type="text" id="relationship" name="relationship" required>
-
+            <br>
             <label for="kinPhone">Next of Kin Phone Number:</label>
             <input type="tel" id="kinPhone" name="kinPhone" required>
-
+            <br>
             <label for="kinEmail">Next of Kin Email:</label>
             <input type="email" id="kinEmail" name="kinEmail">
 

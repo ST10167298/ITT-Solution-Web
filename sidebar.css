@@ -1,0 +1,136 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    background-color: #f4f4f9; /* Light background for contrast */
+}
+
+.sidebar {
+    height: 100vh; /* Full viewport height */
+    width: 250px;
+    background-color: #988ead; /* Dark, professional background */
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+.logo {
+    margin-bottom: 50px; /* Spacing below the logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Takes full width of sidebar */
+}
+
+.logo img {
+    max-width: 100px; /* Set the max width of the logo */
+    height: auto;
+    margin-top: 30px;
+    ;
+}
+.sidebar h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.sidebar ul li {
+    margin-bottom: 20px; /* Adds spacing between menu items */
+}
+
+.sidebar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li a i {
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #D3D3D3; /* Subtle hover effect */
+}
+
+.sidebar ul.logout {
+    margin-top: auto;
+}
+
+.sidebar ul.logout li a {
+    background-color: #dc3545; /* Red background for the logout button */
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sidebar ul.logout li a:hover {
+    background-color:  #008000; /* Darker red on hover */
+}
+
+.content {
+    margin-left: 260px;
+    padding: 40px;
+    width: calc(100% - 260px);
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    margin-bottom: 20px;
+    margin-right: 0;
+}
+
+input, select {
+    padding: 12px;
+    width: 100%;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 12px 20px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+label {
+    display: inline-block;
+    width: 120px;
+    margin-right: 10px;
+    font-weight: 600;
+    color: #343a40;
+}
