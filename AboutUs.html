@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration Form</title>
+    <link rel="stylesheet" href="form.css">
+    
+    <link rel="stylesheet" href="sidebar.css">
+
+    <style>
+        html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto; /* Allow scrolling */
+    font-family: Bookman Old Style;
+}
+
+
+.main {
+    margin-top: 5rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 2rem;
+}
+
+.main .info {
+     width: 100%;
+     max-width: 60%;
+     margin-top: -5rem;
+     margin-left: 10rem;
+     text-align: center;
+     color: #333;
+ }
+
+ .main .info h2 {
+     font-size: 2rem;
+     margin-bottom: 1rem;
+ }
+
+ .main .info p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px; 
+  width: 80%;
+  margin-left: 250px;
+}
+
+.card {
+  display: flex;
+  align-items: center;  /* Aligns the image and text vertically centered */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 500%;
+  height: 100%;
+  margin: 20px;
+}
+
+.card img {
+  width: 290px;
+  height: 270px;
+  object-fit: cover;
+  margin-right: 20px;  /* Adds space between the image and text */
+  margin-left: 30px;
+   /* Adds space between the images */
+}
+
+.card .info {
+  flex: 1; /* Ensures the text takes up the remaining space */
+  margin-top: 1px;
+  margin-left: 1px ;
+  
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+}
+
+.card p {
+  color: #777;
+  text-align:center ;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+
+        <div class="logo">
+      <a href="#">
+        <img src="logo.jpeg" alt="Logo">
+      </a>
+    </div>
+    <ul>
+        <li><a href="home.html"><i class="fas fa-home"></i> HOME</a></li>
+        <li><a href="signup.html"><i class="fas fa-user-plus"></i> REGISTER</a></li>
+        <li><a href="profiles.html"><i class="fas fa-user"></i> PROFILE</a></li>
+        <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a></li>
+        <li><a href="schedule.html"><i class="fas fa-calendar-plus"></i> SCHEDULE APPOINTMENT</a></li>
+        <li><a href="reschedule.html"><i class="fas fa-calendar-alt"></i> RESCHEDULE APPOINTMENT</a></li>
+        <li><a href="trackApp.html"><i class="fas fa-map-marker-alt"></i> TRACK APPOINTMENT</a></li>
+    </ul>
+    
+        <ul class="logout">
+            <li><a href="dashboard.html"><i class="fas fa-sign-out-alt"></i> LOGOUT</a></li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <div class="info" >
+            <h1 style="font-size: 3em; font-weight: bold; color:#988ead; border-top: 1px solid #988ead;  border-left: 2px solid #988ead; border-right: 2px solid #988ead; border-bottom: 1px solid #988ead;">About HealthMate</h1>
+            <h2 style=" font-weight: normal; color: #988ead;">Healthy Living, Happy Living</h2>
+
+            <p>
+                Welcome to HealthMate, your dedicated clinic appointment booking platform. We are committed to making healthcare more accessible, efficient, and secure, with a focus on delivering top-quality care to patients with chronic conditions. <br/>Our system transforms how patients interact with medical professionals by streamlining appointment scheduling, follow-up consultations, and medical record-keeping
+            </p><br/><br/><br/>
+        </div>
+
+        <div class="container">
+            <div class="card">
+              <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyQQK_GXEgfJaDNfLou3T94X9M2zdRUHSuL2U2jjXdOsJIQVsWj428I4huGs-rhGc408Q&usqp=CAU" alt="Image 1">
+              <div class="info">
+                <h3 style="color: #988ead;">Our Mission</h3>
+                <p>At HealthMate, we aim to improve the way healthcare is delivered by offering a seamless and user-friendly appointment booking system. We understand the challenges faced by both patients and healthcare professionals and have built a solution that addresses common issues like long wait times, missed appointments, and technical failures.</p><br/><br/>
+              </div>
+            </div>
+          </div><br/><br/><br/><br/>
+
+          <div class="container">
+            <div class="card">
+                <img src="https://schedule.cc/images/blog/appointment-scheduling-solution.png?v=1684144480862882721"  alt="Image 2">
+                <div class="info">
+                  <h3 style="color: #988ead;">Our Solutions</h3>
+                  <p style="width: 100%;" ;>We identified several key areas where clinics like Dr. E. Moosa Clinic face challenges and designed HealthMate to address these issues: <br/>
+
+                    - Simplified Registration: For first-time patients, the system ensures that registration starts at the clinic for a thorough initial consultation and patient file creation. <br/>
+                    - Appointment Scheduling: Our robust system eliminates scheduling conflicts and provides real-time availability updates, helping doctors and patients plan efficiently. <br/>
+                    - Data Security: We implement advanced encryption and access control measures to protect patient information and ensure full compliance with healthcare regulations. <br/>
+                    - Automated Reminders: Patients receive notifications and reminders about upcoming appointments, reducing the chances of missed visits.</p><br/><br/>
+                </div>
+              </div>
+            </div><br/><br/><br/><br/>
+          
+            <div class="container" style="height:350px ;">
+              <div class="card">
+                <img src="https://media.licdn.com/dms/image/D4D12AQG4e4ZXgAT4zQ/article-cover_image-shrink_720_1280/0/1702380421582?e=2147483647&v=beta&t=AJt9mKbKK0NOFS-spjqLn9CQmLxX-XP1lbBfikBt6BY" alt="Image 3">
+                <div class="info">
+                  <h3 style="color: #988ead;">Our Commitment to Excellence</h3>
+                  <p>HealthMate is not just a booking system; it’s a comprehensive solution designed to enhance the overall patient experience while helping healthcare providers manage their time and resources effectively. We work hand-in-hand with clinics like Dr. E. Moosa Clinic to ensure that our system continually meets the needs of the healthcare industry.
+
+                    By improving appointment scheduling, follow-up consultations, and record-keeping, HealthMate ensures that patients get timely care while healthcare providers can focus on delivering the highest standard of treatment.</p>
+                </div>
+              </div>
+            </div><br/><br/><br/>
+
+            <div class="container" style="height:170px ; margin-bottom: 10px;">
+                <div class="card">
+                  <div class="info" >
+                    <p style="color: #988ead; text-align: center; align-items: center; margin-top: 50px;">If you are a patient looking to manage your appointments or a healthcare provider aiming to streamline clinic operations, HealthMate is here to help. Reach out to us or visit Dr. E. Moosa Clinic in Soweto, Chiawelo, for more information</p>
+                  </div>
+                </div>
+              </div><br/><br/><br/><br/><br/>
+    </div>
+</body>
+</html>
