@@ -1,0 +1,75 @@
+<span style="font-family: verdana, geneva, sans-serif;">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <link rel="stylesheet" href="dashboard.css" />
+      <link rel="stylesheet" href="sidebar.css">
+
+    </head>
+    <body>
+
+      <div class="sidebar">
+
+        <div class="logo">
+      <a href="#">
+        <img src="logo.jpeg" alt="Logo">
+      </a>
+    </div>
+    <ul>
+        <li><a href="home.html"><i class="fas fa-home"></i> HOME</a></li>
+        <li><a href="signup.html"><i class="fas fa-user-plus"></i> REGISTER</a></li>
+        <li><a href="profiles.html"><i class="fas fa-user"></i> PROFILE</a></li>
+        <li><a href="DashBoard1.html"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a></li>
+        <li><a href="schedule.html"><i class="fas fa-calendar-plus"></i> SCHEDULE APPOINTMENT</a></li>
+        <li><a href="reschedule.html"><i class="fas fa-calendar-alt"></i> RESCHEDULE APPOINTMENT</a></li>
+        <li><a href="trackApp.html"><i class="fas fa-map-marker-alt"></i> TRACK APPOINTMENT</a></li>
+    </ul>
+    
+        <ul class="logout">
+            <li><a href="dashboard.html"><i class="fas fa-sign-out-alt"></i> LOGOUT</a></li>
+        </ul>
+    </div>
+
+    
+
+    <div class="container">
+      <div class="main">
+        <div class="main-containers">
+          <div class="container-box">
+            <div class="container-header">
+              <i class="fas fa-laptop-code"></i>
+              <h3>Appointment Details</h3>
+            </div>
+            <div class="container-body">
+              <p>Check your upcoming appointment date</p>
+              <button type="button" class="action-btn" onclick="window.location.href='schedule.html'">Click Here</button>
+        
+            </div>
+          </div>
+          
+          <div class="container-box">
+            <div class="container-header">
+              <i class="fas fa-calendar-alt"></i>
+              <h3>Reschedule Appointment</h3>
+            </div>
+            <div class="container-body">
+              <p>Reschedule your missed appointment</p>
+              <button type="button" class="action-btn" onclick="window.location.href='reschedule.html'">Click Here</button>
+            </div>
+          </div>
+    
+          <!-- You can add more container-boxes as needed -->
+        </div>
+      </div>
+    </div>
+    
+
+      <!--script src="./script.js"></script-->
+
+      <script type="module" src="finalScript.js"></script>
+
+      
+    </body>
+    </html>
+</span>
