@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         appointments[selectedDate] = selectedTime;
-        appointmentDetails.innerHTML = `Scheduled Appointment:<br> ${calendar.toDateString()} at ${selectedTime}<br>Time: ${selectedTime}`;
+        appointmentDetails.innerHTML = `Scheduled Appointment:<br> ${calendar.toDateString()} <br>Time: ${selectedTime}`;
 
         // Save appointment to Firestore
         try {
