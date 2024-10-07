@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
     <title>Login</title>
     <link rel="stylesheet" href="style.css">
   
@@ -10,46 +13,41 @@
     <div class="main">
         <div class="navbar">
             <div class="icon"></div>
-            <img src="logo.jpeg" alt="our logo" id="ourlogo">
-            <div class="menu">
-                <ul>
-                    <li><a href="home.html"><i class="fas fa-home"></i> HOME</a></li>
-                    <li><a href="signup.html"><i class="fas fa-user-plus"></i> REGISTER</a></li>
-                    <li><a href="AboutUs.html"><i class="fas fa-user"></i> PROFILE</a></li>
-                    <li><a href="profiles.html"><i class="fas fa-user"></i> PROFILE</a></li>
-                    <li><a href="DashBoard1.html"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a></li>
-                    <li><a href="schedule.html"><i class="fas fa-calendar-plus"></i> SCHEDULE APPOINTMENT</a></li>
-                    <li><a href="reschedule.html"><i class="fas fa-calendar-alt"></i> RESCHEDULE APPOINTMENT</a></li>
-                    <li><a href="trackApp.html"><i class="fas fa-map-marker-alt"></i> TRACK APPOINTMENT</a></li>
-                </ul>
+            <div class="main">   
+                <img src="logo.jpeg" alt="our logo" id="ourlogo">
+                <div class="menu">
+                    <ul>
+                        <li><a href="home.html"><i class="fas fa-home"></i> HOME</a></li>
+                        <li><a href="signup.html"><i class="fas fa-user-plus"></i> REGISTER</a></li>
+                        <li><a href="AboutUs.html"><i class="fas fa-user"></i> ABOUT US</a></li>
+                        <li><a href="profiles.html"><i class="fas fa-user"></i> PROFILE</a></li>
+                        <li><a href="DashBoard1.html"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a></li>
+                        <li><a href="schedule.html"><i class="fas fa-calendar-plus"></i> SCHEDULE APPOINTMENT</a></li>
+                        <li><a href="reschedule.html"><i class="fas fa-calendar-alt"></i> RESCHEDULE APPOINTMENT</a></li>
+                        <li><a href="trackApp.html"><i class="fas fa-map-marker-alt"></i> TRACK APPOINTMENT</a></li>
+                        </ul>
+                    
+                </div>
             </div>
-          
         </div>
-     
         <div class="content">
-            <h1><span>HEALTHMATE</span></h1>
+            <h3 class="welcome-text">Welcome to</h3>
+            <h1><span>Healthmate</span></h1>
             <p class="par">Effortless clinic appointments, healthier you!</p>
-
-            <br>
-            Efficiency and convenience are crucial, particularly in the healthcare industry. <br>
-            HealthMate is a clinic appointment booking system that completely transforms how patients make <br>appointments and communicate with medical professionals. 
-            <br>HealthMate appointment booking system  is well-positioned to fulfill the changing<br> demands of both patients and healthcare professionals.
-        </p>
-
             <div class="form">
                 <h2>LOGIN</h2>
                 <div class="login-form">
                       <input type="email" id="email" placeholder="Enter Email">
                     <input type="password" id="password" placeholder="Enter Password">
 
-                    
-                    <button type="submit" class="log" id="login-btn">LOGIN</button>
-                 
+                    <button type="submit" class="btn" id="login-btn">Login</button>
+ 
                 </div>
                 
             
-                <p class="link">Don't have an account?</p>
-                <button class="cn"><a href="signup.html">Sign up</a></button>
+                <p class="link">Don't have an account?</p><br>
+                <button class="cn"><a href="signup.html">Sign up </a></button>
+               
 
              <!-- This div will display login success or error messages -->
             <div id="loginMessage" style="display:none;"></div>
@@ -57,17 +55,6 @@
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
-<<<<<<< HEAD
-    
-    <!--script type="module" src="./script.js"></script-->
-
-    <script type="module" src="finalScript.js"></script>
-=======
-
-    <!--script type="module" src="./script.js"></script-->
->>>>>>> 2d5ac969bd8e206613c3ab22369a08ac809d504d
- 
-    <script type="module" src="finalScript.js"></script>
-
+   <script type="module" src="finalScript.js"></script>
 </body>
 </html>

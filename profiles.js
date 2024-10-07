@@ -97,7 +97,7 @@ cancelBtn.addEventListener('click', function (e) {
 // Form validation function
 function validateForm() {
     let isValid = true;
-    const requiredFields = ['IDNumb', 'dob', 'gender', 'phone', 'address', 'city', 'state', 'zip', 'kinName', 'relationship', 'kinPhone'];
+    const requiredFields = ['dob', 'gender', 'phone', 'address', 'city', 'state', 'zip', 'kinName', 'relationship', 'kinPhone'];
 
     requiredFields.forEach(function (field) {
         const input = document.getElementById(field);
