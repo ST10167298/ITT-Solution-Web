@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Save appointment to Firestore
         try {
-            await setDoc(doc(db, "clinicDB", selectedDate), {
+            await setDoc(doc(db, "appointment", selectedDate), {
                 time: selectedTime,
                 month: selectedMonth,
                 year: selectedYear

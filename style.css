@@ -94,29 +94,6 @@ ul li a:hover{
            transition:0.5s;
           
 }
-.search{
-    width: 300px;
-    float: left;
-    margin-left: 300px;
-    
-    margin-top: 40px;
-}
-
-.srch{
-    font-family: 'Bookman Old Style';
-    width: 150px;
-    height: 40px;
-    background: transparent;
-    border: 2px solid #988ead;
-    margin-top: 14px;
-    color: #000;
-    border-right: none;
-    font-size: 16px;
-    float: left;
-    padding: 0px;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 10px;
-}
 .btn{
     width: 70px;
     height: 40px;

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        /* Page background and global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8; /* Soft background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container to center the form */
+        form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for modern look */
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Input styling */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Input focus styling */
+        input:focus {
+            border-color: #66bb6a; /* Green outline when focused */
+            box-shadow: 0 0 6px rgba(102, 187, 106, 0.2); /* Subtle green shadow */
+            outline: none;
+        }
+
+        /* Button styling */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: plum; /* Green color for clinic theme */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background-color: purple; /* Slightly darker green on hover */
+        }
+
+        /* Error message styling */
+        #adminLoginMessage {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: red;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <input type="email" id="admin-email" placeholder="Admin Email" required>
+        <input type="password" id="admin-password" placeholder="Admin Password" required>
+        <button id="admin-login-btn" type="submit">Admin Login</button>
+    </form>
+
+    <div id="adminLoginMessage"></div>
+
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

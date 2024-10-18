@@ -78,14 +78,11 @@ loginButton.addEventListener('click', (event) => {
     // Firebase sign-in function
     signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-            window.location.href = 'DashBoard1.html';
+            window.location.href = 'profiles.html';
         })
         .catch((error) => {
             showMessage('Login failed: ' + error.message, 'loginMessage');
         });
-
-
-//----------------------SCHEDULE APPOINTMENT----------------------------//
 
 
 });
