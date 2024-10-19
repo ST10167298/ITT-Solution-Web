@@ -1,21 +1,24 @@
-// Import Firebase SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+// Import the functions you need from the SDKs
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
-// Firebase configuration
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBuXoW02N61qOyypMF7LTPC6sGo_Aesj3E",
-  authDomain: "clinic-1f6c8.firebaseapp.com",
-  databaseURL: "https://clinic-1f6c8-default-rtdb.firebaseio.com",
-  projectId: "clinic-1f6c8",
-  storageBucket: "clinic-1f6c8.appspot.com",
-  messagingSenderId: "455289222957",
-  appId: "1:455289222957:web:1725d776c536db1b5185a4"
+    apiKey: "AIzaSyDXrso01jzfE02Z4lJCcTPTjvH56BXA0co",
+    authDomain: "wilproject-b88e2.firebaseapp.com",
+    databaseURL: "https://wilproject-b88e2-default-rtdb.firebaseio.com",
+    projectId: "wilproject-b88e2",
+    storageBucket: "wilproject-b88e2.appspot.com",
+    messagingSenderId: "910653707810",
+    appId: "1:910653707810:web:9c2943b3c268f6a9b21c7b",
+    measurementId: "G-55LEEY309H"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const auth = getAuth();
+const database = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
     let illnesses = document.getElementById('illnesses');
@@ -34,6 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let appointments = {}; // To store appointments
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
+
+    // Assume you have the IDNumb stored in localStorage
+    const IDNumb = localStorage.getItem('IDNumb'); // Adjust this according to your implementation
 
     // Illness selection logic
     illnesses.addEventListener('change', function() {
@@ -82,50 +88,57 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Schedule appointment logic
-    scheduleBtn.addEventListener('click', async () => {
-        const calendar = new Date();
-        calendar.setDate(calendar.getDate() + daysToAdd);
+// Schedule appointment logic
+scheduleBtn.addEventListener('click', async () => {
+    const calendar = new Date();
+    calendar.setDate(calendar.getDate() + daysToAdd);
 
-        const dayOfWeek = calendar.getDay();
-        if (dayOfWeek === 6) {
-            calendar.setDate(calendar.getDate() + 2);
-        } else if (dayOfWeek === 0) {
-            calendar.setDate(calendar.getDate() + 1);
-        }
+    const dayOfWeek = calendar.getDay();
+    if (dayOfWeek === 6) {
+        calendar.setDate(calendar.getDate() + 2);
+    } else if (dayOfWeek === 0) {
+        calendar.setDate(calendar.getDate() + 1);
+    }
 
-        calendar.setHours(selectedHour);
-        calendar.setMinutes(selectedMin);
+    calendar.setHours(selectedHour);
+    calendar.setMinutes(selectedMin);
 
-        const selectedDate = calendar.toISOString().split("T")[0];
-        const selectedTime = `${selectedHour}:${selectedMin.toString().padStart(2, '0')}`;
-        const selectedMonth = calendar.getMonth() + 1; // Months are zero-indexed
-        const selectedYear = calendar.getFullYear();
+    const selectedDate = calendar.toISOString().split("T")[0];
+    const selectedTime = `${selectedHour}:${selectedMin.toString().padStart(2, '0')}`;
+    const selectedMonth = calendar.getMonth() + 1; // Months are zero-indexed
+    const selectedYear = calendar.getFullYear();
+    
+    // Retrieve the selected illness value
+    const selectedIllness = illnesses.value;
 
-        if (appointments[selectedDate] === selectedTime) {
-            alert("This time slot is already booked. Please select a different time.");
-            return;
-        }
+    if (appointments[selectedDate] === selectedTime) {
+        alert("This time slot is already booked. Please select a different time.");
+        return;
+    }
 
-        appointments[selectedDate] = selectedTime;
-        appointmentDetails.innerHTML = `Scheduled Appointment:<br> ${calendar.toDateString()} <br>Time: ${selectedTime}`;
+    appointments[selectedDate] = selectedTime;
+    appointmentDetails.innerHTML = `Scheduled Appointment:<br> ${calendar.toDateString()} <br>Time: ${selectedTime}`;
 
-        // Save appointment to Firestore
-        try {
-            await setDoc(doc(db, "appointment", selectedDate), {
-                time: selectedTime,
-                month: selectedMonth,
-                year: selectedYear
-            });
-            console.log("Appointment saved to Firestore.");
-        } catch (error) {
-            console.error("Error adding appointment: ", error);
-        }
+    // Save appointment to Firebase Realtime Database with IDNumb in the path
+    try {
+        await set(ref(database, `appointments/${IDNumb}`), {
+            illness: selectedIllness, // Save the selected illness
+            selectedDate,
+            time: selectedTime,
+            month: selectedMonth,
+            year: selectedYear
+        });
+        alert("Appointment saved to the Database.");
+    } catch (error) {
+        alert("Error saving appointment: " + error); // Corrected error handling
+    }
 
-        // Update Calendar View to the month of the scheduled appointment
-        currentMonth = calendar.getMonth();
-        currentYear = calendar.getFullYear();
-        renderCalendar(currentMonth, currentYear);
-    });
+    // Update Calendar View to the month of the scheduled appointment
+    currentMonth = calendar.getMonth();
+    currentYear = calendar.getFullYear();
+    renderCalendar(currentMonth, currentYear);
+});
+
 
     // Function to validate if the time is within the allowed range and in 20-minute intervals
     function validateTime(hour, minute) {

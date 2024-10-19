@@ -1,21 +1,24 @@
-// Import Firebase SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getDatabase, set, ref, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
-// Firebase configuration
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBuXoW02N61qOyypMF7LTPC6sGo_Aesj3E",
-  authDomain: "clinic-1f6c8.firebaseapp.com",
-  databaseURL: "https://clinic-1f6c8-default-rtdb.firebaseio.com",
-  projectId: "clinic-1f6c8",
-  storageBucket: "clinic-1f6c8.appspot.com",
-  messagingSenderId: "455289222957",
-  appId: "1:455289222957:web:1725d776c536db1b5185a4"
+    apiKey: "AIzaSyDXrso01jzfE02Z4lJCcTPTjvH56BXA0co",
+    authDomain: "wilproject-b88e2.firebaseapp.com",
+    databaseURL: "https://wilproject-b88e2-default-rtdb.firebaseio.com",
+    projectId: "wilproject-b88e2",
+    storageBucket: "wilproject-b88e2.appspot.com",
+    messagingSenderId: "910653707810",
+    appId: "1:910653707810:web:9c2943b3c268f6a9b21c7b",
+    measurementId: "G-55LEEY309H"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const auth = getAuth();
+const database = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", async () => {
     const datesContainer = document.querySelector(".dates");

@@ -1,21 +1,24 @@
-// Import Firebase SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
-// Firebase configuration
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBuXoW02N61qOyypMF7LTPC6sGo_Aesj3E",
-  authDomain: "clinic-1f6c8.firebaseapp.com",
-  databaseURL: "https://clinic-1f6c8-default-rtdb.firebaseio.com",
-  projectId: "clinic-1f6c8",
-  storageBucket: "clinic-1f6c8.appspot.com",
-  messagingSenderId: "455289222957",
-  appId: "1:455289222957:web:1725d776c536db1b5185a4"
+    apiKey: "AIzaSyDXrso01jzfE02Z4lJCcTPTjvH56BXA0co",
+    authDomain: "wilproject-b88e2.firebaseapp.com",
+    databaseURL: "https://wilproject-b88e2-default-rtdb.firebaseio.com",
+    projectId: "wilproject-b88e2",
+    storageBucket: "wilproject-b88e2.appspot.com",
+    messagingSenderId: "910653707810",
+    appId: "1:910653707810:web:9c2943b3c268f6a9b21c7b",
+    measurementId: "G-55LEEY309H"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const auth = getAuth();
+const database = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
     const originalDateSelect = document.getElementById('originalDate');
@@ -34,12 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Populate originalDateSelect with available appointment dates from the database
     async function loadOriginalDates() {
         try {
-            const q = query(collection(db, "clinicDB"));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
+            const snapshot = await get(ref(database, 'appointments/'));
+            snapshot.forEach((childSnapshot) => {
+                const appointmentId = childSnapshot.key;
+                const appointmentData = childSnapshot.val();
                 const option = document.createElement('option');
-                option.value = doc.id;
-                option.textContent = new Date(doc.id).toDateString();
+                option.value = appointmentId;
+                option.textContent = new Date(appointmentData.date).toDateString(); // Assuming appointment data contains a 'date'
                 originalDateSelect.appendChild(option);
             });
         } catch (error) {
@@ -77,11 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Handle rescheduling
     rescheduleBtn.addEventListener('click', async () => {
-        const originalDate = originalDateSelect.value;
+        const originalDateId = originalDateSelect.value;
         const newDate = newDateInput.value;
         const newTime = newTimeInput.value;
 
-        if (!originalDate || !newDate || !newTime) {
+        if (!originalDateId || !newDate || !newTime) {
             errorMessage.textContent = "Please select all required fields.";
             errorMessage.style.display = 'block';
             return;
@@ -93,18 +97,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Check if the new date and time are already booked
-            const q = query(collection(db, "clinicDB"), where("date", "==", newDateString), where("time", "==", newTimeString));
-            const querySnapshot = await getDocs(q);
-            
-            if (!querySnapshot.empty) {
+            const snapshot = await get(ref(database, 'appointments/'));
+            let isBooked = false;
+            snapshot.forEach((childSnapshot) => {
+                const appointmentData = childSnapshot.val();
+                if (appointmentData.date === newDateString && appointmentData.time === newTimeString) {
+                    isBooked = true;
+                }
+            });
+
+            if (isBooked) {
                 errorMessage.textContent = "The selected time slot is already booked. Please choose another time.";
                 errorMessage.style.display = 'block';
                 return;
             }
 
             // Check if there is an appointment on the original date to update
-            const originalAppointment = doc(db, "clinicDB", originalDate);
-            const originalDoc = await getDoc(originalAppointment);
+            const originalAppointmentRef = ref(database, `appointments/${originalDateId}`);
+            const originalDoc = await get(originalAppointmentRef);
 
             if (!originalDoc.exists()) {
                 errorMessage.textContent = "Original appointment not found.";
@@ -113,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Update the appointment in the database
-            await setDoc(doc(db, "clinicDB", originalDate), {
+            await set(originalAppointmentRef, {
                 date: newDateString,
                 time: newTimeString
             });
