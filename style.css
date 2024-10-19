@@ -306,8 +306,8 @@ btrn a{
     text-align: center;
 }
 .signup-form {
-    width: 480px;
-    height: 390px;
+    width: 380px;
+    height: 450px;
     background: linear-gradient(to top, rgba(152, 142, 173, 0.8) 100%, rgba(152, 142, 173, 1) 100%);
     position: absolute;
     top: 60%;
@@ -320,9 +320,9 @@ btrn a{
 
 
 .signup-form h2 {
-    width: 220px;
+    width: 250px;
     font-family: Bookman Old Style;
-    text-align: center;
+    text-align: left;
     color: #988ead;
     background: #fff;
     font-size: 22px;
@@ -334,7 +334,7 @@ btrn a{
 
 
 .signup-form input {
-    width: 240px;
+    width: 200px;
     height: 35px;
     background: transparent;
     border-bottom: 1px solid black;
@@ -525,3 +525,4 @@ input[type=radio] {
     width: 10%;
     height: 1em;
     }
+    

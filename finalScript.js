@@ -20,11 +20,31 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getDatabase(app);
 
+
+// Toggle password visibility
+const togglePassword = document.getElementById('togglePassword');
+const password = document.getElementById('password');
+const confirmpassword = document.getElementById('confirm-password');
+
+togglePassword?.addEventListener('click', function () {
+    // Toggle the type attribute of the password and confirm password fields
+    const passwordType = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    const confirmPasswordType = confirmpassword.getAttribute('type') === 'password' ? 'text' : 'password';
+    
+    password.setAttribute('type', passwordType);
+    confirmpassword.setAttribute('type', confirmPasswordType);
+
+    // Toggle the eye icon
+    this.querySelector('i').classList.toggle('fa-eye');
+    this.querySelector('i').classList.toggle('fa-eye-slash');
+});
+
 // Get elements
 const submitData = document.getElementById('submitData');
 const LoginBtn = document.getElementById('LoginBtn');
 const saveBtn = document.getElementById('saveBtn');
 const Updatebtn = document.getElementById('Updatebtn');
+
 // Register new user
 submitData?.addEventListener('click', (e) => {
     e.preventDefault(); // Prevent form submission
@@ -34,7 +54,17 @@ submitData?.addEventListener('click', (e) => {
     const surname = document.getElementById('surname').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const errorDiv = document.getElementById('password-error');
 
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        errorDiv.textContent = 'Passwords do not match. Please try again.'; // Update the error message
+        errorDiv.style.display = 'block'; // Show the error message
+        return; // Exit the function early to prevent user registration
+    } else {
+        errorDiv.style.display = 'none'; // Hide the error message
+    }
     // Register user
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -45,7 +75,8 @@ submitData?.addEventListener('click', (e) => {
                 IDNumb,
                 name,
                 surname,
-                email
+                email,
+                password
             });
         })
         .then(() => {

@@ -1,10 +1,28 @@
-</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Sign Up</title>
     <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+      .password-wrapper {
+      position: relative;
+  }
+  
+  #password {
+      padding-right: 30px; /* Space for the eye icon */
+  }
+  
+  .toggle-password {
+      position: absolute;
+      top: 70%;
+     left: 180px;
+      transform: translateY(-50%);
+      cursor: pointer;
+     font-size: 20px; /* Makes the icon smaller */
+      color: white; /* Makes the icon black */
+  }
+    </style>
 </head>
 <body>
     <div class="navbar">
@@ -22,23 +40,33 @@
                     <li><a href="trackApp.html"><i class="fas fa-map-marker-alt"></i> TRACK APPOINTMENT</a></li>
                 </ul>
             </div>
-          
         </div>
     </div>
     <div class="signup-form">
-        <h2>SIGN UP</h2>
+        <h2>CREATE AN ACCOUNT</h2>
         <form id="submit-sign">
-            
-                <input type="text" id="IDNumb" placeholder="Enter your ID Number" required pattern="\d{8,13}" title="Please enter a valid ID number (13 digits)">
-                <input type="text" id="name" placeholder="Enter Full Name">
-                <input type="text" id="surname" placeholder="Enter Surname">
-                <input type="email" id="email" placeholder="Enter your email address">
-                <input type="password" id="password" placeholder="Enter Password" required>
-                
-          
-                <button type="submit" class="btn" id="submitData" name="submitData" class="registration">Register</button>
- 
-                <script type="module" src="finalScript.js"></script>
+            <input type="text" id="IDNumb" placeholder="Enter your ID Number" required pattern="\d{8,13}" title="Please enter a valid ID number (8-13 digits)">
+            <br><input type="text" id="name" placeholder="Enter Full Name">
+            <br> <input type="text" id="surname" placeholder="Enter Surname">
+            <br><input type="email" id="email" placeholder="Enter your email address">
+            <br><div class="password-wrapper">
+                <input type="password" id="password" placeholder="Enter your password">
+                <span id="togglePassword" class="toggle-password">
+                    <i class="fas fa-eye"></i>
+                </span>
+                </div>
+                <br><div class="password-wrapper">
+            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+            <span id="togglePassword" class="toggle-password">
+                <i class="fas fa-eye"></i>
+            </span>
+            </div>
 
+            <div id="password-error" style="color: red; display: none;">Passwords do not match!</div>
+            <br>
+            <button type="submit" class="btn" id="submitData" name="submitData" class="registration">Register</button>
+        </form>
+        <script type="module" src="finalScript.js"></script>
+    </div>
 </body>
 </html>
