@@ -23,11 +23,12 @@ fieldset {
     border: 1px solid #fff;
     padding: 20px;
     margin-bottom: 20px;
+    font-size: 18px;
 }
 
 legend {
     padding: 0 10px;
-    font-size: 1.2em;
+    font-size: 3em;
     font-weight: bold;
     font-family: 'Bookman Old Style';
     color: #fff;
@@ -39,7 +40,7 @@ label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 18px;
     flex: 1; /* Takes up 1 part of available space */
     text-align: left;
     padding-right: 10px; /* Adds space between label and input */
@@ -89,7 +90,8 @@ body {
     padding: 0;
     display: flex;
     height: 100vh; /* Full viewport height */
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.5)50%,rgba(0, 0, 0, 0.5)50%), url(background.jpg);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.7) 50%), url(background.jpg);
+    background-size: cover; /* Ensures the background image covers the full page */
 }
 
 button {
@@ -137,7 +139,38 @@ label {
     margin-right: 10px;
     font-weight: 600;
     color: #fff;
+   
 }
+
+#illnesses-checkboxes label {
+    display: inline-block;
+    margin-right: 20px;
+    white-space: nowrap; /* Prevent labels from wrapping */
+}
+
+#illnesses-checkboxes {
+    margin-top: 10px;
+}
+label[for="illnesses"] {
+    display: inline-block;
+    width: 80%; /* Ensures it spans the entire width of the container */
+    margin-bottom: 10px; /* Adds space below the label */
+}
+p {
+    font-size: 20px; /* Adjust font size as needed */
+    color: white;
+}
+
+p strong {
+    font-size: 20px; /* Increase the font size of the bold text */
+    color: white;
+}
+
+p span {
+    font-size: 20px; /* Increase the font size of the dynamic content */
+}
+
+
     </style>
 </head>
 <body>
@@ -219,21 +252,22 @@ label {
             <legend>Medical Information</legend>
 
             <label for="allergies">Allergies:</label>
-            <textarea id="allergies" name="allergies" rows="3" placeholder="List any known allergies..."></textarea>
-            <br>
+                <textarea id="allergies" name="allergies" rows="3" placeholder="List any known allergies..."></textarea>
+           <br>
             <label for="conditions">Pre-existing Conditions:</label>
             <textarea id="conditions" name="conditions" rows="3" placeholder="List any pre-existing conditions..."></textarea>
             <br>
+            
             <label for="illnesses">Select Current Conditions:</label>
-            <select id="illnesses" name="illnesses" multiple>
-                <option value="HIV/AIDS">HIV/AIDS</option>
-                <option value="HYPERTENSION">Hypertension</option>
-                <option value="HEART DISEASE">Heart Disease</option>
-                <option value="DIABETES">Diabetes</option>
-                <option value="EPILEPSY">Epilepsy</option>
-                <option value="ARTHRITIS">Arthritis</option>
-                <option value="TB">Tuberculosis</option>
-            </select>
+            <div id="illnesses-checkboxes">
+                <label><input type="checkbox" name="illnesses" value="HIV/AIDS"> HIV/AIDS</label><br>
+                <label><input type="checkbox" name="illnesses" value="HYPERTENSION"> Hypertension</label><br>
+                <label><input type="checkbox" name="illnesses" value="HEART DISEASE"> Heart Disease</label><br>
+                <label><input type="checkbox" name="illnesses" value="DIABETES"> Diabetes</label><br>
+                <label><input type="checkbox" name="illnesses" value="EPILEPSY"> Epilepsy</label><br>
+                <label><input type="checkbox" name="illnesses" value="ARTHRITIS"> Arthritis</label><br>
+                <label><input type="checkbox" name="illnesses" value="TB"> Tuberculosis</label><br>
+            </div>
             <br>
             <label for="medications">Existing Conditions:</label>
             <textarea id="medications" name="medications" rows="3" placeholder="List any current medications..."></textarea>

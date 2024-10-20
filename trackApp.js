@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getDatabase, set, ref, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,16 +28,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
-    let appointments = {}; // To store appointment dates from Firestore
+    let appointments = {}; // To store appointment dates from Firebase
 
-    // Fetch all appointments from Firestore
+    // Fetch all appointments from Firebase Realtime Database
     async function fetchAppointments() {
-        const querySnapshot = await getDocs(collection(db, "clinicDB"));
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const date = new Date(data.year, data.month - 1, parseInt(doc.id.split("-")[2]));
-            appointments[doc.id] = true;
-        });
+        const appointmentsRef = ref(database, "appointments/");
+        const snapshot = await get(appointmentsRef);
+        
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            // Assuming the data is stored with keys like 'YYYY-MM-DD'
+            Object.keys(data).forEach(dateKey => {
+                appointments[dateKey] = true; // Store the appointment dates
+            });
+        } else {
+            console.log("No data available");
+        }
     }
 
     // Render Calendar

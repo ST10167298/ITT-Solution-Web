@@ -168,11 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 //-------------------------------------------- SAVE USER DATA ---------------------------------\\
+// Save button event listener
 saveBtn?.addEventListener('click', async function (e) {
     e.preventDefault();  // Prevent form submission
 
-    const selectedIllnesses = Array.from(document.getElementById('illnesses').selectedOptions)
-        .map(option => option.value);
+    // Get the selected illnesses from the checkboxes
+    const selectedIllnesses = Array.from(document.querySelectorAll('input[name="illnesses"]:checked'))
+        .map(checkbox => checkbox.value);
 
     const IDNumb = document.getElementById('IDNumb').innerText;
     const dob = document.getElementById('dob').value;
@@ -203,7 +205,7 @@ saveBtn?.addEventListener('click', async function (e) {
             zip,
             allergies,
             conditions,
-            illnesses: selectedIllnesses,
+            illnesses: selectedIllnesses, // Store selected illnesses
             medications,
             kinName,
             relationship,
@@ -218,43 +220,40 @@ saveBtn?.addEventListener('click', async function (e) {
 
 
 //-------------------------------------------- UPDATE USER DATA ---------------------------------\\
-
 Updatebtn?.addEventListener('click', async function (e) {
     e.preventDefault();  // Prevent form submission
 
-    // Retrieve the IDNumb from the span element
-    const IDNumb = document.getElementById('IDNumb').textContent.trim(); // Ensure it's a string
+    const IDNumb = document.getElementById('IDNumb').textContent.trim();
 
-    // Retrieve other form field values
+    // Get the selected illnesses from the checkboxes
+    const selectedIllnesses = Array.from(document.querySelectorAll('input[name="illnesses"]:checked'))
+        .map(checkbox => checkbox.value);
+
     const phone = document.getElementById('phone').value;
     const address = document.getElementById('address').value;
     const city = document.getElementById('city').value;
     const state = document.getElementById('state').value;
     const zip = document.getElementById('zip').value;
     const allergies = document.getElementById('allergies').value;
-    const illnesses = Array.from(document.getElementById('illnesses').selectedOptions)
-                          .map(option => option.value); // Retrieve selected illnesses
     const kinName = document.getElementById('kinName').value;
     const relationship = document.getElementById('relationship').value;
     const kinPhone = document.getElementById('kinPhone').value;
     const kinEmail = document.getElementById('kinEmail').value;
 
-
     try {
-        // Save user data to Firebase Realtime Database
+        // Update user data in Firebase Realtime Database
         await update(ref(database, 'userProfile/' + IDNumb), {
-            IDNumb,
-            phone:phone,
-            address:address,
-            city:city,
-            state:state,
-            zip:zip,
-            allergies:allergies,
-            illnesses:illnesses,
-            kinName:kinName,
-            relationship:relationship,
-            kinPhone:kinPhone,
-            kinEmail:kinEmail
+            phone,
+            address,
+            city,
+            state,
+            zip,
+            allergies,
+            illnesses: selectedIllnesses, // Update selected illnesses
+            kinName,
+            relationship,
+            kinPhone,
+            kinEmail,
         });
         alert('Data successfully updated!');
     } catch (error) {
