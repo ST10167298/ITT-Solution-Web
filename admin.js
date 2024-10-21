@@ -1,88 +1,91 @@
-// Import Firebase SDKs  
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, getDocs, collection } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getDatabase, set, ref, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
-// Firebase configuration
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBuXoW02N61qOyypMF7LTPC6sGo_Aesj3E",
-    authDomain: "clinic-1f6c8.firebaseapp.com",
-    databaseURL: "https://clinic-1f6c8-default-rtdb.firebaseio.com",
-    projectId: "clinic-1f6c8",
-    storageBucket: "clinic-1f6c8.appspot.com",
-    messagingSenderId: "455289222957",
-    appId: "1:455289222957:web:1725d776c536db1b5185a4"
+    apiKey: "AIzaSyDXrso01jzfE02Z4lJCcTPTjvH56BXA0co",
+    authDomain: "wilproject-b88e2.firebaseapp.com",
+    databaseURL: "https://wilproject-b88e2-default-rtdb.firebaseio.com",
+    projectId: "wilproject-b88e2",
+    storageBucket: "wilproject-b88e2.appspot.com",
+    messagingSenderId: "910653707810",
+    appId: "1:910653707810:web:9c2943b3c268f6a9b21c7b",
+    measurementId: "G-55LEEY309H"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+const auth = getAuth();
+const database = getDatabase(app);
 
-// Function to display messages
-function showMessage(message, divId) {
-    const displayMessage = document.getElementById(divId);
-    displayMessage.style.display = "block";
-    displayMessage.innerHTML = message;
-    displayMessage.style.opacity = 1;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const adminSignUpBtn = document.getElementById('adminSignUpBtn');
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
 
-// Wait for the DOM to load
-document.addEventListener('DOMContentLoaded', (event) => {
-    // ------------------- ADMIN LOGIN ------------------- //
-    const adminLoginButton = document.getElementById('admin-login-btn');
+    if (adminSignUpBtn) {
+        // Admin signup functionality
+        adminSignUpBtn.addEventListener('click', (e) => {
+            e.preventDefault();
 
-    if (adminLoginButton) {
-        adminLoginButton.addEventListener('click', (event) => {
-            event.preventDefault();
+            const adminEmail = document.getElementById('adminEmail').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+           
+            if (adminPassword !== confirmPassword) {
+                document.getElementById('error').textContent = "Passwords do not match.";
+                document.getElementById('error').style.display = 'block';
+                return;
+            }
 
-            const email = document.getElementById('admin-email').value;
-            const password = document.getElementById('admin-password').value;
+            createUserWithEmailAndPassword(auth, adminEmail, adminPassword)
+                .then((userCredential) => {
+                    const user = userCredential.user;
 
-            // Firebase sign-in function for admin
-            signInWithEmailAndPassword(auth, email, password)
+                    // Store the new admin in the database
+                    return set(ref(database, 'ClinicAdmin/' + user.uid), {
+                        adminEmail,
+                        adminPassword
+                    });
+                })
                 .then(() => {
-                    window.location.href = 'AdminDashBoard.html';
-                    loadAdminData(); // Ensure loadAdminData is called after redirection
+                    // Data saved successfully!
+                    alert('Admin created successfully');
+        
+                    // Redirect to home page
+                    window.location.href = 'AdminLogin.html';
                 })
                 .catch((error) => {
-                    showMessage('Admin login failed: ' + error.message, 'adminLoginMessage');
+                    alert('Error: ' + error.message);
+                });
+        });  // <- Closing this event listener properly
+    }
+
+    if (adminLoginBtn) {
+        // Admin login functionality
+        adminLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+
+                    const adminRef = ref(database, 'ClinicAdmin/' + user.uid);
+                    return get(adminRef);
+                })
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        alert('Admin logged in successfully');
+                        window.location.href = 'AdminDashboard.html';
+                    } 
+                })
+                .catch((error) => {
+                    document.getElementById('admin-error').textContent = error.message;
+                    document.getElementById('admin-error').style.display = 'block';
                 });
         });
-    } 
+    }
 });
-// ------------------- LOAD ADMIN DATA ------------------- //
-function loadAdminData() {
-    // Fetch all appointments for the admin from clinicDB collection
-    const clinicCollectionRef = collection(db, "clinicDB"); // Use collection reference
-
-    getDocs(clinicCollectionRef)
-        .then((querySnapshot) => {
-            const appointmentTable = document.getElementById('appointmentTable'); // Make sure this element exists on AdminDashBoard.html
-            
-            querySnapshot.forEach((docSnap) => {
-                const appointment = docSnap.data(); // Access the document data
-                
-                // Create a new row for each appointment
-                const row = appointmentTable.insertRow();
-                
-                const cell1 = row.insertCell(0);
-                const cell2 = row.insertCell(1);
-                const cell3 = row.insertCell(2);
-                const cell4 = row.insertCell(3);
-                const cell5 = row.insertCell(4);
-                const cell6 = row.insertCell(5);
-                
-                // Populate the row cells with the appointment data
-                cell1.textContent = appointment.IDNumb;
-                cell2.textContent = appointment.email;
-                cell3.textContent = appointment.phone;
-                cell4.textContent = appointment.selectedIllness;
-                cell5.textContent = appointment.appointmentDetails;
-                cell6.textContent = appointment.selectedTime;
-            });
-        })
-        .catch((error) => {
-            showMessage('Error fetching appointments: ' + error.message, 'adminMessage');
-        });
-}
