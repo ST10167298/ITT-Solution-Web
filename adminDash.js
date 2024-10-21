@@ -25,7 +25,7 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         // Load data only if admin is logged in
         loadUserData();
-        loadIllnessesData();
+        //loadIllnessesData();
         loadAppointmentsData();
     } else {
         alert('You must be logged in as an admin to view this page');
@@ -64,29 +64,7 @@ function loadUserData() {
 }
 
 // Load illnesses data
-function loadIllnessesData() {
-    const illnessesRef = ref(database, 'userProfile');
-    
-    get(illnessesRef)
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const illnesses = snapshot.val();
-                const illnessesList = document.getElementById('illnessesList');
-                illnessesList.innerHTML = ''; // Clear the list
 
-                Object.values(illnesses).forEach((illness) => {
-                    const li = document.createElement('li');
-                    li.textContent = illness;
-                    illnessesList.appendChild(li);
-                });
-            } else {
-                alert('No illnesses data found');
-            }
-        })
-        .catch((error) => {
-            alert('Failed to load illnesses data: ' + error.message);
-        });
-}
 
 // Load appointments data
 function loadAppointmentsData() {
