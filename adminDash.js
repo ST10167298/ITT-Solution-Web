@@ -1,7 +1,7 @@
 // Import the necessary Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -63,7 +63,29 @@ function loadCombinedData() {
                     const appointment = appointmentsMap[user.IDNumb];
                     row.insertCell(4).textContent = appointment ? appointment.selectedDate : '';
                     row.insertCell(5).textContent = appointment ? appointment.time : '';
-                    row.insertCell(6).textContent = appointment ? appointment.status : '';
+                    // Add dropdown for appointment status
+                    const statusCell = row.insertCell(6);
+                    const statusSelect = document.createElement('select');
+                    const statuses = ["Pending", "Attended"];
+                    
+                    statuses.forEach(status => {
+                        const option = document.createElement('option');
+                        option.value = status;
+                        option.textContent = status;
+                        if (appointment && appointment.status === status) {
+                            option.selected = true;
+                        }
+                        statusSelect.appendChild(option);
+                    });
+
+                    statusCell.appendChild(statusSelect);
+
+                    // Add a button in the Action column to update the status
+                    const actionCell = row.insertCell(7);
+                    const updateButton = document.createElement('button');
+                    updateButton.textContent = 'Update Status';
+                    updateButton.onclick = () => updateAppointmentStatus(user.IDNumb, statusSelect.value);
+                    actionCell.appendChild(updateButton);
                 });
             } else {
                 alert('No user or appointment data found.');
@@ -71,5 +93,23 @@ function loadCombinedData() {
         })
         .catch((error) => {
             alert('Failed to load data: ' + error.message);
+        });
+}
+// Update appointment status in the database
+function updateAppointmentStatus(appointmentID, newStatus) {
+    const appointmentRef = ref(database, 'appointments/' + appointmentID); // Correct path to the specific appointment
+
+    // Make sure to use the correct Firebase `update` method
+    const updates = {
+        status: newStatus
+    };
+
+    // Use update method from Firebase
+    update(appointmentRef, updates)
+        .then(() => {
+            alert('Appointment status updated successfully');
+        })
+        .catch((error) => {
+            alert('Failed to update status: ' + error.message);
         });
 }
