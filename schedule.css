@@ -314,3 +314,10 @@ input[type="time"]:focus {
   right: 10px;
   cursor: pointer;
 }
+
+
+.dates li.predicted {
+  background-color: yellow; /* Change to desired color */
+  font-weight: bold; /* Optional: Make it bold for emphasis */
+}
+

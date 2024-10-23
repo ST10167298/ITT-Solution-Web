@@ -95,6 +95,7 @@ function loadCombinedData() {
             alert('Failed to load data: ' + error.message);
         });
 }
+
 // Update appointment status in the database
 function updateAppointmentStatus(appointmentID, newStatus) {
     const appointmentRef = ref(database, 'appointments/' + appointmentID); // Correct path to the specific appointment

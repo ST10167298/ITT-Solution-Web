@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -39,6 +39,31 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentYear = new Date().getFullYear();
 
     const newUserId = localStorage.getItem('newUserId');
+
+    if (newUserId) {
+        const userRef = ref(database, 'appointments/' + newUserId);
+
+        get(userRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+
+                    // Display user data on profile page
+                    document.getElementById('IDNumb').textContent = userData.IDNumb;
+                    document.getElementById('illness').textContent = userData.illness;
+                    document.getElementById('selectedDate').textContent = userData.selectedDate;
+                    document.getElementById('time').textContent = userData.time;
+                   
+                } else {
+                    alert("No user data found.");
+                }
+            })
+            .catch((error) => {
+                alert("Error retrieving user data: " + error.message);
+            });
+    } else {
+        alert("No user ID found in local storage.");
+    }
 //alert(newUserId);
 document.getElementById('IDNumb').innerHTML=newUserId;
 
@@ -91,7 +116,7 @@ document.getElementById('IDNumb').innerHTML=newUserId;
         }
     });
 
-    // Schedule appointment logic
+
 // Schedule appointment logic
 scheduleBtn.addEventListener('click', async () => {
     const calendar = new Date();

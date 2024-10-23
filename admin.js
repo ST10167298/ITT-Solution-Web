@@ -89,5 +89,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-//-------------------------LOAD DATA-----------------------//
