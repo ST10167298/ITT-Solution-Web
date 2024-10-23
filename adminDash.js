@@ -23,71 +23,53 @@ const database = getDatabase(app);
 // Ensure only admin can access this page
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // Load data only if admin is logged in
-        loadUserData();
-        //loadIllnessesData();
-        loadAppointmentsData();
+        loadCombinedData();
     } else {
         alert('You must be logged in as an admin to view this page');
         window.location.href = 'AdminLogin.html'; // Redirect to login if not logged in
     }
 });
 
-// Load user data
-function loadUserData() {
+// Load and join user data and appointments data
+function loadCombinedData() {
     const userRef = ref(database, 'userProfile');
-    
-    get(userRef)
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const users = snapshot.val();
-                const userTableBody = document.getElementById('userTable').querySelector('tbody');
-                userTableBody.innerHTML = ''; // Clear table before appending new rows
+    const appointmentsRef = ref(database, 'appointments');
 
-                Object.values(users).forEach((user) => {
-                    const row = userTableBody.insertRow();
+    Promise.all([get(userRef), get(appointmentsRef)])
+        .then(([userSnapshot, appointmentsSnapshot]) => {
+            if (userSnapshot.exists() && appointmentsSnapshot.exists()) {
+                const users = userSnapshot.val();
+                const appointments = appointmentsSnapshot.val();
+
+                // Create a map of appointments by ID number for quick lookup
+                const appointmentsMap = {};
+                Object.values(appointments).forEach(appointment => {
+                    appointmentsMap[appointment.IDNumb] = appointment;
+                });
+
+                const combinedTableBody = document.getElementById('combinedTable').querySelector('tbody');
+                combinedTableBody.innerHTML = ''; // Clear the table before adding new rows
+
+                // Iterate through users and match with appointments
+                Object.values(users).forEach(user => {
+                    const row = combinedTableBody.insertRow();
+
                     row.insertCell(0).textContent = user.IDNumb || '';
                     row.insertCell(1).textContent = user.email || '';
                     row.insertCell(2).textContent = user.phone || '';
                     row.insertCell(3).textContent = user.illnesses || '';
-                    row.insertCell(4).textContent = user.appointmentDate || '';
-                    row.insertCell(5).textContent = user.time || '';
-                    row.insertCell(6).textContent = user.appointmentStatus || '';
+
+                    // Find matching appointment by ID number
+                    const appointment = appointmentsMap[user.IDNumb];
+                    row.insertCell(4).textContent = appointment ? appointment.selectedDate : '';
+                    row.insertCell(5).textContent = appointment ? appointment.time : '';
+                    row.insertCell(6).textContent = appointment ? appointment.status : '';
                 });
             } else {
-                alert('No user data found');
+                alert('No user or appointment data found.');
             }
         })
         .catch((error) => {
-            alert('Failed to load user data: ' + error.message);
-        });
-}
-
-// Load illnesses data
-
-
-// Load appointments data
-function loadAppointmentsData() {
-    const appointmentsRef = ref(database, 'appointments');
-    
-    get(appointmentsRef)
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                const appointments = snapshot.val();
-                const appointmentsList = document.getElementById('appointmentsList');
-                appointmentsList.innerHTML = ''; // Clear the list
-
-                Object.values(appointments).forEach((appointment) => {
-                    const li = document.createElement('li');
-                    li.textContent = `Appointment with ${appointment.name} on ${appointment.date} at ${appointment.time}`;
-                   
-                    appointmentsList.appendChild(li);
-                });
-            } else {
-                alert('No appointments data found');
-            }
-        })
-        .catch((error) => {
-            alert('Failed to load appointments data: ' + error.message);
+            alert('Failed to load data: ' + error.message);
         });
 }
