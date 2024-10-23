@@ -38,8 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
 
-    // Assume you have the IDNumb stored in localStorage
-    const IDNumb = localStorage.getItem('IDNumb'); // Adjust this according to your implementation
+    const newUserId = localStorage.getItem('newUserId');
+//alert(newUserId);
+document.getElementById('IDNumb').innerHTML=newUserId;
 
     // Illness selection logic
     illnesses.addEventListener('change', function() {
@@ -66,6 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
             case "TB":
                 daysToAdd = 60;
                 break;
+            case "MORE THAN 1":
+                daysToAdd = 25;
+                 break;
         }
     });
 
@@ -102,7 +106,7 @@ scheduleBtn.addEventListener('click', async () => {
 
     calendar.setHours(selectedHour);
     calendar.setMinutes(selectedMin);
-
+    const IDNumb = document.getElementById('IDNumb').innerText;
     const selectedDate = calendar.toISOString().split("T")[0];
     const selectedTime = `${selectedHour}:${selectedMin.toString().padStart(2, '0')}`;
     const selectedMonth = calendar.getMonth() + 1; // Months are zero-indexed
@@ -122,11 +126,12 @@ scheduleBtn.addEventListener('click', async () => {
     // Save appointment to Firebase Realtime Database with IDNumb in the path
     try {
         await set(ref(database, `appointments/${IDNumb}`), {
-            illness: selectedIllness, // Save the selected illness
+            IDNumb,
+           illness: selectedIllness, // Save the selected illness
             selectedDate,
             time: selectedTime,
-            month: selectedMonth,
-            year: selectedYear
+            //month: selectedMonth,
+            //year: selectedYear
         });
         alert("Appointment saved to the Database.");
     } catch (error) {

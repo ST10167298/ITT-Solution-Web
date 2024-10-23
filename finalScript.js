@@ -138,32 +138,36 @@ LoginBtn?.addEventListener('click', (e) => {
         });
 });
 
-// Retrieve user data on the profile page
+//------------Retrieve user data on the profile page-----------------//
+//------------Retrieve user data on the profile page-----------------//
 document.addEventListener('DOMContentLoaded', () => {
-    const newUserId = localStorage.getItem('newUserId');
+    // Check if the current page is profiles.html
+    if (window.location.pathname.includes('profiles.html')) {
+        const newUserId = localStorage.getItem('newUserId');
 
-    if (newUserId) {
-        const userRef = ref(database, 'users/' + newUserId);
+        if (newUserId) {
+            const userRef = ref(database, 'users/' + newUserId);
 
-        get(userRef)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const userData = snapshot.val();
+            get(userRef)
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
 
-                    // Display user data on profile page
-                    document.getElementById('name').textContent = userData.name;
-                    document.getElementById('surname').textContent = userData.surname;
-                    document.getElementById('email').textContent = userData.email;
-                    document.getElementById('IDNumb').textContent = userData.IDNumb;
-                } else {
-                    alert("No user data found.");
-                }
-            })
-            .catch((error) => {
-                alert("Error retrieving user data: " + error.message);
-            });
-    } else {
-        alert("No user ID found in local storage.");
+                        // Display user data on profile page
+                        document.getElementById('name').textContent = userData.name;
+                        document.getElementById('surname').textContent = userData.surname;
+                        document.getElementById('email').textContent = userData.email;
+                        document.getElementById('IDNumb').textContent = userData.IDNumb;
+                    } else {
+                        alert("No user data found.");
+                    }
+                })
+                .catch((error) => {
+                    alert("Error retrieving user data: " + error.message);
+                });
+        } else {
+            alert("No user ID found in local storage.");
+        }
     }
 });
 
@@ -177,6 +181,7 @@ saveBtn?.addEventListener('click', async function (e) {
         .map(checkbox => checkbox.value);
 
     const IDNumb = document.getElementById('IDNumb').innerText;
+    const email = document.getElementById('email').innerText;
     const dob = document.getElementById('dob').value;
     const gender = document.getElementById('gender').value;
     const phone = document.getElementById('phone').value;
@@ -196,6 +201,7 @@ saveBtn?.addEventListener('click', async function (e) {
         // Save user data to Firebase Realtime Database
         await set(ref(database, 'userProfile/' + IDNumb), {
             IDNumb,
+            email,
             dob,
             gender,
             phone,

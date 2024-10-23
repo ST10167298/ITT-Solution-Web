@@ -30,6 +30,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     let currentYear = new Date().getFullYear();
     let appointments = {}; // To store appointment dates from Firebase
 
+    
+    const newUserId = localStorage.getItem('newUserId');
+//alert(newUserId);
+document.getElementById('IDNumb').innerHTML=newUserId;
+
     // Fetch all appointments from Firebase Realtime Database
     async function fetchAppointments() {
         const appointmentsRef = ref(database, "appointments/");

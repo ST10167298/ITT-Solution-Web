@@ -21,7 +21,7 @@ const auth = getAuth();
 const database = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", () => {
-    const originalDateSelect = document.getElementById('originalDate');
+    const selectedDate = document.getElementById('selectedDate');
     const newDateInput = document.getElementById('newDate');
     const newTimeInput = document.getElementById('newTime');
     const rescheduleBtn = document.getElementById('rescheduleBtn');
@@ -34,6 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedHour = 0;
     let selectedMin = 0;
 
+    const newUserId = localStorage.getItem('newUserId');
+//alert(newUserId);
+document.getElementById('IDNumb').innerHTML=newUserId;
     // Populate originalDateSelect with available appointment dates from the database
     async function loadOriginalDates() {
         try {
@@ -43,8 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const appointmentData = childSnapshot.val();
                 const option = document.createElement('option');
                 option.value = appointmentId;
-                option.textContent = new Date(appointmentData.date).toDateString(); // Assuming appointment data contains a 'date'
-                originalDateSelect.appendChild(option);
+                option.textContent = new Date(appointmentData.selectedDate).toDateString(); // Assuming appointment data contains a 'date'
+                selectedDate.appendChild(option);
             });
         } catch (error) {
             console.error("Error loading original dates: ", error);
@@ -124,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Update the appointment in the database
             await set(originalAppointmentRef, {
-                date: newDateString,
+                selectedDate: newDateString,
                 time: newTimeString
             });
 
