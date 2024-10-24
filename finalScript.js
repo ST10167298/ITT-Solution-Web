@@ -55,6 +55,8 @@ submitData?.addEventListener('click', (e) => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
+    const role = document.getElementById('role').value; // Get selected role
+
     const errorDiv = document.getElementById('password-error');
 
     // Check if passwords match
@@ -76,7 +78,8 @@ submitData?.addEventListener('click', (e) => {
                 name,
                 surname,
                 email,
-                password
+                password,
+                role
             });
         })
         .then(() => {
@@ -123,9 +126,16 @@ LoginBtn?.addEventListener('click', (e) => {
                         // Store IDNumb in localStorage
                         localStorage.setItem('newUserId', foundUser.IDNumb);
 
-                        alert('User logged in successfully');
-                        window.location.href = 'profiles.html';  // Redirect to a profile or home page
-                    } else {
+                          // Redirect based on role
+                          if (foundUser.role === 'admin') {
+                            alert('Admin logged in successfully');
+                            window.location.href = 'adminDashboard.html'; // Redirect to admin dashboard
+                        } else {
+                            alert('User logged in successfully');
+                            window.location.href = 'profiles.html'; // Redirect to user dashboard
+                        }
+                    }
+                       else {
                         alert('No matching user found');
                     }
                 } else {
