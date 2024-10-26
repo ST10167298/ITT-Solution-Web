@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 // Your web app's Firebase configuration
@@ -136,3 +136,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     await fetchAppointments();
     renderCalendar(currentMonth, currentYear);
 });
+
+
+    // Logout function
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn?.addEventListener('click', () => {
+        signOut(auth).then(() => {
+            localStorage.removeItem('newUserId'); // Clear IDNumb from localStorage
+            alert('Logged out successfully');
+            window.location.href = 'home.html'; // Redirect to login page
+        }).catch((error) => {
+            alert('Error logging out: ' + error.message);
+        });
+    });

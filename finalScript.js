@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getDatabase, set, ref, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 // Your web app's Firebase configuration
@@ -129,7 +129,7 @@ LoginBtn?.addEventListener('click', (e) => {
                           // Redirect based on role
                           if (foundUser.role === 'admin') {
                             alert('Admin logged in successfully');
-                            window.location.href = 'adminDashboard.html'; // Redirect to admin dashboard
+                            window.location.href = 'admin.html'; // Redirect to admin dashboard
                         } else {
                             alert('User logged in successfully');
                             window.location.href = 'profiles.html'; // Redirect to user dashboard
@@ -276,3 +276,14 @@ Updatebtn?.addEventListener('click', async function (e) {
         alert('Failed to update data: ' + error.message);
     }
 });
+    // Logout function
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn?.addEventListener('click', () => {
+        signOut(auth).then(() => {
+            localStorage.removeItem('newUserId'); // Clear IDNumb from localStorage
+            alert('Logged out successfully');
+            window.location.href = 'home.html'; // Redirect to login page
+        }).catch((error) => {
+            alert('Error logging out: ' + error.message);
+        });
+    });

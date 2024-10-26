@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 // Your web app's Firebase configuration
@@ -39,15 +39,20 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById('IDNumb').innerHTML=newUserId;
     // Populate originalDateSelect with available appointment dates from the database
     async function loadOriginalDates() {
+        const newUserId = localStorage.getItem('newUserId'); // Get logged-in user's IDNumb
+    
         try {
             const snapshot = await get(ref(database, 'appointments/'));
             snapshot.forEach((childSnapshot) => {
-                const appointmentId = childSnapshot.key;
                 const appointmentData = childSnapshot.val();
-                const option = document.createElement('option');
-                option.value = appointmentId;
-                option.textContent = new Date(appointmentData.selectedDate).toDateString(); // Assuming appointment data contains a 'date'
-                selectedDate.appendChild(option);
+                
+                // Check if the appointment belongs to the logged-in user
+                if (appointmentData.IDNumb === newUserId) {
+                    const option = document.createElement('option');
+                    option.value = childSnapshot.key;
+                    option.textContent = new Date(appointmentData.selectedDate).toDateString(); // Format the date
+                    selectedDate.appendChild(option);
+                }
             });
         } catch (error) {
             console.error("Error loading original dates: ", error);
@@ -146,3 +151,16 @@ document.getElementById('IDNumb').innerHTML=newUserId;
     // Load original appointment dates
     loadOriginalDates();
 });
+
+
+    // Logout function
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn?.addEventListener('click', () => {
+        signOut(auth).then(() => {
+            localStorage.removeItem('newUserId'); // Clear IDNumb from localStorage
+            alert('Logged out successfully');
+            window.location.href = 'home.html'; // Redirect to login page
+        }).catch((error) => {
+            alert('Error logging out: ' + error.message);
+        });
+    });
