@@ -11,7 +11,7 @@ body {
 .container {
     background-color: white;
     padding: 20px;
-    margin-top: 9rem;
+    margin-top: 10rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 400px;
@@ -91,6 +91,7 @@ h3 {
   margin-bottom: 1.5rem;
   max-width: 500px;
   width: 100%;
+  height: 180x;
 }
 
 input[type="time"] {
