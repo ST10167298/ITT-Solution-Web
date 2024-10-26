@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 // Your web app's Firebase configuration
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (snapshot.exists()) {
                     const userData = snapshot.val();
 
-                    // Display user data on profile page
+                    // Display user details
                     document.getElementById('IDNumb').textContent = userData.IDNumb;
                     document.getElementById('illness').textContent = userData.illness;
                     document.getElementById('selectedDate').textContent = userData.selectedDate;
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             })
             .catch((error) => {
-                alert("Error retrieving user data: " + error.message);
+              //  alert("Error retrieving user data: " + error.message);
             });
     } else {
         alert("No user ID found in local storage.");
@@ -235,4 +235,17 @@ scheduleBtn.addEventListener('click', async () => {
 
     // Initialize Calendar
     renderCalendar(currentMonth, currentYear);
+    
 });
+
+    // Logout function
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn?.addEventListener('click', () => {
+        signOut(auth).then(() => {
+            localStorage.removeItem('newUserId'); // Clear IDNumb from localStorage
+            alert('Logged out successfully');
+            window.location.href = 'home.html'; // Redirect to login page
+        }).catch((error) => {
+            alert('Error logging out: ' + error.message);
+        });
+    });

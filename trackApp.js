@@ -1,4 +1,4 @@
-// Import the functions you need from the SDKs you need
+// Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
@@ -28,21 +28,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
-    let appointments = {}; // To store appointment dates from Firebase
+    let appointments = {}; // Store appointment dates from Firebase
 
     const newUserId = localStorage.getItem('newUserId');
     document.getElementById('IDNumb').innerHTML = newUserId;
 
-    // Fetch all appointments from Firebase Realtime Database
+    // Fetch all appointments from Firebase
     async function fetchAppointments() {
         try {
             const snapshot = await get(ref(database, 'appointments/'));
             if (snapshot.exists()) {
                 snapshot.forEach((childSnapshot) => {
-                    const appointmentId = childSnapshot.key;
                     const appointmentData = childSnapshot.val();
                     const appointmentDate = new Date(appointmentData.selectedDate).toISOString().split('T')[0];
-                    appointments[appointmentDate] = true; // Mark this date as having an appointment
+                    appointments[appointmentDate] = true; // Mark as an appointment
                 });
             } else {
                 console.log("No appointments found.");
@@ -52,25 +51,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // Calculate specific future appointment dates based on daysToAdd
-    function predictFutureAppointments(daysToAdd) {
+    // Predict appointments for the next four months
+    function predictFutureAppointments() {
         const futureAppointments = {};
         const today = new Date();
 
-        // Loop through the existing appointments
-        for (const date in appointments) {
-            const appointmentDate = new Date(date);
-            // Calculate the future date
-            const futureDate = new Date(appointmentDate);
-            futureDate.setDate(futureDate.getDate() + daysToAdd);
-            futureAppointments[futureDate.toISOString().split('T')[0]] = true; // Mark predicted future appointment
+        for (let i = 0; i < 4; i++) {
+            const futureMonth = new Date(today.setMonth(today.getMonth() + 1));
+            const monthString = futureMonth.toISOString().split('T')[0].slice(0, 7); // Format YYYY-MM
+
+            // Add the first day of each upcoming month as a placeholder future appointment
+            const futureDate = `${monthString}-01`;
+            futureAppointments[futureDate] = true;
         }
 
         return futureAppointments;
     }
 
     // Render Calendar
-    async function renderCalendar(month, year, daysToAdd = 0) {
+    async function renderCalendar(month, year) {
         datesContainer.innerHTML = ''; // Clear existing dates
         const firstDay = new Date(year, month).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -84,8 +83,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             datesContainer.appendChild(li);
         }
 
-        // Highlight existing and future predicted appointments
-        const futureAppointments = predictFutureAppointments(daysToAdd);
+        // Fetch predicted appointments
+        const futureAppointments = predictFutureAppointments();
 
         // Fill in the days of the month
         for (let i = 1; i <= daysInMonth; i++) {
@@ -94,16 +93,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const dateString = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
 
-            // Highlight dates with existing appointments
+            // Highlight existing appointments
             if (appointments[dateString]) {
                 li.classList.add('appointment');
-                li.title = "You have an appointment on this day"; // Optional: Add a tooltip
+                li.title = "Appointment day"; // Tooltip
             }
 
-            // Highlight only the specific predicted appointment dates
+            // Highlight future predicted appointment dates
             if (futureAppointments[dateString]) {
                 li.classList.add('predicted');
-                li.title = "Predicted appointment date"; // Optional: Add a tooltip for predicted dates
+                li.title = "Predicted appointment date";
             }
 
             if (new Date().toDateString() === new Date(year, month, i).toDateString()) {
@@ -121,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             currentMonth = 11;
             currentYear--;
         }
-        renderCalendar(currentMonth, currentYear, 30); // Adjust daysToAdd here
+        renderCalendar(currentMonth, currentYear);
     });
 
     nextBtn.addEventListener('click', () => {
@@ -130,10 +129,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             currentMonth = 0;
             currentYear++;
         }
-        renderCalendar(currentMonth, currentYear, 30); // Adjust daysToAdd here
+        renderCalendar(currentMonth, currentYear);
     });
 
     // Fetch appointments and render the calendar
     await fetchAppointments();
-    renderCalendar(currentMonth, currentYear, 30); // Adjust daysToAdd here
+    renderCalendar(currentMonth, currentYear);
 });

@@ -1,94 +1,91 @@
-<span style="font-family: verdana, geneva, sans-serif;">
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <link rel="stylesheet" href="dashboard.css" />
-      <link rel="stylesheet" href="sidebar.css">
-
-    </head>
-    <body>
-
-      <div class="sidebar">
-
-        <div class="logo">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
       <a href="#">
         <img src="logo.jpeg" alt="Logo">
       </a>
     </div>
     <ul>
-        <li><a href="home.html"><i class="fas fa-home"></i> HOME</a></li>
-        <li><a href="signup.html"><i class="fas fa-user-plus"></i> REGISTER</a></li>
-        <li><a href="AboutUs.html"><i class="fas fa-user"></i> PROFILE</a></li>
-        <li><a href="profiles.html"><i class="fas fa-user"></i> PROFILE</a></li>
-        <li><a href="DashBoard1.html"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a></li>
-        <li><a href="schedule.html"><i class="fas fa-calendar-plus"></i> SCHEDULE APPOINTMENT</a></li>
-        <li><a href="reschedule.html"><i class="fas fa-calendar-alt"></i> RESCHEDULE APPOINTMENT</a></li>
-        <li><a href="trackApp.html"><i class="fas fa-map-marker-alt"></i> TRACK APPOINTMENT</a></li>
+      <li><a href="home.html"><i class="fas fa-home"></i> HOME</a></li>
+      <li><a href="signup.html"><i class="fas fa-user-plus"></i> REGISTER</a></li>
+      <li><a href="AboutUs.html"><i class="fas fa-user"></i> ABOUT US</a></li>
+      <li><a href="profiles.html"><i class="fas fa-user"></i> PROFILE</a></li>
+      <li><a href="DashBoard1.html"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a></li>
     </ul>
-    
-        <ul class="logout">
-            <li><a href="dashboard.html"><i class="fas fa-sign-out-alt"></i> LOGOUT</a></li>
-        </ul>
-    </div>
+    <ul class="logout">
+      <br><br><br><br>
+      <button style="background-color: #988ead; width: 130px; height: 40px; font-size: 18px; " type="submit" class="btn" id="logoutBtn" name="logoutBtn" class="logoutBtn">LOGOUT</button>
+   </ul>
+  </div>
 
-    
-
-    <div class="container">
-      <div class="main">
-        <div class="main-containers">
-          <div class="container-box">
-            <div class="container-header">
-              <i class="fas fa-laptop-code"></i>
-              <h3>Appointment Details</h3>
-            </div>
-            <div class="container-body">
-              <p>Check your upcoming appointment date</p>
+  <div class="container">
+    <div class="main">
+      <div class="main-containers">
+        <!-- Existing Container: Appointment Details -->
+        <div class="container-box">
+          <div class="container-header">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Appointment Details</h3> <br>
+          </div>
+          <div class="container-body">
             <p><strong>ID Number:</strong> <span id="IDNumb"></span></p>
             <p><strong>Illness:</strong> <span id="illness"></span></p>
             <p><strong>Date:</strong> <span id="selectedDate"></span></p>
             <p><strong>Time:</strong> <span id="time"></span></p>
-            
-        
-              <button type="button" class="action-btn" onclick="window.location.href='schedule.html'">Click Here</button>
-        
-            </div>
+          </div>
+        </div>
+
+        <div class="container-box">
+          <div class="container-header">
+            <i class="fas fa-calendar-alt"></i>
+            <h3>Schedule an appointment</h3>
+            <br>
+        </div>
+          <div class="container-body">
+            <p>Book an appointment efficiently.</p>
+           <button style="width: 130px; height: 40px;    background-color: #988ead; border: none; border-radius: 10px; color: #fff; font-size: 16px; cursor: pointer; transition: 0.4s ease;" 
+           onclick="window.location.href='schedule.html'">Click Here</button>
+          </div>
+        </div>
+
+        <div class="container-box">
+          <div class="container-header">
+            <i class="fas fa-history"></i>
+            <h3> Reschedule Appointment</h3>
+          </div>
+          <div class="container-body"><br>
+            <p>View your previous appointment and reschedule if necessary.</p>
+            <button style="width: 130px; height: 40px;     background-color: #988ead; border: none; border-radius: 10px; color: #fff; font-size: 16px; cursor: pointer; transition: 0.4s ease;" 
+           onclick="window.location.href='reschedule.html'">Click Here</button>
+          </div>
+        </div>
+
+        <div class="container-box">
+          <div class="container-header">
+            <i class="fas fa-bell"></i>
+            <h3>Track Appointments</h3>
+          </div>
+          <div class="container-body"> <br>
+            <p>Track and manage your future appointments efficiently.</p>
+            <button style="width: 130px; height: 40px;     background-color: #988ead; border: none; border-radius: 10px; color: #fff; font-size: 16px; cursor: pointer; transition: 0.4s ease;" 
+            onclick="window.location.href='trackApp.html'">Click Here</button>
           </div>
           
-          <div class="container-box">
-            <div class="container-header">
-              <i class="fas fa-calendar-alt"></i>
-              <h3>Reschedule Appointment</h3>
-            </div>
-            <div class="container-body">
-              <p>Reschedule your missed appointment</p>
-              <button type="button" class="action-btn" onclick="window.location.href='reschedule.html'">Click Here</button>
-            </div>
-          </div>
-    
-
-          <div class="container" style="display: flex; justify-content: center; align-items: flex-start; height: 100vh; margin-top: 20px;"> <!-- Adjusted the top margin -->
-            <div class="main" style="display: flex; justify-content: center; align-items: center; width: 100%;">
-              <div class="main-containers" style="display: flex; justify-content: center; align-items: flex-start;">
-                <div class="container-box" style="width: 400px; height: 300px; background: #fff; border-radius: 20px; box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; justify-content: space-between; padding: 20px;">
-                  <div class="container-header" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <i class="fas fa-laptop-code" style="font-size: 40px; color: #666; padding-bottom: 10px;"></i>
-                    <h3 style="font-size: 24px; text-transform: capitalize; color: #333;">Track Appointments</h3>
-                  </div>
-                  <div class="container-body" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
-                    <p style="font-size: 16px; color: #777; margin-bottom: 20px; text-align: center;">Check your upcoming appointment dates</p>
-                    <button type="button" class="action-btn" style="width: 160px; height: 45px; background-color: purple; border: none; border-radius: 10px; color: #fff; font-size: 18px; cursor: pointer; transition: 0.4s ease;" onclick="window.location.href='trackApp.html'">Click Here</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-      <!--script src="./script.js"></script-->
-
-      <script type="module" src="schedule.js"></script>
-
-      
-    </body>
-    </html>
-</span>
+        </div>
+        
+      </div>
+     
+    </div>
+  </div>
+  
+  
+ <script type="module" src="schedule.js"></script>
+</body>
+</html>

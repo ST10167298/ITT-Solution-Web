@@ -97,7 +97,7 @@ ul li a:hover{
 .btn{
     width: 70px;
     height: 40px;
-    background: #988ead;
+    background: plum;
     border: 2px solid #988ead;
     margin-top: 14px;
     color: #000;
@@ -108,7 +108,7 @@ ul li a:hover{
     cursor: pointer;
 }
 .btn:hover{
-    background-color: plum;
+    background-color: #988ead;
 }
 
 .btn:focus{
@@ -159,7 +159,7 @@ ul li a:hover{
 .content .cn {
     width: 160px;
     height: 30px;
-    background-color: transparent; /* Removed background color */
+    background-color: purple; /* Removed background color */
     border: none;
     margin-bottom: 10px;
     margin-left: 20px;
@@ -173,12 +173,12 @@ ul li a:hover{
 
 .content .cn a {
     text-decoration: none;
-    color: plum; /* Changed color to plum */
+    color: black; /* Changed color to plum */
     transition: .3s ease;
 }
 
 .cn:hover {
-    background-color: #fff;
+    background-color: purple;
     color: #000;
 }
 
@@ -243,16 +243,16 @@ ul li a:hover{
     font-family: Bookman Old Style;
 }
 
-.btrn{
-    width: 240px;
-    height: 40px;
-    background: plum;
+.btn{
+    width: 150px;
+    height: 30px;
+    background: purple;
     border: none;
     margin-top: 30px;
     font-size: 18px;
     border-radius: 10px;
     cursor: pointer;
-    color:#fff;
+    color: black;
 }
 .btn:hover{
     background: plum;
@@ -266,30 +266,6 @@ btrn a{
     text-align: center;
 }
 
-/*btnn{
-    width: 240px;
-    height: 40px;
-    background: plum;
-    color:#fff;
-    border: none;
-    margin-top: 30px;
-    font-size: 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
-    transition: 0.4s ease;
-}
-.btnn:hover{
-    background: #fff;
-    color:plum;
-   
-}
-.btnn a{
-    text-decoration: none;
-    color: plum;
-    font-weight: bold;
-    text-align: center;
-}*/
 .form .link{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 17px;
@@ -307,7 +283,7 @@ btrn a{
 }
 .signup-form {
     width: 380px;
-    height: 450px;
+    height: 490px;
     background: linear-gradient(to top, rgba(152, 142, 173, 0.8) 100%, rgba(152, 142, 173, 1) 100%);
     position: absolute;
     top: 60%;
@@ -394,7 +370,7 @@ btrn a{
 .HBtn {
     width: 120px;
     height: 35px;
-    background-color: plum;
+    background-color: purple;
     border: none;
     border-radius: 10px;
     color: #fff;

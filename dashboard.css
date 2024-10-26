@@ -46,7 +46,7 @@ body {
 /* Styling for each container-box */
 .container-box {
   width: 400px; /* Increased width */
-  height: 300px; /* Increased height */
+  height: 220px; /* Increased height */
   flex-direction: column;
   justify-content: space-between;background: #fff;
   text-align: center;

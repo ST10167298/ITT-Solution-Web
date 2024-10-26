@@ -93,7 +93,7 @@ submitData?.addEventListener('click', (e) => {
             window.location.href = 'home.html';
         })
         .catch((error) => {
-            alert('Error: ' + error.message);
+           // alert('Error: ' + error.message);
         });
 });
 
@@ -136,10 +136,10 @@ LoginBtn?.addEventListener('click', (e) => {
                         }
                     }
                        else {
-                        alert('No matching user found');
+                     //   alert('No matching user found');
                     }
                 } else {
-                    alert('No users found');
+                   // alert('No users found');
                 }
             });
         })
@@ -169,14 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.getElementById('email').textContent = userData.email;
                         document.getElementById('IDNumb').textContent = userData.IDNumb;
                     } else {
-                        alert("No user data found.");
+                      //  alert("No user data found.");
                     }
                 })
                 .catch((error) => {
                     alert("Error retrieving user data: " + error.message);
                 });
         } else {
-            alert("No user ID found in local storage.");
+           // alert("No user ID found in local storage.");
         }
     }
 });

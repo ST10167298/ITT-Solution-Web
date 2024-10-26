@@ -11,6 +11,7 @@ body {
 .container {
     background-color: white;
     padding: 20px;
+    margin-top: 9rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 400px;
@@ -59,8 +60,8 @@ select, button {
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to bottom, #ff5e88, #ff9966);
-  display: flex;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.7) 50%), url(background.jpg);
+   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -114,7 +115,7 @@ input[type="time"]:focus {
 }
 
 #scheduleBtn {
-  background-color: #ff5e88;
+  background-color: #988ead;
   color: #fff;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -125,7 +126,7 @@ input[type="time"]:focus {
 }
 
 #scheduleBtn:hover {
-  background-color: #ff4a6d;
+  background-color: purple;
 }
 
 .appointment-details {

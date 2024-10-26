@@ -1,6 +1,6 @@
 // Import the necessary Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 // Your Firebase configuration
@@ -25,14 +25,13 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         loadCombinedData();
     } else {
-        alert('You must be logged in as an admin to view this page');
-        window.location.href = 'AdminLogin.html'; // Redirect to login if not logged in
+       window.location.href = 'home.html'; // Redirect to login if not logged in
     }
 });
 
 // Load and join user data and appointments data
 function loadCombinedData() {
-    const userRef = ref(database, 'userProfile');
+    const userRef = ref(database, 'userProfile/');
     const appointmentsRef = ref(database, 'appointments');
 
     Promise.all([get(userRef), get(appointmentsRef)])
@@ -88,7 +87,7 @@ function loadCombinedData() {
                     actionCell.appendChild(updateButton);
                 });
             } else {
-                alert('No user or appointment data found.');
+               // alert('No user or appointment data found.');
             }
         })
         .catch((error) => {
@@ -113,4 +112,16 @@ function updateAppointmentStatus(appointmentID, newStatus) {
         .catch((error) => {
             alert('Failed to update status: ' + error.message);
         });
-}
+    }
+    
+    // Logout function
+    const logoutBtn = document.getElementById('logoutBtn');
+    logoutBtn?.addEventListener('click', () => {
+        signOut(auth).then(() => {
+            localStorage.removeItem('newUserId'); // Clear IDNumb from localStorage
+            alert('Logged out successfully');
+            window.location.href = 'home.html'; // Redirect to login page
+        }).catch((error) => {
+            alert('Error logging out: ' + error.message);
+        });
+    });

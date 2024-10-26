@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="sidebar.css" />
+ 
+</head>
+<body>    <div class="sidebar">
+
+    <div class="logo">
+  <a href="#">
+    <img src="logo.jpeg" alt="Logo">
+  </a>
+     </div>
+ <ul>
+    <li><a href="home.html"><i class="fas fa-home"></i> HOME</a></li>
+    <li><a href="signup.html"><i class="fas fa-user-plus"></i> REGISTER</a></li>
+    <li><a href="AboutUs.html"><i class="fas fa-user"></i> ABOUT US</a></li>
+  
+    <ul class="logout">
+        <br><br><br><br>
+        <button style="background-color: #988ead; width: 130px; height: 40px; font-size: 18px; " type="submit" class="btn" id="logoutBtn" name="logoutBtn" class="logoutBtn">LOGOUT</button>
+     </ul>
+</div>
+ 
+  <div class="container">
+    <div class="main">
+      <div class="main-containers">
+        <div class="container-box">
+          <div class="container-header">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Admin Details</h3> <br>
+          </div>
+          <div class="container-body">
+            <p><strong>ID Number:</strong> <span id="IDNumb"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <p><strong>Name:</strong> <span id="name"></span></p>
+            <p><strong>Surname:</strong> <span id="surname"></span></p>
+          </div>
+        </div>
+
+
+        <div class="container-box">
+          <div class="container-header">
+            <i class="fas fa-history"></i>
+            <h3> Admin Dashboard</h3>
+          </div>
+          <div class="container-body"><br>
+            <p>View patients appointment details</p>
+            <button style="width: 130px; height: 40px;background-color: #988ead; border: none; border-radius: 10px; color: #fff; font-size: 16px; cursor: pointer; transition: 0.4s ease;" 
+           onclick="window.location.href='adminDashboard.html'">Click Here</button>
+          </div>
+        </div>
+
+        <div class="container-box">
+          <div class="container-header">
+            <i class="fas fa-bell"></i>
+            <h3>Add another Admin</h3>
+          </div>
+          <div class="container-body"> <br>
+            <p>Register an admin</p>
+            <button style="width: 130px; height: 40px;     background-color: #988ead; border: none; border-radius: 10px; color: #fff; font-size: 16px; cursor: pointer; transition: 0.4s ease;" 
+            onclick="window.location.href='signup.html'">Click Here</button>
+          </div>
+          
+        </div>
+       </div>
+       <br><br>
+    
+    </div>
+  </div>
+  
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getDatabase, set, ref, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getDatabase, set, ref, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -19,73 +20,52 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getDatabase(app);
 
+    const IDNumb = document.getElementById('IDNumb').value;
+    const name = document.getElementById('name').value;
+    const surname = document.getElementById('surname').value;
+    const email = document.getElementById('email').value;
+   const logoutBtn = document.getElementById('logoutBtn').value;
+
+    // Load user data on profile page
 document.addEventListener('DOMContentLoaded', () => {
-    const adminSignUpBtn = document.getElementById('adminSignUpBtn');
-    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    if (window.location.pathname.includes('admin.html')) {
+        const newUserId = localStorage.getItem('newUserId');
 
-    if (adminSignUpBtn) {
-        // Admin signup functionality
-        adminSignUpBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const adminEmail = document.getElementById('adminEmail').value;
-            const adminPassword = document.getElementById('adminPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-           
-            if (adminPassword !== confirmPassword) {
-                document.getElementById('error').textContent = "Passwords do not match.";
-                document.getElementById('error').style.display = 'block';
-                return;
-            }
-
-            createUserWithEmailAndPassword(auth, adminEmail, adminPassword)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-
-                    // Store the new admin in the database
-                    return set(ref(database, 'ClinicAdmin/' + user.uid), {
-                        adminEmail,
-                        adminPassword
-                    });
-                })
-                .then(() => {
-                    // Data saved successfully!
-                    alert('Admin created successfully');
-        
-                    // Redirect to home page
-                    window.location.href = 'AdminLogin.html';
-                })
-                .catch((error) => {
-                    alert('Error: ' + error.message);
-                });
-        });  // <- Closing this event listener properly
-    }
-
-    if (adminLoginBtn) {
-        // Admin login functionality
-        adminLoginBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPassword').value;
-
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-
-                    const adminRef = ref(database, 'ClinicAdmin/' + user.uid);
-                    return get(adminRef);
-                })
+        if (newUserId) {
+            const userRef = ref(database, 'users/' + newUserId);
+            get(userRef)
                 .then((snapshot) => {
                     if (snapshot.exists()) {
-                        alert('Admin logged in successfully');
-                        window.location.href = 'AdminDashboard.html';
-                    } 
+                        const userData = snapshot.val();
+
+                        document.getElementById('name').textContent = userData.name;
+                        document.getElementById('surname').textContent = userData.surname;
+                        document.getElementById('email').textContent = userData.email;
+                        document.getElementById('IDNumb').textContent = userData.IDNumb;
+                    } else {
+                        alert('User data not found.');
+                    }
                 })
                 .catch((error) => {
-                    document.getElementById('admin-error').textContent = error.message;
-                    document.getElementById('admin-error').style.display = 'block';
+                    alert('Error retrieving user data: ' + error.message);
                 });
-        });
+        } else {
+            alert('User ID not found in local storage.');
+        }
     }
+});
+
+
+
+// Logout function
+document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    signOut(auth)
+        .then(() => {
+            localStorage.removeItem('newUserId');
+            alert('Logged out successfully');
+            window.location.href = 'home.html';
+        })
+        .catch((error) => {
+            alert('Error logging out: ' + error.message);
+        });
 });

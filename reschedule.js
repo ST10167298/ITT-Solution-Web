@@ -84,58 +84,57 @@ document.getElementById('IDNumb').innerHTML=newUserId;
 
     // Handle rescheduling
     rescheduleBtn.addEventListener('click', async () => {
-        const originalDateId = originalDateSelect.value;
+        const originalDateId = selectedDate.value;
         const newDate = newDateInput.value;
         const newTime = newTimeInput.value;
-
+    
         if (!originalDateId || !newDate || !newTime) {
             errorMessage.textContent = "Please select all required fields.";
             errorMessage.style.display = 'block';
             return;
         }
-
+    
         const newDateTime = new Date(`${newDate}T${newTime}`);
         const newDateString = newDateTime.toISOString().split("T")[0];
         const newTimeString = `${newDateTime.getHours()}:${newDateTime.getMinutes().toString().padStart(2, '0')}`;
-
+    
+        console.log(`newDateString: ${newDateString}, newTimeString: ${newTimeString}`);
+    
         try {
-            // Check if the new date and time are already booked
             const snapshot = await get(ref(database, 'appointments/'));
             let isBooked = false;
             snapshot.forEach((childSnapshot) => {
                 const appointmentData = childSnapshot.val();
-                if (appointmentData.date === newDateString && appointmentData.time === newTimeString) {
+                console.log('Checking appointmentData:', appointmentData);
+    
+                if (appointmentData.selectedDate === newDateString && appointmentData.time === newTimeString) {
                     isBooked = true;
                 }
             });
-
+    
             if (isBooked) {
                 errorMessage.textContent = "The selected time slot is already booked. Please choose another time.";
                 errorMessage.style.display = 'block';
                 return;
             }
-
-            // Check if there is an appointment on the original date to update
+    
             const originalAppointmentRef = ref(database, `appointments/${originalDateId}`);
             const originalDoc = await get(originalAppointmentRef);
-
+    
             if (!originalDoc.exists()) {
                 errorMessage.textContent = "Original appointment not found.";
                 errorMessage.style.display = 'block';
                 return;
             }
-
-            // Update the appointment in the database
-            await set(originalAppointmentRef, {
+    
+            await update(originalAppointmentRef, {
                 selectedDate: newDateString,
                 time: newTimeString
             });
-
-            // Show success message and updated details
+    
             successMessage.textContent = "Appointment rescheduled successfully.";
             successMessage.style.display = 'block';
             appointmentDetails.style.display = 'block';
-
             appointmentInfo.innerHTML = `New Appointment Date:<br> ${newDate} <br> Time: ${newTime}`;
         } catch (error) {
             console.error("Error rescheduling appointment: ", error);
@@ -143,7 +142,7 @@ document.getElementById('IDNumb').innerHTML=newUserId;
             errorMessage.style.display = 'block';
         }
     });
-
+    
     // Load original appointment dates
     loadOriginalDates();
 });
