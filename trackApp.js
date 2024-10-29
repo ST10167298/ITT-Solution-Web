@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const newUserId = localStorage.getItem('newUserId');
     document.getElementById('IDNumb').innerHTML = newUserId;
-
+    console.log('New User ID:', newUserId);
+  
     // Fetch all appointments from Firebase
     async function fetchAppointments() {
         try {

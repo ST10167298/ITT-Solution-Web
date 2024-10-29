@@ -1,4 +1,4 @@
-// Import the necessary Firebase SDKs
+// Import the necessary Firebase SDKs 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
@@ -20,74 +20,84 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getDatabase(app);
 
-// Ensure only admin can access this page
+// Ensure only authorized users can access this page
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        loadCombinedData();
+        // Check the user's role
+        const userRef = ref(database, `users/${user.uid}`);
+        get(userRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                if (userData.role === "admin") {
+                    loadCombinedData();
+                } else {
+                    alert('Access denied: You are not an admin.');
+                    window.location.href = 'home.html';
+                }
+            } else {
+                alert('User data not found.');
+                window.location.href = 'home.html';
+            }
+        }).catch((error) => {
+            alert('Error fetching user data: ' + error.message);
+            window.location.href = 'home.html';
+        });
     } else {
-       window.location.href = 'home.html'; // Redirect to login if not logged in
+        window.location.href = 'home.html';
     }
 });
 
-// Load and join user data and appointments data
 function loadCombinedData() {
-    const userRef = ref(database, 'userProfile/');
-    const appointmentsRef = ref(database, 'appointments');
+    const usersRef = ref(database, 'users/');
+    const userProfileRef = ref(database, 'userProfile/');
+    const appointmentsRef = ref(database, 'appointments/');
 
-    Promise.all([get(userRef), get(appointmentsRef)])
-        .then(([userSnapshot, appointmentsSnapshot]) => {
-            if (userSnapshot.exists() && appointmentsSnapshot.exists()) {
-                const users = userSnapshot.val();
+    Promise.all([get(usersRef), get(userProfileRef), get(appointmentsRef)])
+        .then(([usersSnapshot, userProfileSnapshot, appointmentsSnapshot]) => {
+            if (usersSnapshot.exists() && userProfileSnapshot.exists() && appointmentsSnapshot.exists()) {
+                const users = usersSnapshot.val();
+                const userProfiles = userProfileSnapshot.val();
                 const appointments = appointmentsSnapshot.val();
 
-                // Create a map of appointments by ID number for quick lookup
-                const appointmentsMap = {};
-                Object.values(appointments).forEach(appointment => {
-                    appointmentsMap[appointment.IDNumb] = appointment;
-                });
-
                 const combinedTableBody = document.getElementById('combinedTable').querySelector('tbody');
-                combinedTableBody.innerHTML = ''; // Clear the table before adding new rows
+                combinedTableBody.innerHTML = '';
 
-                // Iterate through users and match with appointments
-                Object.values(users).forEach(user => {
+                Object.keys(users).forEach(uid => {
+                    const user = users[uid];
+
+                    if (user.role === "admin") return;
+
+                    const userProfile = userProfiles[uid] || {};
+                    const appointment = appointments[uid] || {};
+
                     const row = combinedTableBody.insertRow();
 
                     row.insertCell(0).textContent = user.IDNumb || '';
                     row.insertCell(1).textContent = user.email || '';
-                    row.insertCell(2).textContent = user.phone || '';
-                    row.insertCell(3).textContent = user.illnesses || '';
+                    row.insertCell(2).textContent = userProfile.phone || '';
+                    row.insertCell(3).textContent = userProfile.illnesses || '';
+                    row.insertCell(4).textContent = appointment.selectedDate || '';
+                    row.insertCell(5).textContent = appointment.time || '';
 
-                    // Find matching appointment by ID number
-                    const appointment = appointmentsMap[user.IDNumb];
-                    row.insertCell(4).textContent = appointment ? appointment.selectedDate : '';
-                    row.insertCell(5).textContent = appointment ? appointment.time : '';
-                    // Add dropdown for appointment status
                     const statusCell = row.insertCell(6);
                     const statusSelect = document.createElement('select');
-                    const statuses = ["Pending", "Attended"];
-                    
-                    statuses.forEach(status => {
+                    ["Pending", "Attended"].forEach(status => {
                         const option = document.createElement('option');
                         option.value = status;
                         option.textContent = status;
-                        if (appointment && appointment.status === status) {
-                            option.selected = true;
-                        }
+                        if (appointment.status === status) option.selected = true;
                         statusSelect.appendChild(option);
                     });
-
                     statusCell.appendChild(statusSelect);
 
-                    // Add a button in the Action column to update the status
                     const actionCell = row.insertCell(7);
                     const updateButton = document.createElement('button');
                     updateButton.textContent = 'Update Status';
-                    updateButton.onclick = () => updateAppointmentStatus(user.IDNumb, statusSelect.value);
+                    updateButton.onclick = () => updateAppointmentStatus(uid, statusSelect.value);
                     actionCell.appendChild(updateButton);
                 });
             } else {
-               // alert('No user or appointment data found.');
+                alert('No user, user profile, or appointment data found.');
             }
         })
         .catch((error) => {
@@ -95,33 +105,26 @@ function loadCombinedData() {
         });
 }
 
-// Update appointment status in the database
-function updateAppointmentStatus(appointmentID, newStatus) {
-    const appointmentRef = ref(database, 'appointments/' + appointmentID); // Correct path to the specific appointment
-
-    // Make sure to use the correct Firebase `update` method
-    const updates = {
-        status: newStatus
-    };
-
-    // Use update method from Firebase
-    update(appointmentRef, updates)
+// Define the updateAppointmentStatus function
+function updateAppointmentStatus(uid, newStatus) {
+    const appointmentRef = ref(database, `appointments/${uid}`);
+    update(appointmentRef, { status: newStatus })
         .then(() => {
-            alert('Appointment status updated successfully');
+            alert('Appointment status updated successfully.');
         })
         .catch((error) => {
-            alert('Failed to update status: ' + error.message);
+            alert('Failed to update appointment status: ' + error.message);
         });
-    }
-    
-    // Logout function
-    const logoutBtn = document.getElementById('logoutBtn');
-    logoutBtn?.addEventListener('click', () => {
-        signOut(auth).then(() => {
-            localStorage.removeItem('newUserId'); // Clear IDNumb from localStorage
-            alert('Logged out successfully');
-            window.location.href = 'home.html'; // Redirect to login page
-        }).catch((error) => {
-            alert('Error logging out: ' + error.message);
-        });
+}
+
+// Logout function
+const logoutBtn = document.getElementById('logoutBtn');
+logoutBtn?.addEventListener('click', () => {
+    signOut(auth).then(() => {
+        localStorage.removeItem('newUserId');
+        alert('Logged out successfully');
+        window.location.href = 'home.html';
+    }).catch((error) => {
+        alert('Error logging out: ' + error.message);
     });
+});

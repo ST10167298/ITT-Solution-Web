@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedMin = 0;
 
     const newUserId = localStorage.getItem('newUserId');
+    console.log('New User ID:', newUserId);
+  
 //alert(newUserId);
 document.getElementById('IDNumb').innerHTML=newUserId;
     // Populate originalDateSelect with available appointment dates from the database

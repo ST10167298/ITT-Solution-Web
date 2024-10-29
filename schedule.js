@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentYear = new Date().getFullYear();
 
     const newUserId = localStorage.getItem('newUserId');
+    console.log('New User ID:', newUserId);
+  
 
     if (newUserId) {
         const userRef = ref(database, 'appointments/' + newUserId);
@@ -49,11 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     const userData = snapshot.val();
 
                     // Display user details
-                    document.getElementById('IDNumb').textContent = userData.IDNumb;
+                    //document.getElementById('IDNumb').textContent = userData.IDNumb;
+                    document.getElementById('IDNumb').textContent = userData.IDNumb || '';
+                   
                     document.getElementById('illness').textContent = userData.illness;
                     document.getElementById('selectedDate').textContent = userData.selectedDate;
                     document.getElementById('time').textContent = userData.time;
-                   
+                  
                 } else {
                     alert("No user data found.");
                 }
@@ -62,10 +66,10 @@ document.addEventListener("DOMContentLoaded", () => {
               //  alert("Error retrieving user data: " + error.message);
             });
     } else {
-        alert("No user ID found in local storage.");
+        //alert("No user ID found in local storage.");
     }
 //alert(newUserId);
-document.getElementById('IDNumb').innerHTML=newUserId;
+//document.getElementById('IDNumb').innerHTML=newUserId;
 
     // Illness selection logic
     illnesses.addEventListener('change', function() {

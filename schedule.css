@@ -281,45 +281,4 @@ input[type="time"]:focus {
     background-color: #ff5e88; /* Optional: highlight color on hover */
     color: #fff; /* Change text color on hover for better readability */
 }
-/* Popup Styling */
-.popup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  width: 300px;
-  padding: 20px;
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.popup-content {
-  text-align: center;
-}
-
-.popup-content h2 {
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-}
-
-.popup-content p {
-  margin: 10px 0;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
-
-
-.dates li.predicted {
-  background-color: yellow; /* Change to desired color */
-  font-weight: bold; /* Optional: Make it bold for emphasis */
-}
 
