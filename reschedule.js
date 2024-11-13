@@ -61,6 +61,23 @@ document.getElementById('IDNumb').innerHTML=newUserId;
         }
     }
 
+    function setMinMaxDate(selectedDate) {
+        const selectedDateObj = new Date(selectedDate);
+        selectedDateObj.setDate(selectedDateObj.getDate() + 2); // Add one day
+        const minDate = selectedDateObj.toISOString().split('T')[0];
+
+        selectedDateObj.setDate(selectedDateObj.getDate() + 2); // Add another day for max date
+        const maxDate = selectedDateObj.toISOString().split('T')[0];
+
+        newDateInput.setAttribute('min', minDate);
+        newDateInput.setAttribute('max', maxDate);
+    }
+
+    selectedDate.addEventListener('change', (event) => {
+        const selectedDateValue = event.target.value;
+        setMinMaxDate(selectedDateValue);
+    });
+
     // Time validation logic
     function validateTime(hour, minute) {
         const isWithinTimeRange = hour >= 15 && hour <= 17;
@@ -89,66 +106,83 @@ document.getElementById('IDNumb').innerHTML=newUserId;
         }
     });
 
-    // Handle rescheduling
-    rescheduleBtn.addEventListener('click', async () => {
-        const originalDateId = selectedDate.value;
-        const newDate = newDateInput.value;
-        const newTime = newTimeInput.value;
-    
-        if (!originalDateId || !newDate || !newTime) {
-            errorMessage.textContent = "Please select all required fields.";
+   // Handle rescheduling
+rescheduleBtn.addEventListener('click', async () => {
+    const originalDateId = selectedDate.value;
+    const newDate = newDateInput.value;
+    const newTime = newTimeInput.value;
+
+    if (!originalDateId || !newDate || !newTime) {
+        errorMessage.textContent = "Please select all required fields.";
+        errorMessage.style.display = 'block';
+        return;
+    }
+
+    const selectedDateValue = selectedDate.options[selectedDate.selectedIndex].textContent;
+    const originalDate = new Date(selectedDateValue);
+    const newDateValue = new Date(newDate);
+
+    // Calculate the difference in days between the original date and new date
+    const differenceInTime = newDateValue - originalDate;
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24); // Convert from milliseconds to days
+
+    if (differenceInDays !== 1 && differenceInDays !== 2) {
+        errorMessage.textContent = "The new date must be 1 or 2 days after the original date.";
+        errorMessage.style.display = 'block';
+        return;
+    }
+
+    const newDateTime = new Date(`${newDate}T${newTime}`);
+    const newDateString = newDateTime.toISOString().split("T")[0];
+    const newTimeString = `${newDateTime.getHours()}:${newDateTime.getMinutes().toString().padStart(2, '0')}`;
+
+    console.log(`newDateString: ${newDateString}, newTimeString: ${newTimeString}`);
+
+    try {
+        const snapshot = await get(ref(database, 'appointments/'));
+        let isBooked = false;
+        snapshot.forEach((childSnapshot) => {
+            const appointmentData = childSnapshot.val();
+            console.log('Checking appointmentData:', appointmentData);
+
+            if (appointmentData.selectedDate === newDateString && appointmentData.time === newTimeString) {
+                isBooked = true;
+            }
+        });
+
+        if (isBooked) {
+            errorMessage.textContent = "The selected time slot is already booked. Please choose another time.";
             errorMessage.style.display = 'block';
             return;
         }
-    
-        const newDateTime = new Date(`${newDate}T${newTime}`);
-        const newDateString = newDateTime.toISOString().split("T")[0];
-        const newTimeString = `${newDateTime.getHours()}:${newDateTime.getMinutes().toString().padStart(2, '0')}`;
-    
-        console.log(`newDateString: ${newDateString}, newTimeString: ${newTimeString}`);
-    
-        try {
-            const snapshot = await get(ref(database, 'appointments/'));
-            let isBooked = false;
-            snapshot.forEach((childSnapshot) => {
-                const appointmentData = childSnapshot.val();
-                console.log('Checking appointmentData:', appointmentData);
-    
-                if (appointmentData.selectedDate === newDateString && appointmentData.time === newTimeString) {
-                    isBooked = true;
-                }
-            });
-    
-            if (isBooked) {
-                errorMessage.textContent = "The selected time slot is already booked. Please choose another time.";
-                errorMessage.style.display = 'block';
-                return;
-            }
-    
-            const originalAppointmentRef = ref(database, `appointments/${originalDateId}`);
-            const originalDoc = await get(originalAppointmentRef);
-    
-            if (!originalDoc.exists()) {
-                errorMessage.textContent = "Original appointment not found.";
-                errorMessage.style.display = 'block';
-                return;
-            }
-    
-            await update(originalAppointmentRef, {
-                selectedDate: newDateString,
-                time: newTimeString
-            });
-    
-            successMessage.textContent = "Appointment rescheduled successfully.";
-            successMessage.style.display = 'block';
-            appointmentDetails.style.display = 'block';
-            appointmentInfo.innerHTML = `New Appointment Date:<br> ${newDate} <br> Time: ${newTime}`;
-        } catch (error) {
-            console.error("Error rescheduling appointment: ", error);
-            errorMessage.textContent = "Error rescheduling appointment. Please try again.";
+
+        const originalAppointmentRef = ref(database, `appointments/${originalDateId}`);
+        const originalDoc = await get(originalAppointmentRef);
+
+        if (!originalDoc.exists()) {
+            errorMessage.textContent = "Original appointment not found.";
             errorMessage.style.display = 'block';
+            return;
         }
-    });
+
+        await update(originalAppointmentRef, {
+            selectedDate: newDateString,
+            time: newTimeString
+        });
+        // Clear any error message since rescheduling was successful
+        errorMessage.style.display = 'none';
+        errorMessage.textContent = "";
+        successMessage.textContent = "Appointment rescheduled successfully.";
+        successMessage.style.display = 'block';
+        appointmentDetails.style.display = 'block';
+        appointmentInfo.innerHTML = `New Appointment Date:<br> ${newDate} <br> Time: ${newTime}`;
+    } catch (error) {
+        console.error("Error rescheduling appointment: ", error);
+        errorMessage.textContent = "Error rescheduling appointment. Please try again.";
+        errorMessage.style.display = 'block';
+    }
+});
+
     
     // Load original appointment dates
     loadOriginalDates();
