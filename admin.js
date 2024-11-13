@@ -20,7 +20,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getDatabase(app);
 
-    const IDNumb = document.getElementById('IDNumb').value;
+    const employeeNumber = document.getElementById('employeeNumber').value;
     const name = document.getElementById('name').value;
     const surname = document.getElementById('surname').value;
     const email = document.getElementById('email').value;
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.getElementById('name').textContent = userData.name;
                         document.getElementById('surname').textContent = userData.surname;
                         document.getElementById('email').textContent = userData.email;
-                        document.getElementById('IDNumb').textContent = userData.IDNumb;
+                        document.getElementById('employeeNumber').textContent = userData.employeeNumber;
                     } else {
                         alert('User data not found.');
                     }

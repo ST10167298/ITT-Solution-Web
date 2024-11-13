@@ -283,7 +283,7 @@ btrn a{
 }
 .signup-form {
     width: 380px;
-    height: 490px;
+    height: 430px;
     background: linear-gradient(to top, rgba(152, 142, 173, 0.8) 100%, rgba(152, 142, 173, 1) 100%);
     position: absolute;
     top: 60%;

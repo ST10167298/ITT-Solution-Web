@@ -48,11 +48,19 @@
      const name = document.getElementById('name').value;
      const surname = document.getElementById('surname').value;
      const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
-     const role = document.getElementById('role').value;
+     const password = document.getElementById('password').value;
+     const confirmPassword = document.getElementById('confirm-password').value;
+     const role = 'user'; // This will automatically set the role to "user"
+    
      const errorDiv = document.getElementById('password-error');
  
+        // Check if IDNumb is valid
+     if (!/^\d{13}$/.test(IDNumb)) { // Adjust the regex pattern to your IDNumb requirements
+         alert('Please enter a valid 13-digit ID number.');
+        return;
+    }
+
+
      if (password !== confirmPassword) {
          errorDiv.textContent = 'Passwords do not match. Please try again.';
          errorDiv.style.display = 'block';
@@ -176,7 +184,7 @@
     const zip = document.getElementById('zip')?.value || '';
     const allergies = document.getElementById('allergies')?.value || '';
     const conditions = document.getElementById('conditions')?.value || '';
-    const medications = document.getElementById('medications')?.value || '';
+    //const medications = document.getElementById('medications')?.value || '';
     const kinName = document.getElementById('kinName')?.value || '';
     const relationship = document.getElementById('relationship')?.value || '';
     const kinPhone = document.getElementById('kinPhone')?.value || '';
