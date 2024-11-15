@@ -20,6 +20,20 @@
  const auth = getAuth();
  const database = getDatabase(app);
  
+     // Function to extract DOB from ID number
+     function extractDOBFromID(IDNumb) {
+        const year = IDNumb.substring(0, 2);
+        const month = IDNumb.substring(2, 4);
+        const day = IDNumb.substring(4, 6);
+        
+        // Determine century (assuming ID is in YYMMDD format and valid for 1900-2099)
+        const currentYear = new Date().getFullYear() % 100;
+        const birthYear = parseInt(year, 10) > currentYear ? `19${year}` : `20${year}`;
+    
+        // Format date as YYYY-MM-DD
+        return `${birthYear}-${month}-${day}`;
+    }
+
  // Toggle password visibility
  const togglePassword = document.getElementById('togglePassword');
  const password = document.getElementById('password');
@@ -68,7 +82,11 @@
      } else {
          errorDiv.style.display = 'none';
      }
+
  
+ // Automatically extract DOB from ID number
+ const dob = extractDOBFromID(IDNumb);
+
      createUserWithEmailAndPassword(auth, email, password)
          .then((userCredential) => {
              const user = userCredential.user;
@@ -79,6 +97,7 @@
                  name,
                  surname,
                  email,
+                 dob,  // Save DOB here
                  role, 
                  password
              });
@@ -127,14 +146,12 @@
          });
  
      });
- 
- // Retrieve user data on the profile page
  // Retrieve user data on the profile page
  document.addEventListener('DOMContentLoaded', () => {
      if (window.location.pathname.includes('profiles.html')) {
          const newUserId = localStorage.getItem('newUserId');
          console.log("Retrieved newUserId from localStorage:", newUserId);  // Debugging line
- 
+         
          if (newUserId) {
              get(ref(database, 'users/' + newUserId))
                  .then((snapshot) => {
@@ -146,6 +163,8 @@
                          document.getElementById('name').textContent = userData.name || '';
                          document.getElementById('surname').textContent = userData.surname || '';
                          document.getElementById('email').textContent = userData.email || '';
+                         document.getElementById('dob').textContent = userData.dob || '';  
+                
                      } else {
                          console.log("No data found at path 'users/" + newUserId + "'");  // Debugging line
                          alert("No user data found.");
@@ -189,25 +208,6 @@
     const relationship = document.getElementById('relationship')?.value || '';
     const kinPhone = document.getElementById('kinPhone')?.value || '';
     const kinEmail = document.getElementById('kinEmail')?.value || '';
-
-    console.log({
-        IDNumb,
-        email,
-        dob,
-        gender,
-        phone,
-        address,
-        city,
-        state,
-        zip,
-        allergies,
-        conditions,
-        medications,
-        kinName,
-        relationship,
-        kinPhone,
-        kinEmail,
-    });
 
     try {
         await set(ref(database, 'userProfile/' + userId), {
@@ -280,43 +280,7 @@
      }
  });
  
- 
- // Update user data
- Updatebtn?.addEventListener('click', async function (e) {
-     e.preventDefault();
- 
-     const selectedIllnesses = Array.from(document.querySelectorAll('input[name="illnesses"]:checked')).map(checkbox => checkbox.value);
-     const IDNumb = localStorage.getItem('IDNumb');
-     const phone = document.getElementById('phone').value;
-     const address = document.getElementById('address').value;
-     const city = document.getElementById('city').value;
-     const state = document.getElementById('state').value;
-     const zip = document.getElementById('zip').value;
-     const allergies = document.getElementById('allergies').value;
-     const kinName = document.getElementById('kinName').value;
-     const relationship = document.getElementById('relationship').value;
-     const kinPhone = document.getElementById('kinPhone').value;
-     const kinEmail = document.getElementById('kinEmail').value;
- 
-     try {
-         await update(ref(database, 'userProfile/' + userId), {
-             phone,
-             address,
-             city,
-             state,
-             zip,
-             allergies,
-             illnesses: selectedIllnesses,
-             kinName,
-             relationship,
-             kinPhone,
-             kinEmail,
-         });
-         alert('Data successfully updated!');
-     } catch (error) {
-         alert('Failed to update data: ' + error.message);
-     }
- });
+
  
  // Logout function
  const logoutBtn = document.getElementById('logoutBtn');
