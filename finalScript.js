@@ -203,7 +203,6 @@
     const zip = document.getElementById('zip')?.value || '';
     const allergies = document.getElementById('allergies')?.value || '';
     const conditions = document.getElementById('conditions')?.value || '';
-    //const medications = document.getElementById('medications')?.value || '';
     const kinName = document.getElementById('kinName')?.value || '';
     const relationship = document.getElementById('relationship')?.value || '';
     const kinPhone = document.getElementById('kinPhone')?.value || '';
@@ -223,7 +222,7 @@
             allergies,
             conditions,
             illnesses: selectedIllnesses,
-            medications,
+            
             kinName,
             relationship,
             kinPhone,

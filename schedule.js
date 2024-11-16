@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     //document.getElementById('IDNumb').textContent = userData.IDNumb;
                     document.getElementById('IDNumb').textContent = userData.IDNumb || '';
                    
-                    document.getElementById('illness').textContent = userData.illness;
+                    document.getElementById('illnesses').textContent = userData.illness;
                     document.getElementById('selectedDate').textContent = userData.selectedDate;
                     document.getElementById('time').textContent = userData.time;
                   
@@ -123,6 +123,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Schedule appointment logic
 scheduleBtn.addEventListener('click', async () => {
+    const userId = localStorage.getItem('newUserId');
+    if (!userId) {
+        alert('User ID not found in local storage.');
+        return;
+    }
+
     const calendar = new Date();
     calendar.setDate(calendar.getDate() + daysToAdd);
 
@@ -154,7 +160,7 @@ scheduleBtn.addEventListener('click', async () => {
 
     // Save appointment to Firebase Realtime Database with IDNumb in the path
     try {
-        await set(ref(database, `appointments/${IDNumb}`), {
+        await set(ref(database, `appointments/${IDNumb}` + userId), {
             IDNumb,
            illness: selectedIllness, // Save the selected illness
             selectedDate,

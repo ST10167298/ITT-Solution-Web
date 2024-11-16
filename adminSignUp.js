@@ -84,7 +84,7 @@ submitData?.addEventListener('click', (e) => {
         })
         .then(() => {
             alert('Admin registered successfully');
-            window.location.href = 'adminDashboard.html';  // Redirect to admin dashboard or login page
+            window.location.href = 'admin.html';  // Redirect to admin dashboard or login page
         })
         .catch((error) => {
             alert('Error: ' + error.message);
